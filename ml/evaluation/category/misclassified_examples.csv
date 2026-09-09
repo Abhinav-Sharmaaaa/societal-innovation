@@ -1,0 +1,655 @@
+record_id,challenge_id,primary_category,predicted_category,prediction_confidence,text
+GHV20000012,GHV2CH0000012,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.7985375071009654,"Description: Local evaluation note — Vijayawada, Andhra Pradesh. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with fixed schedules. Timing: on high-commuter days. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Vijayawada, Andhra Pradesh, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Andhra Pradesh
+District: Vijayawada
+Language: English"
+GHV20000078,GHV2CH0000078,EDUCATION,EMPLOYMENT,0.46174279706627996,"Description: Holdout case from Chennai, Tamil Nadu. A industrial community is reviewing vocational training. Feedback from self-help groups indicates that it creates repeated delays. Teams are working with manual handoffs. The condition is evaluated when connectivity is weak so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Chennai, Tamil Nadu, India.
+Citizen statement: Self-help groups report a local difficulty involving vocational training.
+State: Tamil Nadu
+District: Chennai
+Language: Hinglish"
+GHV20000096,GHV2CH0000096,INFRASTRUCTURE,EDUCATION,0.4605647680268283,"Description: Local evaluation note — Hyderabad, Telangana. Topic: school infrastructure. Reported user group: field technicians. Observed condition: the service returns after temporary fixes. Operating context: with manual handoffs. Timing: during weekend activity. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Hyderabad, Telangana, India.
+Citizen statement: Field technicians report a local difficulty involving school infrastructure.
+State: Telangana
+District: Hyderabad
+Language: Hindi"
+GHV20000125,GHV2CH0000125,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.5419166236999651,"Description: Geographic evaluation scenario in Lucknow, Uttar Pradesh: emergency communication is the subject of a local assessment. Public transport users report that the service works for some users but not others. The setting is rural; response is operating with limited field visibility. The case is examined during a field visit, and local evidence should be checked before routing.
+Context: rural context in Lucknow, Uttar Pradesh, India.
+Citizen statement: Public transport users report a local difficulty involving emergency communication.
+State: Uttar Pradesh
+District: Lucknow
+Language: English"
+GHV20000189,GHV2CH0000189,PUBLIC_SAFETY,ENERGY,0.28674043338700017,"Description: Geographic evaluation scenario in Hyderabad, Telangana: street lighting is the subject of a local assessment. Small businesses report that the service causes avoidable travel. The setting is urban; response is operating with paper-based tracking. The case is examined after an intervention stops, and local evidence should be checked before routing.
+Context: urban context in Hyderabad, Telangana, India.
+Citizen statement: Small businesses report a local difficulty involving street lighting.
+State: Telangana
+District: Hyderabad
+Language: Hindi"
+GHV20000190,GHV2CH0000190,EDUCATION,EMPLOYMENT,0.43846689034906994,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A agricultural community is reviewing vocational training. Feedback from drivers indicates that it is reported inconsistently. Teams are working with paper-based tracking. The condition is evaluated when several agencies receive reports so that geographic generalization can be measured without relying on the training narrative.
+Context: agricultural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Drivers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20000231,GHV2CH0000231,ENERGY,PUBLIC_SAFETY,0.5066048067401437,"Description: For independent geographic testing, consider street lighting in Udham Singh Nagar, Uttarakhand. The reported users are market vendors; they describe a service that returns after temporary fixes. The operating context includes with uneven coverage, and the situation is most relevant after delayed maintenance. This scenario must be verified locally rather than assumed from another district.
+Context: river-valley context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Market vendors report a local difficulty involving street lighting.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20000252,GHV2CH0000252,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.7595598177400179,"Description: Local evaluation note — Gangtok, Sikkim. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with few response staff. Timing: during winter access. The purpose is to test whether a model generalizes to a new geographic context.
+Context: high-altitude context in Gangtok, Sikkim, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Sikkim
+District: Gangtok
+Language: English"
+GHV20000302,GHV2CH0000302,EDUCATION,EMPLOYMENT,0.3557426578229562,"Description: Holdout case from Ranchi, Jharkhand. A river-valley community is reviewing vocational training. Feedback from community volunteers indicates that it is difficult to monitor. Teams are working with long travel between settlements. The condition is evaluated near the weekly market cycle so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Ranchi, Jharkhand, India.
+Citizen statement: Community volunteers report a local difficulty involving vocational training.
+State: Jharkhand
+District: Ranchi
+Language: Hinglish"
+GHV20000320,GHV2CH0000320,INFRASTRUCTURE,EDUCATION,0.260161601458771,"Description: Local evaluation note — Shimla, Himachal Pradesh. Topic: school infrastructure. Reported user group: commuters. Observed condition: the service works for some users but not others. Operating context: with long travel between settlements. Timing: before expected weather disruption. The purpose is to test whether a model generalizes to a new geographic context.
+Context: urban context in Shimla, Himachal Pradesh, India.
+Citizen statement: Commuters report a local difficulty involving school infrastructure.
+State: Himachal Pradesh
+District: Shimla
+Language: Hindi"
+GHV20000397,GHV2CH0000397,PUBLIC_SAFETY,ENERGY,0.45709138519195824,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: street lighting is the subject of a local assessment. Village representatives report that the service lacks timely status information. The setting is semi-urban; response is operating with limited storage. The case is examined after heavy rain, and local evidence should be checked before routing.
+Context: semi-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Village representatives report a local difficulty involving street lighting.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20000414,GHV2CH0000414,EDUCATION,EMPLOYMENT,0.4602125735687755,"Description: Holdout case from Kolkata, West Bengal. A industrial community is reviewing vocational training. Feedback from caregivers indicates that it causes avoidable travel. Teams are working with limited storage. The condition is evaluated when storage is near capacity so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Kolkata, West Bengal, India.
+Citizen statement: Caregivers report a local difficulty involving vocational training.
+State: West Bengal
+District: Kolkata
+Language: Hindi"
+GHV20000492,GHV2CH0000492,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.7950328005349072,"Description: Local evaluation note — Agartala, Tripura. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with changing user volumes. Timing: during market opening. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Agartala, Tripura, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Tripura
+District: Agartala
+Language: English"
+GHV20000526,GHV2CH0000526,EDUCATION,EMPLOYMENT,0.459681980146468,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A pilgrimage community is reviewing vocational training. Feedback from farmers indicates that it changes sharply by season. Teams are working with changing user volumes. The condition is evaluated when field information is incomplete so that geographic generalization can be measured without relying on the training narrative.
+Context: pilgrimage context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Farmers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hinglish"
+GHV20000541,GHV2CH0000541,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.46391533226519144,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: emergency communication is the subject of a local assessment. School staff report that the service changes sharply by season. The setting is agricultural; response is operating with delayed field confirmation. The case is examined during market opening, and local evidence should be checked before routing.
+Context: agricultural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: School staff report a local difficulty involving emergency communication.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20000601,GHV2CH0000601,SOCIAL_WELFARE,DIGITAL_SERVICES,0.24220777572779667,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: documentation is the subject of a local assessment. School staff report that the service changes sharply by season. The setting is mountainous; response is operating with low-bandwidth communication. The case is examined during the afternoon service cycle, and local evidence should be checked before routing.
+Context: mountainous context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: School staff report a local difficulty involving documentation.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20000606,GHV2CH0000606,EDUCATION,DIGITAL_SERVICES,0.23227601708519666,"Description: Holdout case from Srinagar, Jammu & Kashmir. A urban community is reviewing school infrastructure. Feedback from farmers indicates that it returns after temporary fixes. Teams are working with low-bandwidth communication. The condition is evaluated around a community event so that geographic generalization can be measured without relying on the training narrative.
+Context: urban context in Srinagar, Jammu & Kashmir, India.
+Citizen statement: Farmers report a local difficulty involving school infrastructure.
+State: Jammu & Kashmir
+District: Srinagar
+Language: English"
+GHV20000612,GHV2CH0000612,TRANSPORTATION,DIGITAL_SERVICES,0.42265856336524815,"Description: Local evaluation note — Bokaro, Jharkhand. Topic: public transport. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with low-bandwidth communication. Timing: after a seasonal change. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Bokaro, Jharkhand, India.
+Citizen statement: Local employers report a local difficulty involving public transport.
+State: Jharkhand
+District: Bokaro
+Language: Hinglish"
+GHV20000638,GHV2CH0000638,EDUCATION,EMPLOYMENT,0.4255817311362828,"Description: Holdout case from Aizawl, Mizoram. A river-valley community is reviewing vocational training. Feedback from self-help groups indicates that it creates queues. Teams are working with phone-heavy coordination. The condition is evaluated before the morning service peak so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Aizawl, Mizoram, India.
+Citizen statement: Self-help groups report a local difficulty involving vocational training.
+State: Mizoram
+District: Aizawl
+Language: Hindi"
+GHV20000656,GHV2CH0000656,INFRASTRUCTURE,EDUCATION,0.4717859688929651,"Description: Local evaluation note — Panaji, Goa. Topic: school infrastructure. Reported user group: field technicians. Observed condition: the service becomes unreliable after disruption. Operating context: with phone-heavy coordination. Timing: during a service shift. The purpose is to test whether a model generalizes to a new geographic context.
+Context: river-valley context in Panaji, Goa, India.
+Citizen statement: Field technicians report a local difficulty involving school infrastructure.
+State: Goa
+District: Panaji
+Language: English"
+GHV20000684,GHV2CH0000684,DISASTER_MANAGEMENT,OTHER,0.22264335149864295,"Description: Local evaluation note — Gwalior, Madhya Pradesh. Topic: rockfalls. Reported user group: tourism workers. Observed condition: the service causes avoidable travel. Operating context: with phone-heavy coordination. Timing: during weekend activity. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Gwalior, Madhya Pradesh, India.
+Citizen statement: Tourism workers report a local difficulty involving rockfalls.
+State: Madhya Pradesh
+District: Gwalior
+Language: English"
+GHV20000749,GHV2CH0000749,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.6941348132204604,"Description: Geographic evaluation scenario in Panaji, Goa: emergency communication is the subject of a local assessment. Small businesses report that the service fails intermittently. The setting is rural; response is operating with reactive maintenance. The case is examined when demand rises unexpectedly, and local evidence should be checked before routing.
+Context: rural context in Panaji, Goa, India.
+Citizen statement: Small businesses report a local difficulty involving emergency communication.
+State: Goa
+District: Panaji
+Language: Hindi"
+GHV20000750,GHV2CH0000750,EDUCATION,EMPLOYMENT,0.46096908320888447,"Description: Holdout case from New Delhi, Delhi. A industrial community is reviewing vocational training. Feedback from drivers indicates that it becomes unpredictable at peak times. Teams are working with reactive maintenance. The condition is evaluated after a power interruption so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in New Delhi, Delhi, India.
+Citizen statement: Drivers report a local difficulty involving vocational training.
+State: Delhi
+District: New Delhi
+Language: Hindi"
+GHV20000768,GHV2CH0000768,INFRASTRUCTURE,EDUCATION,0.4654395476691553,"Description: Local evaluation note — Vadodara, Gujarat. Topic: school infrastructure. Reported user group: patients. Observed condition: the service creates repeated delays. Operating context: with reactive maintenance. Timing: when demand is uneven. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Vadodara, Gujarat, India.
+Citizen statement: Patients report a local difficulty involving school infrastructure.
+State: Gujarat
+District: Vadodara
+Language: English"
+GHV20000813,GHV2CH0000813,PUBLIC_SAFETY,ENERGY,0.5688866709089807,"Description: Geographic evaluation scenario in Mysuru, Karnataka: street lighting is the subject of a local assessment. Students report that the service creates repeated delays. The setting is urban; response is operating with unclear ownership. The case is examined when connectivity is weak, and local evidence should be checked before routing.
+Context: urban context in Mysuru, Karnataka, India.
+Citizen statement: Students report a local difficulty involving street lighting.
+State: Karnataka
+District: Mysuru
+Language: Hinglish"
+GHV20000862,GHV2CH0000862,EDUCATION,EMPLOYMENT,0.44262498422670266,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A tourism-heavy community is reviewing vocational training. Feedback from community volunteers indicates that it lacks timely status information. Teams are working with a need for evidence before escalation. The condition is evaluated when connectivity is weak so that geographic generalization can be measured without relying on the training narrative.
+Context: tourism-heavy context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Community volunteers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hinglish"
+GHV20000880,GHV2CH0000880,INFRASTRUCTURE,EDUCATION,0.4014244368333413,"Description: Local evaluation note — Udham Singh Nagar, Uttarakhand. Topic: school infrastructure. Reported user group: commuters. Observed condition: the service is reported inconsistently. Operating context: with a need for evidence before escalation. Timing: during weekend activity. The purpose is to test whether a model generalizes to a new geographic context.
+Context: urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Commuters report a local difficulty involving school infrastructure.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20000992,GHV2CH0000992,INFRASTRUCTURE,EDUCATION,0.48943966803477235,"Description: Local evaluation note — Kohima, Nagaland. Topic: school infrastructure. Reported user group: local employers. Observed condition: the service is difficult to monitor. Operating context: with constrained road access. Timing: on high-commuter days. The purpose is to test whether a model generalizes to a new geographic context.
+Context: river-valley context in Kohima, Nagaland, India.
+Citizen statement: Local employers report a local difficulty involving school infrastructure.
+State: Nagaland
+District: Kohima
+Language: English"
+GHV20001086,GHV2CH0001086,EDUCATION,EMPLOYMENT,0.5076948921750634,"Description: Holdout case from Gorakhpur, Uttar Pradesh. A industrial community is reviewing vocational training. Feedback from farmers indicates that it returns after temporary fixes. Teams are working with fragmented records. The condition is evaluated near the weekly market cycle so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Gorakhpur, Uttar Pradesh, India.
+Citizen statement: Farmers report a local difficulty involving vocational training.
+State: Uttar Pradesh
+District: Gorakhpur
+Language: English"
+GHV20001104,GHV2CH0001104,INFRASTRUCTURE,EDUCATION,0.5059536452484172,"Description: Local evaluation note — Patna, Bihar. Topic: school infrastructure. Reported user group: tourism workers. Observed condition: the service causes avoidable travel. Operating context: with fragmented records. Timing: before expected weather disruption. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Patna, Bihar, India.
+Citizen statement: Tourism workers report a local difficulty involving school infrastructure.
+State: Bihar
+District: Patna
+Language: Hindi"
+GHV20001165,GHV2CH0001165,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.4074450492693206,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: emergency communication is the subject of a local assessment. Public transport users report that the service is reported inconsistently. The setting is agricultural; response is operating with variable visit frequency. The case is examined near school closing, and local evidence should be checked before routing.
+Context: agricultural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Public transport users report a local difficulty involving emergency communication.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20001198,GHV2CH0001198,EDUCATION,EMPLOYMENT,0.3363574046300501,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A remote community is reviewing vocational training. Feedback from self-help groups indicates that it is hard to verify from available records. Teams are working with slow feedback. The condition is evaluated when storage is near capacity so that geographic generalization can be measured without relying on the training narrative.
+Context: remote context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Self-help groups report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20001229,GHV2CH0001229,PUBLIC_SAFETY,ENERGY,0.5520696353211982,"Description: Geographic evaluation scenario in Cuttack, Odisha: street lighting is the subject of a local assessment. Small businesses report that the service fails intermittently. The setting is rural; response is operating with uneven demand distribution. The case is examined during evening demand, and local evidence should be checked before routing.
+Context: rural context in Cuttack, Odisha, India.
+Citizen statement: Small businesses report a local difficulty involving street lighting.
+State: Odisha
+District: Cuttack
+Language: Hinglish"
+GHV20001271,GHV2CH0001271,ENERGY,PUBLIC_SAFETY,0.36005970024229694,"Description: For independent geographic testing, consider street lighting in Kohima, Nagaland. The reported users are market vendors; they describe a service that becomes unreliable after disruption. The operating context includes with uneven demand distribution, and the situation is most relevant when resources are committed. This scenario must be verified locally rather than assumed from another district.
+Context: rural context in Kohima, Nagaland, India.
+Citizen statement: Market vendors report a local difficulty involving street lighting.
+State: Nagaland
+District: Kohima
+Language: Hindi"
+GHV20001310,GHV2CH0001310,EDUCATION,EMPLOYMENT,0.42801053492154134,"Description: Holdout case from Guwahati, Assam. A river-valley community is reviewing vocational training. Feedback from drivers indicates that it works for some users but not others. Teams are working with repeated verification needs. The condition is evaluated when field information is incomplete so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Guwahati, Assam, India.
+Citizen statement: Drivers report a local difficulty involving vocational training.
+State: Assam
+District: Guwahati
+Language: English"
+GHV20001386,GHV2CH0001386,ENVIRONMENT,OTHER,0.4364344218184368,"Description: Holdout case from Shillong, Meghalaya. A industrial community is reviewing biodiversity. Feedback from farmers indicates that it returns after temporary fixes. Teams are working with shared resource pools. The condition is evaluated when demand rises unexpectedly so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Shillong, Meghalaya, India.
+Citizen statement: Farmers report a local difficulty involving biodiversity.
+State: Meghalaya
+District: Shillong
+Language: English"
+GHV20001422,GHV2CH0001422,EDUCATION,EMPLOYMENT,0.32458933661315154,"Description: Holdout case from Agartala, Tripura. A industrial community is reviewing vocational training. Feedback from community volunteers indicates that it has uneven coverage. Teams are working with limited after-hours support. The condition is evaluated before the morning service peak so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Agartala, Tripura, India.
+Citizen statement: Community volunteers report a local difficulty involving vocational training.
+State: Tripura
+District: Agartala
+Language: Hindi"
+GHV20001437,GHV2CH0001437,PUBLIC_SAFETY,ENERGY,0.22200007292241689,"Description: Geographic evaluation scenario in Kolkata, West Bengal: street lighting is the subject of a local assessment. Village representatives report that the service has uneven coverage. The setting is urban; response is operating with limited after-hours support. The case is examined during a staff shortage, and local evidence should be checked before routing.
+Context: urban context in Kolkata, West Bengal, India.
+Citizen statement: Village representatives report a local difficulty involving street lighting.
+State: West Bengal
+District: Kolkata
+Language: English"
+GHV20001479,GHV2CH0001479,ENERGY,PUBLIC_SAFETY,0.5051358923272715,"Description: For independent geographic testing, consider street lighting in Shillong, Meghalaya. The reported users are residents; they describe a service that causes avoidable travel. The operating context includes with inconsistent updates, and the situation is most relevant at harvest time. This scenario must be verified locally rather than assumed from another district.
+Context: urban context in Shillong, Meghalaya, India.
+Citizen statement: Residents report a local difficulty involving street lighting.
+State: Meghalaya
+District: Shillong
+Language: English"
+GHV20001534,GHV2CH0001534,EDUCATION,EMPLOYMENT,0.37384939417521884,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A border-region community is reviewing vocational training. Feedback from caregivers indicates that it requires several manual follow-ups. Teams are working with long specialist travel. The condition is evaluated after a power interruption so that geographic generalization can be measured without relying on the training narrative.
+Context: border-region context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Caregivers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20001536,GHV2CH0001536,INFRASTRUCTURE,HEALTHCARE,0.23556495267051145,"Description: Local evaluation note — Srinagar, Jammu & Kashmir. Topic: bridges. Reported user group: field technicians. Observed condition: the service returns after temporary fixes. Operating context: with long specialist travel. Timing: when access routes are constrained. The purpose is to test whether a model generalizes to a new geographic context.
+Context: urban context in Srinagar, Jammu & Kashmir, India.
+Citizen statement: Field technicians report a local difficulty involving bridges.
+State: Jammu & Kashmir
+District: Srinagar
+Language: English"
+GHV20001581,GHV2CH0001581,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.6398425013480833,"Description: Geographic evaluation scenario in Kohima, Nagaland: emergency communication is the subject of a local assessment. School staff report that the service returns after temporary fixes. The setting is urban; response is operating with changing environmental conditions. The case is examined during the afternoon service cycle, and local evidence should be checked before routing.
+Context: urban context in Kohima, Nagaland, India.
+Citizen statement: School staff report a local difficulty involving emergency communication.
+State: Nagaland
+District: Kohima
+Language: Hinglish"
+GHV20001645,GHV2CH0001645,PUBLIC_SAFETY,ENERGY,0.3936682167591248,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: street lighting is the subject of a local assessment. Public transport users report that the service is reported inconsistently. The setting is semi-urban; response is operating with demand concentrated in time windows. The case is examined around a service deadline, and local evidence should be checked before routing.
+Context: semi-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Public transport users report a local difficulty involving street lighting.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20001646,GHV2CH0001646,EDUCATION,EMPLOYMENT,0.470992068258345,"Description: Holdout case from Hyderabad, Telangana. A river-valley community is reviewing vocational training. Feedback from farmers indicates that it becomes unreliable after disruption. Teams are working with demand concentrated in time windows. The condition is evaluated when connectivity is weak so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Hyderabad, Telangana, India.
+Citizen statement: Farmers report a local difficulty involving vocational training.
+State: Telangana
+District: Hyderabad
+Language: English"
+GHV20001664,GHV2CH0001664,INFRASTRUCTURE,EDUCATION,0.4957134350512336,"Description: Local evaluation note — Amritsar, Punjab. Topic: school infrastructure. Reported user group: tourism workers. Observed condition: the service fails intermittently. Operating context: with demand concentrated in time windows. Timing: during weekend activity. The purpose is to test whether a model generalizes to a new geographic context.
+Context: river-valley context in Amritsar, Punjab, India.
+Citizen statement: Tourism workers report a local difficulty involving school infrastructure.
+State: Punjab
+District: Amritsar
+Language: Hindi"
+GHV20001758,GHV2CH0001758,EDUCATION,EMPLOYMENT,0.3248522725306403,"Description: Holdout case from Shillong, Meghalaya. A industrial community is reviewing vocational training. Feedback from self-help groups indicates that it creates repeated delays. Teams are working with routine and exceptional requests mixed. The condition is evaluated when several agencies receive reports so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Shillong, Meghalaya, India.
+Citizen statement: Self-help groups report a local difficulty involving vocational training.
+State: Meghalaya
+District: Shillong
+Language: Hindi"
+GHV20001789,GHV2CH0001789,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.4023251413571862,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: emergency communication is the subject of a local assessment. Small businesses report that the service requires several manual follow-ups. The setting is agricultural; response is operating with public/community resource coordination. The case is examined when multiple requests arrive together, and local evidence should be checked before routing.
+Context: agricultural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Small businesses report a local difficulty involving emergency communication.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hinglish"
+GHV20001801,GHV2CH0001801,SOCIAL_WELFARE,OTHER,0.322703611631896,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: documentation is the subject of a local assessment. School staff report that the service changes sharply by season. The setting is semi-urban; response is operating with public/community resource coordination. The case is examined during a crowded period, and local evidence should be checked before routing.
+Context: semi-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: School staff report a local difficulty involving documentation.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20001802,GHV2CH0001802,ENVIRONMENT,OTHER,0.4880400918830784,"Description: Holdout case from Gangtok, Sikkim. A tourism-heavy community is reviewing biodiversity. Feedback from community volunteers indicates that it is difficult to monitor. Teams are working with public/community resource coordination. The condition is evaluated near school closing so that geographic generalization can be measured without relying on the training narrative.
+Context: tourism-heavy context in Gangtok, Sikkim, India.
+Citizen statement: Community volunteers report a local difficulty involving biodiversity.
+State: Sikkim
+District: Gangtok
+Language: Hinglish"
+GHV20001853,GHV2CH0001853,PUBLIC_SAFETY,ENERGY,0.36179010870401745,"Description: Geographic evaluation scenario in Surat, Gujarat: street lighting is the subject of a local assessment. Students report that the service creates queues. The setting is rural; response is operating with an unresolved backlog. The case is examined when a facility has reduced capacity, and local evidence should be checked before routing.
+Context: rural context in Surat, Gujarat, India.
+Citizen statement: Students report a local difficulty involving street lighting.
+State: Gujarat
+District: Surat
+Language: English"
+GHV20001870,GHV2CH0001870,EDUCATION,EMPLOYMENT,0.39775627831167726,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A peri-urban community is reviewing vocational training. Feedback from drivers indicates that it is reported inconsistently. Teams are working with intermittent connectivity. The condition is evaluated near the weekly market cycle so that geographic generalization can be measured without relying on the training narrative.
+Context: peri-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Drivers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20001888,GHV2CH0001888,INFRASTRUCTURE,EDUCATION,0.3631915385166582,"Description: Local evaluation note — Udham Singh Nagar, Uttarakhand. Topic: school infrastructure. Reported user group: patients. Observed condition: the service is hard to verify from available records. Operating context: with intermittent connectivity. Timing: before expected weather disruption. The purpose is to test whether a model generalizes to a new geographic context.
+Context: mountainous context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Patients report a local difficulty involving school infrastructure.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20001895,GHV2CH0001895,ENERGY,PUBLIC_SAFETY,0.4490820702756721,"Description: For independent geographic testing, consider street lighting in Gangtok, Sikkim. The reported users are frontline workers; they describe a service that works for some users but not others. The operating context includes with intermittent connectivity, and the situation is most relevant when demand is uneven. This scenario must be verified locally rather than assumed from another district.
+Context: rural context in Gangtok, Sikkim, India.
+Citizen statement: Frontline workers report a local difficulty involving street lighting.
+State: Sikkim
+District: Gangtok
+Language: Hinglish"
+GHV20001932,GHV2CH0001932,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.7800522164864381,"Description: Local evaluation note — Shimla, Himachal Pradesh. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with a need to separate routine from high-risk cases. Timing: during a local inspection. The purpose is to test whether a model generalizes to a new geographic context.
+Context: tourism-heavy context in Shimla, Himachal Pradesh, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Himachal Pradesh
+District: Shimla
+Language: Hinglish"
+GHV20001982,GHV2CH0001982,EDUCATION,EMPLOYMENT,0.44265358752253564,"Description: Holdout case from Raipur, Chhattisgarh. A river-valley community is reviewing vocational training. Feedback from community volunteers indicates that it is difficult to monitor. Teams are working with little operating margin. The condition is evaluated when storage is near capacity so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Raipur, Chhattisgarh, India.
+Citizen statement: Community volunteers report a local difficulty involving vocational training.
+State: Chhattisgarh
+District: Raipur
+Language: Hindi"
+GHV20001997,GHV2CH0001997,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.6402684259189563,"Description: Geographic evaluation scenario in Itanagar, Arunachal Pradesh: emergency communication is the subject of a local assessment. Village representatives report that the service is difficult to monitor. The setting is high-altitude; response is operating with little operating margin. The case is examined during a crowded period, and local evidence should be checked before routing.
+Context: high-altitude context in Itanagar, Arunachal Pradesh, India.
+Citizen statement: Village representatives report a local difficulty involving emergency communication.
+State: Arunachal Pradesh
+District: Itanagar
+Language: Hinglish"
+GHV20002094,GHV2CH0002094,EDUCATION,EMPLOYMENT,0.2652841008810614,"Description: Holdout case from Srinagar, Jammu & Kashmir. A high-altitude community is reviewing vocational training. Feedback from caregivers indicates that it causes avoidable travel. Teams are working with limited historical data. The condition is evaluated when field information is incomplete so that geographic generalization can be measured without relying on the training narrative.
+Context: high-altitude context in Srinagar, Jammu & Kashmir, India.
+Citizen statement: Caregivers report a local difficulty involving vocational training.
+State: Jammu & Kashmir
+District: Srinagar
+Language: English"
+GHV20002103,GHV2CH0002103,ENERGY,PUBLIC_SAFETY,0.3121463151745451,"Description: For independent geographic testing, consider street lighting in Leh, Ladakh. The reported users are municipal workers; they describe a service that creates repeated delays. The operating context includes with limited historical data, and the situation is most relevant after a procedure change. This scenario must be verified locally rather than assumed from another district.
+Context: high-altitude context in Leh, Ladakh, India.
+Citizen statement: Municipal workers report a local difficulty involving street lighting.
+State: Ladakh
+District: Leh
+Language: Hinglish"
+GHV20002172,GHV2CH0002172,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.6605505482677801,"Description: Local evaluation note — Gwalior, Madhya Pradesh. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with repeated documentation. Timing: during a staff shortage. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Gwalior, Madhya Pradesh, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Madhya Pradesh
+District: Gwalior
+Language: English"
+GHV20002180,GHV2CH0002180,TRANSPORTATION,SOCIAL_WELFARE,0.2571195390507341,"Description: Local evaluation note — Shimla, Himachal Pradesh. Topic: public transport. Reported user group: commuters. Observed condition: the service works for some users but not others. Operating context: with repeated documentation. Timing: after a seasonal change. The purpose is to test whether a model generalizes to a new geographic context.
+Context: urban context in Shimla, Himachal Pradesh, India.
+Citizen statement: Commuters report a local difficulty involving public transport.
+State: Himachal Pradesh
+District: Shimla
+Language: Hindi"
+GHV20002206,GHV2CH0002206,EDUCATION,EMPLOYMENT,0.652631634055173,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A urban community is reviewing vocational training. Feedback from farmers indicates that it changes sharply by season. Teams are working with gaps between report and response. The condition is evaluated before the morning service peak so that geographic generalization can be measured without relying on the training narrative.
+Context: urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Farmers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20002269,GHV2CH0002269,PUBLIC_SAFETY,ENERGY,0.5892384307464653,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: street lighting is the subject of a local assessment. Small businesses report that the service requires several manual follow-ups. The setting is semi-urban; response is operating with unclear escalation ownership. The case is examined after a power interruption, and local evidence should be checked before routing.
+Context: semi-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Small businesses report a local difficulty involving street lighting.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20002311,GHV2CH0002311,ENERGY,PUBLIC_SAFETY,0.42643160208858244,"Description: For independent geographic testing, consider street lighting in Udham Singh Nagar, Uttarakhand. The reported users are market vendors; they describe a service that changes sharply by season. The operating context includes with limited spare equipment, and the situation is most relevant near the weekly market cycle. This scenario must be verified locally rather than assumed from another district.
+Context: river-valley context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Market vendors report a local difficulty involving street lighting.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20002412,GHV2CH0002412,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.7530017167143127,"Description: Local evaluation note — Kochi, Kerala. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with required follow-up. Timing: after a temporary restoration. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Kochi, Kerala, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Kerala
+District: Kochi
+Language: Hindi"
+GHV20002413,GHV2CH0002413,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.5508511882633844,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: emergency communication is the subject of a local assessment. Students report that the service is hard to verify from available records. The setting is agricultural; response is operating with required follow-up. The case is examined on high-commuter days, and local evidence should be checked before routing.
+Context: agricultural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Students report a local difficulty involving emergency communication.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20002430,GHV2CH0002430,EDUCATION,EMPLOYMENT,0.33221388541762115,"Description: Holdout case from Vijayawada, Andhra Pradesh. A industrial community is reviewing vocational training. Feedback from drivers indicates that it becomes unpredictable at peak times. Teams are working with required follow-up. The condition is evaluated when connectivity is weak so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Vijayawada, Andhra Pradesh, India.
+Citizen statement: Drivers report a local difficulty involving vocational training.
+State: Andhra Pradesh
+District: Vijayawada
+Language: English"
+GHV20002477,GHV2CH0002477,PUBLIC_SAFETY,ENERGY,0.4234642159166084,"Description: Geographic evaluation scenario in Jodhpur, Rajasthan: street lighting is the subject of a local assessment. Village representatives report that the service is difficult to monitor. The setting is rural; response is operating with mixed urban and peri-urban users. The case is examined during a field visit, and local evidence should be checked before routing.
+Context: rural context in Jodhpur, Rajasthan, India.
+Citizen statement: Village representatives report a local difficulty involving street lighting.
+State: Rajasthan
+District: Jodhpur
+Language: Hindi"
+GHV20002519,GHV2CH0002519,ENERGY,PUBLIC_SAFETY,0.3399563934383117,"Description: For independent geographic testing, consider street lighting in Guwahati, Assam. The reported users are residents; they describe a service that fails intermittently. The operating context includes with differing stakeholder priorities, and the situation is most relevant after repeated complaints. This scenario must be verified locally rather than assumed from another district.
+Context: rural context in Guwahati, Assam, India.
+Citizen statement: Residents report a local difficulty involving street lighting.
+State: Assam
+District: Guwahati
+Language: English"
+GHV20002542,GHV2CH0002542,EDUCATION,EMPLOYMENT,0.41805354059751787,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A semi-urban community is reviewing vocational training. Feedback from community volunteers indicates that it lacks timely status information. Teams are working with differing stakeholder priorities. The condition is evaluated when several agencies receive reports so that geographic generalization can be measured without relying on the training narrative.
+Context: semi-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Community volunteers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20002652,GHV2CH0002652,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.7644834821883385,"Description: Local evaluation note — Srinagar, Jammu & Kashmir. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with local travel effects. Timing: during the dry season. The purpose is to test whether a model generalizes to a new geographic context.
+Context: remote context in Srinagar, Jammu & Kashmir, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Jammu & Kashmir
+District: Srinagar
+Language: Hindi"
+GHV20002654,GHV2CH0002654,EDUCATION,EMPLOYMENT,0.48325687519981086,"Description: Holdout case from Patna, Bihar. A river-valley community is reviewing vocational training. Feedback from caregivers indicates that it fails intermittently. Teams are working with local travel effects. The condition is evaluated near the weekly market cycle so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Patna, Bihar, India.
+Citizen statement: Caregivers report a local difficulty involving vocational training.
+State: Bihar
+District: Patna
+Language: English"
+GHV20002672,GHV2CH0002672,INFRASTRUCTURE,EDUCATION,0.440034400556766,"Description: Local evaluation note — New Delhi, Delhi. Topic: school infrastructure. Reported user group: local employers. Observed condition: the service is difficult to monitor. Operating context: with local travel effects. Timing: before expected weather disruption. The purpose is to test whether a model generalizes to a new geographic context.
+Context: river-valley context in New Delhi, Delhi, India.
+Citizen statement: Local employers report a local difficulty involving school infrastructure.
+State: Delhi
+District: New Delhi
+Language: Hindi"
+GHV20002727,GHV2CH0002727,ENERGY,PUBLIC_SAFETY,0.7339561887904679,"Description: For independent geographic testing, consider street lighting in Hisar, Haryana. The reported users are shopkeepers; they describe a service that has uneven coverage. The operating context includes with accessible communication needs, and the situation is most relevant while teams cover distant settlements. This scenario must be verified locally rather than assumed from another district.
+Context: urban context in Hisar, Haryana, India.
+Citizen statement: Shopkeepers report a local difficulty involving street lighting.
+State: Haryana
+District: Hisar
+Language: English"
+GHV20002768,GHV2CH0002768,INFRASTRUCTURE,DIGITAL_SERVICES,0.43791596038885605,"Description: Local evaluation note — Imphal, Manipur. Topic: bridges. Reported user group: patients. Observed condition: the service creates queues. Operating context: with digital and offline users. Timing: after a seasonal change. The purpose is to test whether a model generalizes to a new geographic context.
+Context: river-valley context in Imphal, Manipur, India.
+Citizen statement: Patients report a local difficulty involving bridges.
+State: Manipur
+District: Imphal
+Language: English"
+GHV20002784,GHV2CH0002784,INFRASTRUCTURE,EDUCATION,0.3223656359510138,"Description: Local evaluation note — Kochi, Kerala. Topic: school infrastructure. Reported user group: tourism workers. Observed condition: the service causes avoidable travel. Operating context: with digital and offline users. Timing: when a facility has reduced capacity. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Kochi, Kerala, India.
+Citizen statement: Tourism workers report a local difficulty involving school infrastructure.
+State: Kerala
+District: Kochi
+Language: English"
+GHV20002829,GHV2CH0002829,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.7234189593318413,"Description: Geographic evaluation scenario in Guwahati, Assam: emergency communication is the subject of a local assessment. Small businesses report that the service causes avoidable travel. The setting is urban; response is operating with cross-location comparison needs. The case is examined when field information is incomplete, and local evidence should be checked before routing.
+Context: urban context in Guwahati, Assam, India.
+Citizen statement: Small businesses report a local difficulty involving emergency communication.
+State: Assam
+District: Guwahati
+Language: English"
+GHV20002878,GHV2CH0002878,EDUCATION,EMPLOYMENT,0.45550695706117245,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A rural community is reviewing vocational training. Feedback from self-help groups indicates that it is hard to verify from available records. Teams are working with uncertain recurrence. The condition is evaluated when field information is incomplete so that geographic generalization can be measured without relying on the training narrative.
+Context: rural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Self-help groups report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20002892,GHV2CH0002892,DISASTER_MANAGEMENT,PUBLIC_SAFETY,0.765000977818326,"Description: Local evaluation note — Imphal, Manipur. Topic: emergency communication. Reported user group: local employers. Observed condition: the service has uneven coverage. Operating context: with continuity requirements. Timing: before the morning service peak. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Imphal, Manipur, India.
+Citizen statement: Local employers report a local difficulty involving emergency communication.
+State: Manipur
+District: Imphal
+Language: English"
+GHV20002893,GHV2CH0002893,PUBLIC_SAFETY,ENERGY,0.4379028971797602,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: street lighting is the subject of a local assessment. Students report that the service is hard to verify from available records. The setting is semi-urban; response is operating with continuity requirements. The case is examined during market opening, and local evidence should be checked before routing.
+Context: semi-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Students report a local difficulty involving street lighting.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hinglish"
+GHV20002990,GHV2CH0002990,EDUCATION,EMPLOYMENT,0.5419672011602967,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A border-region community is reviewing vocational training. Feedback from drivers indicates that it works for some users but not others. Teams are working with little preventive-work capacity. The condition is evaluated before the morning service peak so that geographic generalization can be measured without relying on the training narrative.
+Context: border-region context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Drivers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: English"
+GHV20003008,GHV2CH0003008,INFRASTRUCTURE,EDUCATION,0.4482132756213803,"Description: Local evaluation note — Agra, Uttar Pradesh. Topic: school infrastructure. Reported user group: patients. Observed condition: the service creates queues. Operating context: with little preventive-work capacity. Timing: during a service shift. The purpose is to test whether a model generalizes to a new geographic context.
+Context: river-valley context in Agra, Uttar Pradesh, India.
+Citizen statement: Patients report a local difficulty involving school infrastructure.
+State: Uttar Pradesh
+District: Agra
+Language: Hindi"
+GHV20003037,GHV2CH0003037,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.43397299150246504,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: emergency communication is the subject of a local assessment. Village representatives report that the service lacks timely status information. The setting is agricultural; response is operating with little preventive-work capacity. The case is examined around a seasonal festival, and local evidence should be checked before routing.
+Context: agricultural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Village representatives report a local difficulty involving emergency communication.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20003101,GHV2CH0003101,PUBLIC_SAFETY,ENERGY,0.2707839298391185,"Description: Geographic evaluation scenario in Gorakhpur, Uttar Pradesh: street lighting is the subject of a local assessment. School staff report that the service becomes unreliable after disruption. The setting is rural; response is operating with incomplete intervention feedback. The case is examined when demand rises unexpectedly, and local evidence should be checked before routing.
+Context: rural context in Gorakhpur, Uttar Pradesh, India.
+Citizen statement: School staff report a local difficulty involving street lighting.
+State: Uttar Pradesh
+District: Gorakhpur
+Language: Hinglish"
+GHV20003102,GHV2CH0003102,EDUCATION,EMPLOYMENT,0.3107369934082047,"Description: Holdout case from Gwalior, Madhya Pradesh. A industrial community is reviewing vocational training. Feedback from community volunteers indicates that it has uneven coverage. Teams are working with incomplete intervention feedback. The condition is evaluated after a power interruption so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Gwalior, Madhya Pradesh, India.
+Citizen statement: Community volunteers report a local difficulty involving vocational training.
+State: Madhya Pradesh
+District: Gwalior
+Language: Hindi"
+GHV20003158,GHV2CH0003158,EMPLOYMENT,OTHER,0.3525022428471112,"Description: Holdout case from Agartala, Tripura. A river-valley community is reviewing entrepreneurship. Feedback from self-help groups indicates that it creates queues. Teams are working with contractor coordination. The condition is evaluated when storage is near capacity so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Agartala, Tripura, India.
+Citizen statement: Self-help groups report a local difficulty involving entrepreneurship.
+State: Tripura
+District: Agartala
+Language: Hinglish"
+GHV20003174,GHV2CH0003174,EMPLOYMENT,OTHER,0.3430295129653178,"Description: Holdout case from Vijayawada, Andhra Pradesh. A industrial community is reviewing migration. Feedback from caregivers indicates that it causes avoidable travel. Teams are working with contractor coordination. The condition is evaluated near school closing so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Vijayawada, Andhra Pradesh, India.
+Citizen statement: Caregivers report a local difficulty involving migration.
+State: Andhra Pradesh
+District: Vijayawada
+Language: English"
+GHV20003182,GHV2CH0003182,EDUCATION,OTHER,0.25284744365274936,"Description: Holdout case from Bhubaneswar, Odisha. A river-valley community is reviewing school infrastructure. Feedback from community volunteers indicates that it is difficult to monitor. Teams are working with contractor coordination. The condition is evaluated when resources are committed so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Bhubaneswar, Odisha, India.
+Citizen statement: Community volunteers report a local difficulty involving school infrastructure.
+State: Odisha
+District: Bhubaneswar
+Language: English"
+GHV20003245,GHV2CH0003245,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.5850162524606728,"Description: Geographic evaluation scenario in Ludhiana, Punjab: emergency communication is the subject of a local assessment. Public transport users report that the service works for some users but not others. The setting is rural; response is operating with short operational notice. The case is examined after a temporary restoration, and local evidence should be checked before routing.
+Context: rural context in Ludhiana, Punjab, India.
+Citizen statement: Public transport users report a local difficulty involving emergency communication.
+State: Punjab
+District: Ludhiana
+Language: Hindi"
+GHV20003309,GHV2CH0003309,PUBLIC_SAFETY,ENERGY,0.4513630876320675,"Description: Geographic evaluation scenario in Jamshedpur, Jharkhand: street lighting is the subject of a local assessment. Small businesses report that the service causes avoidable travel. The setting is urban; response is operating with outcome-documentation needs. The case is examined before expected weather disruption, and local evidence should be checked before routing.
+Context: urban context in Jamshedpur, Jharkhand, India.
+Citizen statement: Small businesses report a local difficulty involving street lighting.
+State: Jharkhand
+District: Jamshedpur
+Language: Hinglish"
+GHV20003324,GHV2CH0003324,DISASTER_MANAGEMENT,SOCIAL_WELFARE,0.2848287998768151,"Description: Local evaluation note — Bengaluru, Karnataka. Topic: rockfalls. Reported user group: tourism workers. Observed condition: the service causes avoidable travel. Operating context: with outcome-documentation needs. Timing: during a staffing gap. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Bengaluru, Karnataka, India.
+Citizen statement: Tourism workers report a local difficulty involving rockfalls.
+State: Karnataka
+District: Bengaluru
+Language: English"
+GHV20003326,GHV2CH0003326,EDUCATION,EMPLOYMENT,0.31821890888882143,"Description: Holdout case from Imphal, Manipur. A river-valley community is reviewing vocational training. Feedback from farmers indicates that it becomes unreliable after disruption. Teams are working with outcome-documentation needs. The condition is evaluated when several agencies receive reports so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Imphal, Manipur, India.
+Citizen statement: Farmers report a local difficulty involving vocational training.
+State: Manipur
+District: Imphal
+Language: Hindi"
+GHV20003342,GHV2CH0003342,EDUCATION,OTHER,0.3771661883711835,"Description: Holdout case from Kochi, Kerala. A industrial community is reviewing school access. Feedback from community volunteers indicates that it has uneven coverage. Teams are working with shared-utility dependency. The condition is evaluated during peak visitor movement so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Kochi, Kerala, India.
+Citizen statement: Community volunteers report a local difficulty involving school access.
+State: Kerala
+District: Kochi
+Language: Hinglish"
+GHV20003344,GHV2CH0003344,INFRASTRUCTURE,EDUCATION,0.2548065464974392,"Description: Local evaluation note — Agartala, Tripura. Topic: school infrastructure. Reported user group: tourism workers. Observed condition: the service fails intermittently. Operating context: with shared-utility dependency. Timing: on high-commuter days. The purpose is to test whether a model generalizes to a new geographic context.
+Context: river-valley context in Agartala, Tripura, India.
+Citizen statement: Tourism workers report a local difficulty involving school infrastructure.
+State: Tripura
+District: Agartala
+Language: English"
+GHV20003351,GHV2CH0003351,ENERGY,PUBLIC_SAFETY,0.33944860338435845,"Description: For independent geographic testing, consider street lighting in Hyderabad, Telangana. The reported users are market vendors; they describe a service that returns after temporary fixes. The operating context includes with shared-utility dependency, and the situation is most relevant during a service shift. This scenario must be verified locally rather than assumed from another district.
+Context: urban context in Hyderabad, Telangana, India.
+Citizen statement: Market vendors report a local difficulty involving street lighting.
+State: Telangana
+District: Hyderabad
+Language: Hindi"
+GHV20003402,GHV2CH0003402,ENVIRONMENT,OTHER,0.20065036955374652,"Description: Holdout case from Ranchi, Jharkhand. A industrial community is reviewing deforestation. Feedback from community volunteers indicates that it has uneven coverage. Teams are working with limited specialist equipment. The condition is evaluated during a local inspection so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Ranchi, Jharkhand, India.
+Citizen statement: Community volunteers report a local difficulty involving deforestation.
+State: Jharkhand
+District: Ranchi
+Language: English"
+GHV20003420,GHV2CH0003420,DISASTER_MANAGEMENT,HEALTHCARE,0.21344164001365581,"Description: Local evaluation note — Shimla, Himachal Pradesh. Topic: floods. Reported user group: commuters. Observed condition: the service becomes unpredictable at peak times. Operating context: with limited specialist equipment. Timing: before route adjustment. The purpose is to test whether a model generalizes to a new geographic context.
+Context: tourism-heavy context in Shimla, Himachal Pradesh, India.
+Citizen statement: Commuters report a local difficulty involving floods.
+State: Himachal Pradesh
+District: Shimla
+Language: Hindi"
+GHV20003438,GHV2CH0003438,EDUCATION,EMPLOYMENT,0.35705256326178375,"Description: Holdout case from Kota, Rajasthan. A industrial community is reviewing vocational training. Feedback from self-help groups indicates that it creates repeated delays. Teams are working with varied local implementation. The condition is evaluated near the weekly market cycle so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Kota, Rajasthan, India.
+Citizen statement: Self-help groups report a local difficulty involving vocational training.
+State: Rajasthan
+District: Kota
+Language: English"
+GHV20003456,GHV2CH0003456,INFRASTRUCTURE,EDUCATION,0.2580934462655294,"Description: Local evaluation note — Nashik, Maharashtra. Topic: school infrastructure. Reported user group: field technicians. Observed condition: the service returns after temporary fixes. Operating context: with varied local implementation. Timing: before expected weather disruption. The purpose is to test whether a model generalizes to a new geographic context.
+Context: industrial context in Nashik, Maharashtra, India.
+Citizen statement: Field technicians report a local difficulty involving school infrastructure.
+State: Maharashtra
+District: Nashik
+Language: Hinglish"
+GHV20003517,GHV2CH0003517,PUBLIC_SAFETY,ENERGY,0.41535324633726056,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: street lighting is the subject of a local assessment. Village representatives report that the service lacks timely status information. The setting is semi-urban; response is operating with seasonal sensitivity. The case is examined near school closing, and local evidence should be checked before routing.
+Context: semi-urban context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Village representatives report a local difficulty involving street lighting.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hinglish"
+GHV20003550,GHV2CH0003550,EDUCATION,EMPLOYMENT,0.3790328458500086,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A high-altitude community is reviewing vocational training. Feedback from drivers indicates that it is reported inconsistently. Teams are working with nearby institutional demand. The condition is evaluated when storage is near capacity so that geographic generalization can be measured without relying on the training narrative.
+Context: high-altitude context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Drivers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20003661,GHV2CH0003661,PUBLIC_SAFETY,DISASTER_MANAGEMENT,0.44101151544110695,"Description: Geographic evaluation scenario in Udham Singh Nagar, Uttarakhand: emergency communication is the subject of a local assessment. School staff report that the service changes sharply by season. The setting is agricultural; response is operating with pilot-before-scale requirements. The case is examined after delayed maintenance, and local evidence should be checked before routing.
+Context: agricultural context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: School staff report a local difficulty involving emergency communication.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hinglish"
+GHV20003662,GHV2CH0003662,EDUCATION,EMPLOYMENT,0.3586292538352531,"Description: Holdout case from Gangtok, Sikkim. A tourism-heavy community is reviewing vocational training. Feedback from community volunteers indicates that it is difficult to monitor. Teams are working with pilot-before-scale requirements. The condition is evaluated when field information is incomplete so that geographic generalization can be measured without relying on the training narrative.
+Context: tourism-heavy context in Gangtok, Sikkim, India.
+Citizen statement: Community volunteers report a local difficulty involving vocational training.
+State: Sikkim
+District: Gangtok
+Language: Hindi"
+GHV20003725,GHV2CH0003725,PUBLIC_SAFETY,ENERGY,0.27094493768784117,"Description: Geographic evaluation scenario in Panaji, Goa: street lighting is the subject of a local assessment. Public transport users report that the service works for some users but not others. The setting is rural; response is operating with competing service requests. The case is examined before the morning service peak, and local evidence should be checked before routing.
+Context: rural context in Panaji, Goa, India.
+Citizen statement: Public transport users report a local difficulty involving street lighting.
+State: Goa
+District: Panaji
+Language: English"
+GHV20003774,GHV2CH0003774,EDUCATION,EMPLOYMENT,0.37205183924491575,"Description: Holdout case from Ranchi, Jharkhand. A industrial community is reviewing vocational training. Feedback from caregivers indicates that it causes avoidable travel. Teams are working with fixed schedules. The condition is evaluated before the morning service peak so that geographic generalization can be measured without relying on the training narrative.
+Context: industrial context in Ranchi, Jharkhand, India.
+Citizen statement: Caregivers report a local difficulty involving vocational training.
+State: Jharkhand
+District: Ranchi
+Language: English"
+GHV20003886,GHV2CH0003886,EDUCATION,EMPLOYMENT,0.4162618212548862,"Description: Holdout case from Udham Singh Nagar, Uttarakhand. A forest community is reviewing vocational training. Feedback from farmers indicates that it changes sharply by season. Teams are working with limited field visibility. The condition is evaluated after a power interruption so that geographic generalization can be measured without relying on the training narrative.
+Context: forest context in Udham Singh Nagar, Uttarakhand, India.
+Citizen statement: Farmers report a local difficulty involving vocational training.
+State: Uttarakhand
+District: Udham Singh Nagar
+Language: Hindi"
+GHV20003933,GHV2CH0003933,PUBLIC_SAFETY,ENERGY,0.519395101824398,"Description: Geographic evaluation scenario in Agartala, Tripura: street lighting is the subject of a local assessment. Students report that the service creates repeated delays. The setting is urban; response is operating with paper-based tracking. The case is examined during the afternoon service cycle, and local evidence should be checked before routing.
+Context: urban context in Agartala, Tripura, India.
+Citizen statement: Students report a local difficulty involving street lighting.
+State: Tripura
+District: Agartala
+Language: English"
+GHV20003974,GHV2CH0003974,EMPLOYMENT,EDUCATION,0.4478912706590338,"Description: Holdout case from New Delhi, Delhi. A river-valley community is reviewing vocational training. Feedback from caregivers indicates that it fails intermittently. Teams are working with uneven coverage. The condition is evaluated after heavy rain so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in New Delhi, Delhi, India.
+Citizen statement: Caregivers report a local difficulty involving vocational training.
+State: Delhi
+District: New Delhi
+Language: English"
+GHV20003975,GHV2CH0003975,ENERGY,PUBLIC_SAFETY,0.47981201505365423,"Description: For independent geographic testing, consider street lighting in Mysuru, Karnataka. The reported users are frontline workers; they describe a service that becomes unpredictable at peak times. The operating context includes with uneven coverage, and the situation is most relevant during the dry season. This scenario must be verified locally rather than assumed from another district.
+Context: urban context in Mysuru, Karnataka, India.
+Citizen statement: Frontline workers report a local difficulty involving street lighting.
+State: Karnataka
+District: Mysuru
+Language: Hinglish"
+GHV20003998,GHV2CH0003998,EDUCATION,EMPLOYMENT,0.2978341450983313,"Description: Holdout case from Gurugram, Haryana. A river-valley community is reviewing vocational training. Feedback from self-help groups indicates that it creates queues. Teams are working with uneven coverage. The condition is evaluated when connectivity is weak so that geographic generalization can be measured without relying on the training narrative.
+Context: river-valley context in Gurugram, Haryana, India.
+Citizen statement: Self-help groups report a local difficulty involving vocational training.
+State: Haryana
+District: Gurugram
+Language: English"

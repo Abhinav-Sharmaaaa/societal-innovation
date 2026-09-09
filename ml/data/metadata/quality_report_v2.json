@@ -1,0 +1,105 @@
+{
+  "main_records": 72000,
+  "holdout_records": 4000,
+  "dedup_pairs": 20000,
+  "exact_description_duplicates": 0,
+  "normalized_description_duplicates": 0,
+  "duplicate_record_ids": 0,
+  "duplicate_challenge_ids": 0,
+  "all_16_categories": true,
+  "category_counts": {
+    "WATER": 4500,
+    "SANITATION": 4500,
+    "WASTE_MANAGEMENT": 4500,
+    "HEALTHCARE": 4500,
+    "EDUCATION": 4500,
+    "AGRICULTURE": 4500,
+    "TRANSPORTATION": 4500,
+    "ENERGY": 4500,
+    "ENVIRONMENT": 4500,
+    "PUBLIC_SAFETY": 4500,
+    "INFRASTRUCTURE": 4500,
+    "DIGITAL_SERVICES": 4500,
+    "EMPLOYMENT": 4500,
+    "SOCIAL_WELFARE": 4500,
+    "DISASTER_MANAGEMENT": 4500,
+    "OTHER": 4500
+  },
+  "state_counts": {
+    "Uttarakhand": 17280,
+    "Gujarat": 1824,
+    "Manipur": 1824,
+    "Telangana": 1824,
+    "Rajasthan": 1824,
+    "Arunachal Pradesh": 1824,
+    "Karnataka": 1824,
+    "Uttar Pradesh": 1824,
+    "Jammu & Kashmir": 1824,
+    "West Bengal": 1824,
+    "Tripura": 1824,
+    "Punjab": 1824,
+    "Maharashtra": 1824,
+    "Nagaland": 1824,
+    "Kerala": 1824,
+    "Bihar": 1824,
+    "Sikkim": 1824,
+    "Chhattisgarh": 1824,
+    "Jharkhand": 1824,
+    "Assam": 1824,
+    "Madhya Pradesh": 1824,
+    "Mizoram": 1824,
+    "Andhra Pradesh": 1824,
+    "Delhi": 1824,
+    "Meghalaya": 1824,
+    "Tamil Nadu": 1824,
+    "Himachal Pradesh": 1824,
+    "Ladakh": 1824,
+    "Odisha": 1824,
+    "Goa": 1824,
+    "Haryana": 1824
+  },
+  "language_counts": {
+    "English": 32418,
+    "Hindi": 21600,
+    "Hinglish": 17982
+  },
+  "severity_counts": {
+    "MEDIUM": 17328,
+    "CRITICAL": 16314,
+    "HIGH": 17966,
+    "LOW": 20392
+  },
+  "urgency_counts": {
+    "CRITICAL": 17598,
+    "HIGH": 18090,
+    "MEDIUM": 18229,
+    "LOW": 18083
+  },
+  "routing_counts": {
+    "GOVERNMENT": 17189,
+    "HUMAN_REVIEW": 19901,
+    "INNOVATION": 17458,
+    "MUNICIPALITY": 17452
+  },
+  "innovation_counts": {
+    "True": 43200,
+    "False": 28800
+  },
+  "uttrakhand_records": 17280,
+  "uttrakhand_share": 0.24,
+  "split_counts": {
+    "train": 50400,
+    "validation": 10800,
+    "test": 10800
+  },
+  "split_overlap": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "max_first_10_word_prefix_count": 2699,
+  "max_first_10_word_prefix_share": 0.037486,
+  "holdout_internal_normalized_duplicates": 0,
+  "semantic_embedding_audit": "PENDING",
+  "production_ready_for_embedding_audit": true
+}

@@ -1,0 +1,213 @@
+{
+  "dataset": "geographic_holdout_test",
+  "samples": 4000,
+  "correct": 3891,
+  "misclassified": 109,
+  "accuracy": 0.97275,
+  "top_confusions": [
+    {
+      "actual": "EDUCATION",
+      "predicted": "EMPLOYMENT",
+      "count": 32
+    },
+    {
+      "actual": "PUBLIC_SAFETY",
+      "predicted": "ENERGY",
+      "count": 15
+    },
+    {
+      "actual": "INFRASTRUCTURE",
+      "predicted": "EDUCATION",
+      "count": 14
+    },
+    {
+      "actual": "PUBLIC_SAFETY",
+      "predicted": "DISASTER_MANAGEMENT",
+      "count": 12
+    },
+    {
+      "actual": "ENERGY",
+      "predicted": "PUBLIC_SAFETY",
+      "count": 10
+    },
+    {
+      "actual": "DISASTER_MANAGEMENT",
+      "predicted": "PUBLIC_SAFETY",
+      "count": 8
+    },
+    {
+      "actual": "ENVIRONMENT",
+      "predicted": "OTHER",
+      "count": 3
+    },
+    {
+      "actual": "EMPLOYMENT",
+      "predicted": "OTHER",
+      "count": 2
+    },
+    {
+      "actual": "EDUCATION",
+      "predicted": "OTHER",
+      "count": 2
+    },
+    {
+      "actual": "SOCIAL_WELFARE",
+      "predicted": "DIGITAL_SERVICES",
+      "count": 1
+    },
+    {
+      "actual": "EDUCATION",
+      "predicted": "DIGITAL_SERVICES",
+      "count": 1
+    },
+    {
+      "actual": "TRANSPORTATION",
+      "predicted": "DIGITAL_SERVICES",
+      "count": 1
+    },
+    {
+      "actual": "DISASTER_MANAGEMENT",
+      "predicted": "OTHER",
+      "count": 1
+    },
+    {
+      "actual": "INFRASTRUCTURE",
+      "predicted": "HEALTHCARE",
+      "count": 1
+    },
+    {
+      "actual": "SOCIAL_WELFARE",
+      "predicted": "OTHER",
+      "count": 1
+    },
+    {
+      "actual": "TRANSPORTATION",
+      "predicted": "SOCIAL_WELFARE",
+      "count": 1
+    },
+    {
+      "actual": "INFRASTRUCTURE",
+      "predicted": "DIGITAL_SERVICES",
+      "count": 1
+    },
+    {
+      "actual": "DISASTER_MANAGEMENT",
+      "predicted": "SOCIAL_WELFARE",
+      "count": 1
+    },
+    {
+      "actual": "DISASTER_MANAGEMENT",
+      "predicted": "HEALTHCARE",
+      "count": 1
+    },
+    {
+      "actual": "EMPLOYMENT",
+      "predicted": "EDUCATION",
+      "count": 1
+    }
+  ],
+  "per_class_errors": {
+    "AGRICULTURE": {
+      "total": 250,
+      "correct": 250,
+      "errors": 0,
+      "error_rate": 0.0
+    },
+    "DIGITAL_SERVICES": {
+      "total": 250,
+      "correct": 250,
+      "errors": 0,
+      "error_rate": 0.0
+    },
+    "DISASTER_MANAGEMENT": {
+      "total": 250,
+      "correct": 239,
+      "errors": 11,
+      "error_rate": 0.044
+    },
+    "EDUCATION": {
+      "total": 250,
+      "correct": 215,
+      "errors": 35,
+      "error_rate": 0.14
+    },
+    "EMPLOYMENT": {
+      "total": 250,
+      "correct": 247,
+      "errors": 3,
+      "error_rate": 0.012
+    },
+    "ENERGY": {
+      "total": 250,
+      "correct": 240,
+      "errors": 10,
+      "error_rate": 0.04
+    },
+    "ENVIRONMENT": {
+      "total": 250,
+      "correct": 247,
+      "errors": 3,
+      "error_rate": 0.012
+    },
+    "HEALTHCARE": {
+      "total": 250,
+      "correct": 250,
+      "errors": 0,
+      "error_rate": 0.0
+    },
+    "INFRASTRUCTURE": {
+      "total": 250,
+      "correct": 234,
+      "errors": 16,
+      "error_rate": 0.064
+    },
+    "OTHER": {
+      "total": 250,
+      "correct": 250,
+      "errors": 0,
+      "error_rate": 0.0
+    },
+    "PUBLIC_SAFETY": {
+      "total": 250,
+      "correct": 223,
+      "errors": 27,
+      "error_rate": 0.108
+    },
+    "SANITATION": {
+      "total": 250,
+      "correct": 250,
+      "errors": 0,
+      "error_rate": 0.0
+    },
+    "SOCIAL_WELFARE": {
+      "total": 250,
+      "correct": 248,
+      "errors": 2,
+      "error_rate": 0.008
+    },
+    "TRANSPORTATION": {
+      "total": 250,
+      "correct": 248,
+      "errors": 2,
+      "error_rate": 0.008
+    },
+    "WASTE_MANAGEMENT": {
+      "total": 250,
+      "correct": 250,
+      "errors": 0,
+      "error_rate": 0.0
+    },
+    "WATER": {
+      "total": 250,
+      "correct": 250,
+      "errors": 0,
+      "error_rate": 0.0
+    }
+  },
+  "artifacts": {
+    "confusion_matrix": "E:\\societal-innovation-platorm\\ml\\evaluation\\category\\confusion_matrix.png",
+    "classification_report": "E:\\societal-innovation-platorm\\ml\\evaluation\\category\\classification_report.json",
+    "misclassified_examples": "E:\\societal-innovation-platorm\\ml\\evaluation\\category\\misclassified_examples.csv",
+    "holdout_predictions": "E:\\societal-innovation-platorm\\ml\\evaluation\\category\\holdout_predictions.csv"
+  }
+}

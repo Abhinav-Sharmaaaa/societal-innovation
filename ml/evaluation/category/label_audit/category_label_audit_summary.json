@@ -1,0 +1,40 @@
+{
+  "total_rows": 72000,
+  "category_distribution": {
+    "AGRICULTURE": 4500,
+    "DIGITAL_SERVICES": 4500,
+    "DISASTER_MANAGEMENT": 4500,
+    "EDUCATION": 4500,
+    "EMPLOYMENT": 4500,
+    "ENERGY": 4500,
+    "ENVIRONMENT": 4500,
+    "HEALTHCARE": 4500,
+    "INFRASTRUCTURE": 4500,
+    "OTHER": 4500,
+    "PUBLIC_SAFETY": 4500,
+    "SANITATION": 4500,
+    "SOCIAL_WELFARE": 4500,
+    "TRANSPORTATION": 4500,
+    "WASTE_MANAGEMENT": 4500,
+    "WATER": 4500
+  },
+  "suspicious_rows": 52689,
+  "suspicious_rate": 0.7317916666666666,
+  "multi_category_signal_rows": 29216,
+  "no_assigned_category_signal_rows": 28619,
+  "evaluation_template_language_rows": 0,
+  "known_ambiguous_pair_rows": {
+    "DISASTER_MANAGEMENT -> PUBLIC_SAFETY": 310,
+    "EDUCATION -> EMPLOYMENT": 714,
+    "EDUCATION -> INFRASTRUCTURE": 488,
+    "EMPLOYMENT -> EDUCATION": 981,
+    "INFRASTRUCTURE -> EDUCATION": 888,
+    "INFRASTRUCTURE -> TRANSPORTATION": 889,
+    "PUBLIC_SAFETY -> DISASTER_MANAGEMENT": 346,
+    "PUBLIC_SAFETY -> ENERGY": 345,
+    "SANITATION -> WATER": 778,
+    "TRANSPORTATION -> INFRASTRUCTURE": 292,
+    "WASTE_MANAGEMENT -> ENVIRONMENT": 126
+  },
+  "review_note": "This audit is heuristic. It identifies records for manual review and does not automatically modify labels."
+}

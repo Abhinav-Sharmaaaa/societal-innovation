@@ -1,0 +1,184 @@
+{
+  "total_rows": 72000,
+  "category_distribution": {
+    "AGRICULTURE": 4500,
+    "DIGITAL_SERVICES": 4500,
+    "DISASTER_MANAGEMENT": 4500,
+    "EDUCATION": 4500,
+    "EMPLOYMENT": 4500,
+    "ENERGY": 4500,
+    "ENVIRONMENT": 4500,
+    "HEALTHCARE": 4500,
+    "INFRASTRUCTURE": 4500,
+    "OTHER": 4500,
+    "PUBLIC_SAFETY": 4500,
+    "SANITATION": 4500,
+    "SOCIAL_WELFARE": 4500,
+    "TRANSPORTATION": 4500,
+    "WASTE_MANAGEMENT": 4500,
+    "WATER": 4500
+  },
+  "category_signal_counts": {
+    "AGRICULTURE": 11858,
+    "DIGITAL_SERVICES": 6470,
+    "DISASTER_MANAGEMENT": 3334,
+    "EDUCATION": 14609,
+    "EMPLOYMENT": 13166,
+    "ENERGY": 3502,
+    "ENVIRONMENT": 5223,
+    "HEALTHCARE": 5241,
+    "INFRASTRUCTURE": 5246,
+    "PUBLIC_SAFETY": 4102,
+    "SANITATION": 2565,
+    "SOCIAL_WELFARE": 1161,
+    "TRANSPORTATION": 12909,
+    "WASTE_MANAGEMENT": 4308,
+    "WATER": 3127
+  },
+  "no_assigned_category_signal_counts": {
+    "AGRICULTURE": 1754,
+    "DIGITAL_SERVICES": 3001,
+    "DISASTER_MANAGEMENT": 1768,
+    "EDUCATION": 1592,
+    "EMPLOYMENT": 2043,
+    "ENERGY": 1731,
+    "ENVIRONMENT": 1670,
+    "HEALTHCARE": 1886,
+    "INFRASTRUCTURE": 1452,
+    "PUBLIC_SAFETY": 1383,
+    "SANITATION": 1935,
+    "SOCIAL_WELFARE": 3339,
+    "TRANSPORTATION": 1987,
+    "WASTE_MANAGEMENT": 581,
+    "WATER": 2497
+  },
+  "top_cooccurring_pairs": [
+    {
+      "category_a": "EDUCATION",
+      "category_b": "TRANSPORTATION",
+      "rows": 2036
+    },
+    {
+      "category_a": "AGRICULTURE",
+      "category_b": "EDUCATION",
+      "rows": 1700
+    },
+    {
+      "category_a": "EDUCATION",
+      "category_b": "EMPLOYMENT",
+      "rows": 1657
+    },
+    {
+      "category_a": "AGRICULTURE",
+      "category_b": "EMPLOYMENT",
+      "rows": 1626
+    },
+    {
+      "category_a": "AGRICULTURE",
+      "category_b": "TRANSPORTATION",
+      "rows": 1600
+    },
+    {
+      "category_a": "DIGITAL_SERVICES",
+      "category_b": "EDUCATION",
+      "rows": 1446
+    },
+    {
+      "category_a": "EDUCATION",
+      "category_b": "INFRASTRUCTURE",
+      "rows": 1262
+    },
+    {
+      "category_a": "INFRASTRUCTURE",
+      "category_b": "TRANSPORTATION",
+      "rows": 1161
+    },
+    {
+      "category_a": "DIGITAL_SERVICES",
+      "category_b": "TRANSPORTATION",
+      "rows": 1158
+    },
+    {
+      "category_a": "DIGITAL_SERVICES",
+      "category_b": "EMPLOYMENT",
+      "rows": 1155
+    },
+    {
+      "category_a": "AGRICULTURE",
+      "category_b": "HEALTHCARE",
+      "rows": 1057
+    },
+    {
+      "category_a": "EDUCATION",
+      "category_b": "PUBLIC_SAFETY",
+      "rows": 965
+    },
+    {
+      "category_a": "EDUCATION",
+      "category_b": "ENVIRONMENT",
+      "rows": 904
+    },
+    {
+      "category_a": "EMPLOYMENT",
+      "category_b": "ENVIRONMENT",
+      "rows": 877
+    },
+    {
+      "category_a": "AGRICULTURE",
+      "category_b": "WATER",
+      "rows": 866
+    },
+    {
+      "category_a": "ENVIRONMENT",
+      "category_b": "TRANSPORTATION",
+      "rows": 858
+    },
+    {
+      "category_a": "AGRICULTURE",
+      "category_b": "DIGITAL_SERVICES",
+      "rows": 848
+    },
+    {
+      "category_a": "EDUCATION",
+      "category_b": "HEALTHCARE",
+      "rows": 838
+    },
+    {
+      "category_a": "EMPLOYMENT",
+      "category_b": "INFRASTRUCTURE",
+      "rows": 827
+    },
+    {
+      "category_a": "HEALTHCARE",
+      "category_b": "WASTE_MANAGEMENT",
+      "rows": 825
+    },
+    {
+      "category_a": "EMPLOYMENT",
+      "category_b": "HEALTHCARE",
+      "rows": 821
+    },
+    {
+      "category_a": "HEALTHCARE",
+      "category_b": "TRANSPORTATION",
+      "rows": 753
+    },
+    {
+      "category_a": "EMPLOYMENT",
+      "category_b": "TRANSPORTATION",
+      "rows": 710
+    },
+    {
+      "category_a": "INFRASTRUCTURE",
+      "category_b": "PUBLIC_SAFETY",
+      "rows": 694
+    },
+    {
+      "category_a": "EMPLOYMENT",
+      "category_b": "WASTE_MANAGEMENT",
+      "rows": 678
+    }
+  ],
+  "policy_pairs_analyzed": 8,
+  "interpretation": "Cooccurrence counts are heuristic lexical signals, not proof of incorrect labels. Use the policy table to guide human label review."
+}

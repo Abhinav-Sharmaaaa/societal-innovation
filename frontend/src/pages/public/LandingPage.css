@@ -1,0 +1,762 @@
+/* ============================================================
+   Landing Page — Shared
+   ============================================================ */
+
+.landing-page {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.section {
+  padding: 110px 24px;
+}
+
+.section-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.section-heading {
+  max-width: 720px;
+  margin-bottom: 55px;
+}
+
+.section-heading.centered {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  margin-bottom: 18px;
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #4f46e5;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.section-heading p {
+  margin: 24px 0 0;
+
+  font-size: 17px;
+  line-height: 1.7;
+  color: #64748b;
+}
+
+
+/* ============================================================
+   Landing Page Buttons
+   ============================================================ */
+
+.landing-page .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border-radius: 10px;
+  padding: 11px 17px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  border: 1px solid transparent;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.landing-page .btn:hover {
+  transform: translateY(-1px);
+}
+
+.landing-page .btn-primary {
+  background: #111827;
+  color: white;
+
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.14);
+}
+
+.landing-page .btn-primary:hover {
+  background: #1f2937;
+}
+
+.landing-page .btn-secondary {
+  background: white;
+  color: #111827;
+
+  border-color: #e2e8f0;
+}
+
+.landing-page .btn-outline {
+  background: transparent;
+  color: #111827;
+
+  border-color: #cbd5e1;
+}
+
+.landing-page .btn-large {
+  padding: 14px 21px;
+  font-size: 15px;
+}
+
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+
+  background: rgba(248, 250, 252, 0.86);
+
+  backdrop-filter: blur(14px);
+}
+
+.navbar-container {
+  width: min(1240px, calc(100% - 40px));
+  min-height: 76px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #111827;
+  text-align: left;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: #111827;
+  color: white;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.brand-subtitle {
+  margin-top: 4px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  color: #64748b;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  color: #64748b;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-links a:hover {
+  color: #111827;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+/* ============================================================
+   Hero
+   ============================================================ */
+
+.hero {
+  padding: 90px 24px 110px;
+}
+
+.hero-container {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(430px, 0.9fr);
+
+  gap: 75px;
+
+  align-items: center;
+}
+
+.hero-content {
+  max-width: 690px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 8px 12px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+
+  background: white;
+
+  color: #475569;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hero-badge-dot,
+.live-indicator span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+}
+
+.hero h1 {
+  margin: 26px 0 0;
+
+  font-size: clamp(52px, 7vw, 82px);
+  line-height: 0.99;
+
+  letter-spacing: -0.065em;
+}
+
+.hero-highlight {
+  color: #4f46e5;
+}
+
+.hero-description {
+  max-width: 640px;
+
+  margin: 29px 0 0;
+
+  color: #64748b;
+
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 34px;
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-top: 22px;
+
+  color: #64748b;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   Hero Visual
+   ============================================================ */
+
+.hero-visual {
+  min-width: 0;
+}
+
+.innovation-card {
+  padding: 24px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+
+  background: white;
+
+  box-shadow:
+    0 30px 80px rgba(15, 23, 42, 0.08),
+    0 8px 30px rgba(15, 23, 42, 0.04);
+}
+
+.innovation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 15px;
+
+  padding-bottom: 22px;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.card-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+
+  color: #94a3b8;
+}
+
+.innovation-header h3 {
+  margin: 8px 0 0;
+
+  font-size: 22px;
+  letter-spacing: -0.03em;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 7px 10px;
+
+  border-radius: 999px;
+
+  background: #f0fdf4;
+
+  color: #15803d;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pipeline {
+  padding-top: 20px;
+}
+
+.pipeline-item {
+  display: grid;
+
+  grid-template-columns:
+    34px
+    40px
+    minmax(0, 1fr);
+
+  gap: 12px;
+
+  align-items: center;
+
+  padding: 12px 0;
+}
+
+.pipeline-number {
+  font-size: 10px;
+  font-weight: 800;
+
+  color: #cbd5e1;
+}
+
+.pipeline-icon {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+
+  background: #f8fafc;
+
+  color: #64748b;
+}
+
+.pipeline-item-active .pipeline-icon {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+
+  color: #4f46e5;
+}
+
+.pipeline-content h4 {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.pipeline-content p {
+  margin: 4px 0 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.pipeline-connector {
+  width: 34px;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pipeline-connector div {
+  width: 1px;
+  height: 16px;
+
+  margin-right: 2px;
+
+  background: #e2e8f0;
+}
+
+
+/* ============================================================
+   Ecosystem
+   ============================================================ */
+
+.ecosystem-section {
+  background: white;
+}
+
+.ecosystem-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 18px;
+}
+
+.ecosystem-card {
+  padding: 25px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+
+  background: white;
+}
+
+.ecosystem-icon {
+  width: 45px;
+  height: 45px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 22px;
+
+  border-radius: 12px;
+
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.ecosystem-card h3 {
+  margin: 0;
+
+  font-size: 17px;
+  letter-spacing: -0.02em;
+}
+
+.ecosystem-card p {
+  margin: 10px 0 0;
+
+  color: #64748b;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   Workflow
+   ============================================================ */
+
+.workflow-section {
+  background: #f8fafc;
+}
+
+.workflow-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+.workflow-step {
+  min-height: 210px;
+
+  padding: 25px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+
+  background: white;
+}
+
+.workflow-number {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 9px;
+
+  background: #eef2ff;
+  color: #4f46e5;
+
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.workflow-step h3 {
+  margin: 24px 0 0;
+
+  font-size: 19px;
+
+  letter-spacing: -0.03em;
+}
+
+.workflow-step p {
+  margin: 10px 0 0;
+
+  color: #64748b;
+
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+
+/* ============================================================
+   CTA
+   ============================================================ */
+
+.cta-section {
+  background: white;
+}
+
+.cta-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 35px;
+
+  padding: 45px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+
+  background: #f8fafc;
+}
+
+.cta-container h2 {
+  margin: 0;
+
+  font-size: clamp(32px, 4vw, 48px);
+
+  letter-spacing: -0.05em;
+}
+
+.cta-container p {
+  margin: 12px 0 0;
+
+  color: #64748b;
+
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.footer {
+  padding: 38px 24px;
+
+  border-top: 1px solid #e2e8f0;
+
+  background: white;
+}
+
+.footer-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+}
+
+.footer-brand {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.footer-container p {
+  margin: 5px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+.footer-meta {
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   Responsive — Tablet
+   ============================================================ */
+
+@media (max-width: 1050px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    max-width: 800px;
+  }
+
+  .hero-visual {
+    max-width: 760px;
+  }
+
+  .ecosystem-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* ============================================================
+   Responsive — Mobile
+   ============================================================ */
+
+@media (max-width: 800px) {
+  .nav-links {
+    display: none;
+  }
+
+  .navbar-container {
+    width: min(100% - 28px, 1240px);
+  }
+
+  .hero {
+    padding-top: 65px;
+  }
+
+  .workflow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-container {
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 30px;
+  }
+}
+
+
+/* ============================================================
+   Responsive — Small Mobile
+   ============================================================ */
+
+@media (max-width: 560px) {
+  .section {
+    padding: 80px 18px;
+  }
+
+  .hero {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .innovation-card {
+    padding: 18px;
+  }
+
+  .ecosystem-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-container {
+    padding: 24px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

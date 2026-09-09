@@ -1,0 +1,390 @@
+{
+  "model": "TF-IDF + Logistic Regression",
+  "task": "primary_category_classification",
+  "tfidf_config": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_df": 0.98,
+    "sublinear_tf": true,
+    "max_features": 150000
+  },
+  "logistic_regression_config": {
+    "max_iter": 1000,
+    "class_weight": "balanced",
+    "solver": "lbfgs",
+    "random_state": 42
+  },
+  "classes": [
+    "AGRICULTURE",
+    "DIGITAL_SERVICES",
+    "DISASTER_MANAGEMENT",
+    "EDUCATION",
+    "EMPLOYMENT",
+    "ENERGY",
+    "ENVIRONMENT",
+    "HEALTHCARE",
+    "INFRASTRUCTURE",
+    "OTHER",
+    "PUBLIC_SAFETY",
+    "SANITATION",
+    "SOCIAL_WELFARE",
+    "TRANSPORTATION",
+    "WASTE_MANAGEMENT",
+    "WATER"
+  ],
+  "train_samples": 50400,
+  "validation": {
+    "samples": 10800,
+    "accuracy": 0.9884259259259259,
+    "macro_f1": 0.9884801982214284,
+    "weighted_f1": 0.9884801982214284,
+    "classification_report": {
+      "AGRICULTURE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "DIGITAL_SERVICES": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "DISASTER_MANAGEMENT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "EDUCATION": {
+        "precision": 0.9033613445378151,
+        "recall": 0.9555555555555556,
+        "f1-score": 0.9287257019438445,
+        "support": 675.0
+      },
+      "EMPLOYMENT": {
+        "precision": 0.9936708860759493,
+        "recall": 0.9303703703703704,
+        "f1-score": 0.9609793420045907,
+        "support": 675.0
+      },
+      "ENERGY": {
+        "precision": 0.9793205317577548,
+        "recall": 0.9822222222222222,
+        "f1-score": 0.9807692307692307,
+        "support": 675.0
+      },
+      "ENVIRONMENT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "HEALTHCARE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "INFRASTRUCTURE": {
+        "precision": 0.9836552748885586,
+        "recall": 0.9807407407407407,
+        "f1-score": 0.9821958456973294,
+        "support": 675.0
+      },
+      "OTHER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "PUBLIC_SAFETY": {
+        "precision": 0.9821693907875185,
+        "recall": 0.9792592592592593,
+        "f1-score": 0.9807121661721068,
+        "support": 675.0
+      },
+      "SANITATION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "SOCIAL_WELFARE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "TRANSPORTATION": {
+        "precision": 0.9779735682819384,
+        "recall": 0.9866666666666667,
+        "f1-score": 0.9823008849557522,
+        "support": 675.0
+      },
+      "WASTE_MANAGEMENT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "WATER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "accuracy": 0.9884259259259259,
+      "macro avg": {
+        "precision": 0.9887594372705959,
+        "recall": 0.9884259259259259,
+        "f1-score": 0.9884801982214284,
+        "support": 10800.0
+      },
+      "weighted avg": {
+        "precision": 0.9887594372705959,
+        "recall": 0.9884259259259259,
+        "f1-score": 0.9884801982214284,
+        "support": 10800.0
+      }
+    }
+  },
+  "test": {
+    "samples": 10800,
+    "accuracy": 0.9875925925925926,
+    "macro_f1": 0.9876544930289028,
+    "weighted_f1": 0.9876544930289027,
+    "classification_report": {
+      "AGRICULTURE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "DIGITAL_SERVICES": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "DISASTER_MANAGEMENT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "EDUCATION": {
+        "precision": 0.8967921896792189,
+        "recall": 0.9525925925925925,
+        "f1-score": 0.9238505747126436,
+        "support": 675.0
+      },
+      "EMPLOYMENT": {
+        "precision": 0.9936406995230525,
+        "recall": 0.9259259259259259,
+        "f1-score": 0.9585889570552147,
+        "support": 675.0
+      },
+      "ENERGY": {
+        "precision": 0.9850074962518741,
+        "recall": 0.9733333333333334,
+        "f1-score": 0.9791356184798807,
+        "support": 675.0
+      },
+      "ENVIRONMENT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "HEALTHCARE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "INFRASTRUCTURE": {
+        "precision": 0.9823529411764705,
+        "recall": 0.9896296296296296,
+        "f1-score": 0.9859778597785978,
+        "support": 675.0
+      },
+      "OTHER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "PUBLIC_SAFETY": {
+        "precision": 0.9736456808199122,
+        "recall": 0.9851851851851852,
+        "f1-score": 0.979381443298969,
+        "support": 675.0
+      },
+      "SANITATION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "SOCIAL_WELFARE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "TRANSPORTATION": {
+        "precision": 0.9762611275964391,
+        "recall": 0.9748148148148148,
+        "f1-score": 0.9755374351371386,
+        "support": 675.0
+      },
+      "WASTE_MANAGEMENT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "WATER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 675.0
+      },
+      "accuracy": 0.9875925925925926,
+      "macro avg": {
+        "precision": 0.9879812584404355,
+        "recall": 0.9875925925925926,
+        "f1-score": 0.9876544930289028,
+        "support": 10800.0
+      },
+      "weighted avg": {
+        "precision": 0.9879812584404354,
+        "recall": 0.9875925925925926,
+        "f1-score": 0.9876544930289027,
+        "support": 10800.0
+      }
+    }
+  },
+  "geographic_holdout": {
+    "samples": 4000,
+    "accuracy": 0.97275,
+    "macro_f1": 0.9726184687783661,
+    "weighted_f1": 0.972618468778366,
+    "classification_report": {
+      "AGRICULTURE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 250.0
+      },
+      "DIGITAL_SERVICES": {
+        "precision": 0.984251968503937,
+        "recall": 1.0,
+        "f1-score": 0.9920634920634921,
+        "support": 250.0
+      },
+      "DISASTER_MANAGEMENT": {
+        "precision": 0.952191235059761,
+        "recall": 0.956,
+        "f1-score": 0.9540918163672655,
+        "support": 250.0
+      },
+      "EDUCATION": {
+        "precision": 0.9347826086956522,
+        "recall": 0.86,
+        "f1-score": 0.8958333333333334,
+        "support": 250.0
+      },
+      "EMPLOYMENT": {
+        "precision": 0.8853046594982079,
+        "recall": 0.988,
+        "f1-score": 0.9338374291115312,
+        "support": 250.0
+      },
+      "ENERGY": {
+        "precision": 0.9411764705882353,
+        "recall": 0.96,
+        "f1-score": 0.9504950495049505,
+        "support": 250.0
+      },
+      "ENVIRONMENT": {
+        "precision": 1.0,
+        "recall": 0.988,
+        "f1-score": 0.993963782696177,
+        "support": 250.0
+      },
+      "HEALTHCARE": {
+        "precision": 0.9920634920634921,
+        "recall": 1.0,
+        "f1-score": 0.9960159362549801,
+        "support": 250.0
+      },
+      "INFRASTRUCTURE": {
+        "precision": 1.0,
+        "recall": 0.936,
+        "f1-score": 0.9669421487603306,
+        "support": 250.0
+      },
+      "OTHER": {
+        "precision": 0.9652509652509652,
+        "recall": 1.0,
+        "f1-score": 0.9823182711198428,
+        "support": 250.0
+      },
+      "PUBLIC_SAFETY": {
+        "precision": 0.9253112033195021,
+        "recall": 0.892,
+        "f1-score": 0.9083503054989817,
+        "support": 250.0
+      },
+      "SANITATION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 250.0
+      },
+      "SOCIAL_WELFARE": {
+        "precision": 0.992,
+        "recall": 0.992,
+        "f1-score": 0.992,
+        "support": 250.0
+      },
+      "TRANSPORTATION": {
+        "precision": 1.0,
+        "recall": 0.992,
+        "f1-score": 0.9959839357429718,
+        "support": 250.0
+      },
+      "WASTE_MANAGEMENT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 250.0
+      },
+      "WATER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 250.0
+      },
+      "accuracy": 0.97275,
+      "macro avg": {
+        "precision": 0.9732707876862345,
+        "recall": 0.97275,
+        "f1-score": 0.9726184687783661,
+        "support": 4000.0
+      },
+      "weighted avg": {
+        "precision": 0.9732707876862347,
+        "recall": 0.97275,
+        "f1-score": 0.972618468778366,
+        "support": 4000.0
+      }
+    }
+  }
+}

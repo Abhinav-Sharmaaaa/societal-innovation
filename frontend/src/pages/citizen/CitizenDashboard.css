@@ -1,0 +1,659 @@
+/* ============================================================
+   Citizen Dashboard
+   ============================================================ */
+
+.dashboard-page {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+
+/* ============================================================
+   Header
+   ============================================================ */
+
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  backdrop-filter: blur(14px);
+}
+
+.dashboard-header-inner {
+  width: min(1240px, calc(100% - 40px));
+  min-height: 70px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+
+/* ============================================================
+   Dashboard Brand
+   ============================================================ */
+
+.dashboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.dashboard-brand-icon {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: #111827;
+  color: white;
+}
+
+
+/* ============================================================
+   User Area
+   ============================================================ */
+
+.dashboard-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-user-avatar {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.dashboard-user-info {
+  display: grid;
+  gap: 2px;
+}
+
+.dashboard-user-info strong {
+  font-size: 13px;
+}
+
+.dashboard-user-info span {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.dashboard-logout {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  margin-left: 6px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+
+  background: white;
+  color: #64748b;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.dashboard-logout:hover {
+  color: #111827;
+  background: #f8fafc;
+}
+
+
+/* ============================================================
+   Main Container
+   ============================================================ */
+
+.dashboard-container {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+
+  padding: 55px 0 90px;
+}
+
+
+/* ============================================================
+   Welcome Section
+   ============================================================ */
+
+.dashboard-welcome {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 30px;
+}
+
+.dashboard-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 14px;
+
+  color: #4f46e5;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.dashboard-welcome h1 {
+  margin: 0;
+
+  font-size: clamp(35px, 5vw, 52px);
+  line-height: 1.05;
+
+  letter-spacing: -0.05em;
+}
+
+.dashboard-welcome p {
+  max-width: 690px;
+
+  margin: 16px 0 0;
+
+  color: #64748b;
+
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   Statistics
+   ============================================================ */
+
+.dashboard-stats {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 15px;
+
+  margin-top: 45px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 19px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  background: white;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.stat-card > div:last-child {
+  display: grid;
+  gap: 4px;
+}
+
+.stat-card span {
+  color: #94a3b8;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.stat-card strong {
+  font-size: 24px;
+
+  letter-spacing: -0.03em;
+}
+
+
+/* ============================================================
+   Dashboard Sections
+   ============================================================ */
+
+.dashboard-section {
+  margin-top: 55px;
+}
+
+.dashboard-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 18px;
+}
+
+.dashboard-section-header h2 {
+  margin: 0;
+
+  font-size: 24px;
+
+  letter-spacing: -0.035em;
+}
+
+.dashboard-section-header p {
+  margin: 6px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.challenge-count {
+  min-width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0 9px;
+
+  border-radius: 999px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+/* ============================================================
+   Empty State
+   ============================================================ */
+
+.empty-state {
+  padding: 70px 25px;
+
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+
+  background: white;
+
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 52px;
+  height: 52px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 0 auto;
+
+  border-radius: 14px;
+
+  background: #f1f5f9;
+
+  color: #64748b;
+}
+
+.empty-state h3 {
+  margin: 20px 0 0;
+
+  font-size: 19px;
+}
+
+.empty-state p {
+  max-width: 420px;
+
+  margin: 8px auto 22px;
+
+  color: #64748b;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   Challenge List
+   ============================================================ */
+
+.challenge-list {
+  display: grid;
+  gap: 12px;
+}
+
+.challenge-card {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 22px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+
+  background: white;
+
+  text-align: left;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.challenge-card:hover {
+  transform: translateY(-1px);
+
+  border-color: #cbd5e1;
+
+  box-shadow:
+    0 15px 35px rgba(15, 23, 42, 0.06);
+}
+
+.challenge-card-main {
+  min-width: 0;
+}
+
+.challenge-card-top {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 10px;
+}
+
+.challenge-id {
+  color: #94a3b8;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 0.09em;
+}
+
+.challenge-card h3 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.challenge-card p {
+  max-width: 850px;
+
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  overflow: hidden;
+
+  margin: 7px 0 13px;
+
+  color: #64748b;
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.challenge-meta {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 14px;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.challenge-meta span {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.challenge-arrow {
+  flex: 0 0 auto;
+
+  color: #94a3b8;
+}
+
+
+/* ============================================================
+   Status Badges
+   ============================================================ */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 8px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.status-submitted {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.status-under_ai_analysis {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.status-under_review {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.status-routed {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.status-in_progress {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.status-resolved,
+.status-closed {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.status-rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+
+/* ============================================================
+   Loading
+   ============================================================ */
+
+.dashboard-loading {
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+
+/* ============================================================
+   Error
+   ============================================================ */
+
+.dashboard-error {
+  width: min(600px, calc(100% - 40px));
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin: 80px auto;
+
+  padding: 20px;
+
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+
+  background: #fef2f2;
+
+  color: #b91c1c;
+}
+
+.dashboard-error strong {
+  font-size: 14px;
+}
+
+.dashboard-error p {
+  margin: 5px 0 0;
+
+  color: #991b1b;
+
+  font-size: 13px;
+}
+
+
+/* ============================================================
+   Responsive — Tablet
+   ============================================================ */
+
+@media (max-width: 850px) {
+  .dashboard-welcome {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* ============================================================
+   Responsive — Mobile
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .dashboard-header-inner,
+  .dashboard-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .dashboard-container {
+    padding-top: 35px;
+  }
+
+  .dashboard-user-info {
+    display: none;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-card {
+    padding: 14px;
+  }
+
+  .stat-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .dashboard-welcome .btn {
+    width: 100%;
+  }
+
+  .challenge-card {
+    padding: 17px;
+  }
+}
+
+
+/* ============================================================
+   Responsive — Small Mobile
+   ============================================================ */
+
+@media (max-width: 420px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-welcome h1 {
+    font-size: 38px;
+  }
+
+  .dashboard-section-header {
+    align-items: flex-start;
+  }
+
+  .challenge-card {
+    gap: 10px;
+  }
+}

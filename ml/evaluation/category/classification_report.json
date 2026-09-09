@@ -1,0 +1,111 @@
+{
+  "AGRICULTURE": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 250.0
+  },
+  "DIGITAL_SERVICES": {
+    "precision": 0.984251968503937,
+    "recall": 1.0,
+    "f1-score": 0.9920634920634921,
+    "support": 250.0
+  },
+  "DISASTER_MANAGEMENT": {
+    "precision": 0.952191235059761,
+    "recall": 0.956,
+    "f1-score": 0.9540918163672655,
+    "support": 250.0
+  },
+  "EDUCATION": {
+    "precision": 0.9347826086956522,
+    "recall": 0.86,
+    "f1-score": 0.8958333333333334,
+    "support": 250.0
+  },
+  "EMPLOYMENT": {
+    "precision": 0.8853046594982079,
+    "recall": 0.988,
+    "f1-score": 0.9338374291115312,
+    "support": 250.0
+  },
+  "ENERGY": {
+    "precision": 0.9411764705882353,
+    "recall": 0.96,
+    "f1-score": 0.9504950495049505,
+    "support": 250.0
+  },
+  "ENVIRONMENT": {
+    "precision": 1.0,
+    "recall": 0.988,
+    "f1-score": 0.993963782696177,
+    "support": 250.0
+  },
+  "HEALTHCARE": {
+    "precision": 0.9920634920634921,
+    "recall": 1.0,
+    "f1-score": 0.9960159362549801,
+    "support": 250.0
+  },
+  "INFRASTRUCTURE": {
+    "precision": 1.0,
+    "recall": 0.936,
+    "f1-score": 0.9669421487603306,
+    "support": 250.0
+  },
+  "OTHER": {
+    "precision": 0.9652509652509652,
+    "recall": 1.0,
+    "f1-score": 0.9823182711198428,
+    "support": 250.0
+  },
+  "PUBLIC_SAFETY": {
+    "precision": 0.9253112033195021,
+    "recall": 0.892,
+    "f1-score": 0.9083503054989817,
+    "support": 250.0
+  },
+  "SANITATION": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 250.0
+  },
+  "SOCIAL_WELFARE": {
+    "precision": 0.992,
+    "recall": 0.992,
+    "f1-score": 0.992,
+    "support": 250.0
+  },
+  "TRANSPORTATION": {
+    "precision": 1.0,
+    "recall": 0.992,
+    "f1-score": 0.9959839357429718,
+    "support": 250.0
+  },
+  "WASTE_MANAGEMENT": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 250.0
+  },
+  "WATER": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 250.0
+  },
+  "accuracy": 0.97275,
+  "macro avg": {
+    "precision": 0.9732707876862345,
+    "recall": 0.97275,
+    "f1-score": 0.9726184687783661,
+    "support": 4000.0
+  },
+  "weighted avg": {
+    "precision": 0.9732707876862347,
+    "recall": 0.97275,
+    "f1-score": 0.972618468778366,
+    "support": 4000.0
+  }
+}

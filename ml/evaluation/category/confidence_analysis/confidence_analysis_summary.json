@@ -1,0 +1,227 @@
+{
+  "model": "E:\\societal-innovation-platorm\\ml\\models\\category\\controlled_baselines\\B_text_plus_location.joblib",
+  "dataset": "E:\\societal-innovation-platorm\\ml\\data\\holdout\\geographic_holdout_test_v2.csv",
+  "samples": 4000,
+  "overall": {
+    "accuracy": 0.97425,
+    "macro_f1": 0.9741335443385105,
+    "mean_confidence": 0.6822267516887912,
+    "median_confidence": 0.7113916222777852,
+    "mean_top1_top2_margin": 0.6113899798526856
+  },
+  "confidence_bands": [
+    {
+      "lower": 0.0,
+      "upper": 0.5,
+      "samples": 717,
+      "accuracy": 0.891213389121339,
+      "error_rate": 0.10878661087866104,
+      "coverage": 0.17925
+    },
+    {
+      "lower": 0.5,
+      "upper": 0.6,
+      "samples": 561,
+      "accuracy": 0.9803921568627451,
+      "error_rate": 0.019607843137254943,
+      "coverage": 0.14025
+    },
+    {
+      "lower": 0.6,
+      "upper": 0.7,
+      "samples": 655,
+      "accuracy": 0.9923664122137404,
+      "error_rate": 0.007633587786259555,
+      "coverage": 0.16375
+    },
+    {
+      "lower": 0.7,
+      "upper": 0.8,
+      "samples": 774,
+      "accuracy": 0.9896640826873385,
+      "error_rate": 0.01033591731266148,
+      "coverage": 0.1935
+    },
+    {
+      "lower": 0.8,
+      "upper": 0.9,
+      "samples": 900,
+      "accuracy": 0.9988888888888889,
+      "error_rate": 0.0011111111111110628,
+      "coverage": 0.225
+    },
+    {
+      "lower": 0.9,
+      "upper": 0.95,
+      "samples": 312,
+      "accuracy": 1.0,
+      "error_rate": 0.0,
+      "coverage": 0.078
+    },
+    {
+      "lower": 0.95,
+      "upper": 0.98,
+      "samples": 74,
+      "accuracy": 1.0,
+      "error_rate": 0.0,
+      "coverage": 0.0185
+    },
+    {
+      "lower": 0.98,
+      "upper": 1.01,
+      "samples": 7,
+      "accuracy": 1.0,
+      "error_rate": 0.0,
+      "coverage": 0.00175
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.5,
+      "accepted_samples": 3283,
+      "human_review_samples": 717,
+      "coverage": 0.82075,
+      "accepted_accuracy": 0.9923850137069753,
+      "accepted_macro_f1": 0.9920958816005857
+    },
+    {
+      "threshold": 0.55,
+      "accepted_samples": 3041,
+      "human_review_samples": 959,
+      "coverage": 0.76025,
+      "accepted_accuracy": 0.9937520552449852,
+      "accepted_macro_f1": 0.9935077753284044
+    },
+    {
+      "threshold": 0.6,
+      "accepted_samples": 2722,
+      "human_review_samples": 1278,
+      "coverage": 0.6805,
+      "accepted_accuracy": 0.9948567229977957,
+      "accepted_macro_f1": 0.9945712768108945
+    },
+    {
+      "threshold": 0.65,
+      "accepted_samples": 2385,
+      "human_review_samples": 1615,
+      "coverage": 0.59625,
+      "accepted_accuracy": 0.9949685534591195,
+      "accepted_macro_f1": 0.994418392601207
+    },
+    {
+      "threshold": 0.7,
+      "accepted_samples": 2067,
+      "human_review_samples": 1933,
+      "coverage": 0.51675,
+      "accepted_accuracy": 0.9956458635703919,
+      "accepted_macro_f1": 0.994332757786468
+    },
+    {
+      "threshold": 0.75,
+      "accepted_samples": 1701,
+      "human_review_samples": 2299,
+      "coverage": 0.42525,
+      "accepted_accuracy": 0.9958847736625515,
+      "accepted_macro_f1": 0.993813175322412
+    },
+    {
+      "threshold": 0.8,
+      "accepted_samples": 1293,
+      "human_review_samples": 2707,
+      "coverage": 0.32325,
+      "accepted_accuracy": 0.9992266047950503,
+      "accepted_macro_f1": 0.9986550005663155
+    },
+    {
+      "threshold": 0.85,
+      "accepted_samples": 849,
+      "human_review_samples": 3151,
+      "coverage": 0.21225,
+      "accepted_accuracy": 1.0,
+      "accepted_macro_f1": 1.0
+    },
+    {
+      "threshold": 0.9,
+      "accepted_samples": 393,
+      "human_review_samples": 3607,
+      "coverage": 0.09825,
+      "accepted_accuracy": 1.0,
+      "accepted_macro_f1": 1.0
+    },
+    {
+      "threshold": 0.95,
+      "accepted_samples": 81,
+      "human_review_samples": 3919,
+      "coverage": 0.02025,
+      "accepted_accuracy": 1.0,
+      "accepted_macro_f1": 1.0
+    },
+    {
+      "threshold": 0.98,
+      "accepted_samples": 7,
+      "human_review_samples": 3993,
+      "coverage": 0.00175,
+      "accepted_accuracy": 1.0,
+      "accepted_macro_f1": 1.0
+    }
+  ],
+  "margin_bands": [
+    {
+      "lower": 0.0,
+      "upper": 0.05,
+      "samples": 76,
+      "accuracy": 0.6973684210526315,
+      "error_rate": 0.3026315789473685,
+      "coverage": 0.019
+    },
+    {
+      "lower": 0.05,
+      "upper": 0.1,
+      "samples": 90,
+      "accuracy": 0.6555555555555556,
+      "error_rate": 0.34444444444444444,
+      "coverage": 0.0225
+    },
+    {
+      "lower": 0.1,
+      "upper": 0.2,
+      "samples": 128,
+      "accuracy": 0.8125,
+      "error_rate": 0.1875,
+      "coverage": 0.032
+    },
+    {
+      "lower": 0.2,
+      "upper": 0.3,
+      "samples": 215,
+      "accuracy": 0.9720930232558139,
+      "error_rate": 0.027906976744186074,
+      "coverage": 0.05375
+    },
+    {
+      "lower": 0.3,
+      "upper": 0.4,
+      "samples": 258,
+      "accuracy": 0.9806201550387597,
+      "error_rate": 0.019379844961240345,
+      "coverage": 0.0645
+    },
+    {
+      "lower": 0.4,
+      "upper": 1.01,
+      "samples": 3233,
+      "accuracy": 0.9956696566656357,
+      "error_rate": 0.004330343334364328,
+      "coverage": 0.80825
+    }
+  ],
+  "recommendation": {
+    "recommended_threshold": 0.5,
+    "reason": "Lowest evaluated confidence threshold whose automatically accepted samples reached at least 99% accuracy on the geographic holdout.",
+    "expected_auto_coverage": 0.82075,
+    "expected_human_review_rate": 0.17925000000000002,
+    "accepted_accuracy": 0.9923850137069753,
+    "accepted_macro_f1": 0.9920958816005857
+  },
+  "note": "Confidence values are model probabilities from the logistic regression classifier. They are not automatically calibrated probabilities. Threshold results are empirical holdout measurements and should be validated on real-world human-reviewed cases before production use."
+}

@@ -1,0 +1,236 @@
+/* ============================================================
+   Register Page
+   ============================================================ */
+
+.register-page {
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 30px 18px;
+
+  background: #f8fafc;
+}
+
+.register-card {
+  width: min(460px, 100%);
+
+  padding: 34px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+
+  background: white;
+
+  box-shadow:
+    0 25px 70px rgba(15, 23, 42, 0.08);
+}
+
+
+/* ============================================================
+   Header
+   ============================================================ */
+
+.register-header {
+  text-align: center;
+}
+
+.register-icon {
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 0 auto 20px;
+
+  border-radius: 13px;
+
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.register-header h1 {
+  margin: 0;
+
+  font-size: 30px;
+
+  letter-spacing: -0.04em;
+}
+
+.register-header p {
+  margin: 10px 0 0;
+
+  color: #64748b;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   Messages
+   ============================================================ */
+
+.register-message {
+  margin-top: 22px;
+
+  padding: 12px 14px;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.register-error {
+  border: 1px solid #fecaca;
+
+  background: #fef2f2;
+
+  color: #b91c1c;
+}
+
+.register-success {
+  border: 1px solid #bbf7d0;
+
+  background: #f0fdf4;
+
+  color: #15803d;
+}
+
+
+/* ============================================================
+   Form
+   ============================================================ */
+
+.register-form {
+  display: grid;
+  gap: 17px;
+
+  margin-top: 28px;
+}
+
+.register-form label {
+  position: relative;
+
+  display: grid;
+  gap: 8px;
+
+  color: #334155;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.optional-label {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  color: #94a3b8;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   Inputs
+   ============================================================ */
+
+.register-input-wrapper {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  height: 46px;
+
+  padding: 0 13px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+
+  background: white;
+
+  color: #94a3b8;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.register-input-wrapper:focus-within {
+  border-color: #818cf8;
+
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.register-input-wrapper input {
+  width: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #111827;
+}
+
+
+/* ============================================================
+   Submit
+   ============================================================ */
+
+.register-submit {
+  width: 100%;
+
+  margin-top: 5px;
+}
+
+.register-submit:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.register-footer {
+  margin-top: 25px;
+
+  color: #64748b;
+
+  text-align: center;
+
+  font-size: 13px;
+}
+
+.register-footer button {
+  margin-left: 5px;
+
+  border: 0;
+  background: transparent;
+
+  color: #4f46e5;
+
+  font-weight: 800;
+}
+
+
+/* ============================================================
+   Mobile
+   ============================================================ */
+
+@media (max-width: 500px) {
+  .register-card {
+    padding: 25px 20px;
+  }
+}

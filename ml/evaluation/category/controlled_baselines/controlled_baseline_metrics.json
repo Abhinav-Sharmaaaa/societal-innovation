@@ -1,0 +1,69 @@
+{
+  "task": "primary_category_classification",
+  "note": "Controlled experiment isolating the contribution of text, location metadata, and language metadata.",
+  "variants": {
+    "A_text_only": {
+      "description": "Challenge text only",
+      "validation": {
+        "samples": 10800,
+        "accuracy": 0.9877777777777778,
+        "macro_f1": 0.9878326513701278,
+        "weighted_f1": 0.9878326513701278
+      },
+      "test": {
+        "samples": 10800,
+        "accuracy": 0.9868518518518519,
+        "macro_f1": 0.9869185317749116,
+        "weighted_f1": 0.9869185317749115
+      },
+      "geographic_holdout": {
+        "samples": 4000,
+        "accuracy": 0.97375,
+        "macro_f1": 0.973724657613331,
+        "weighted_f1": 0.9737246576133312
+      }
+    },
+    "B_text_plus_location": {
+      "description": "Challenge text + state + district",
+      "validation": {
+        "samples": 10800,
+        "accuracy": 0.9887962962962963,
+        "macro_f1": 0.9888534826607722,
+        "weighted_f1": 0.9888534826607722
+      },
+      "test": {
+        "samples": 10800,
+        "accuracy": 0.9874074074074074,
+        "macro_f1": 0.9874634617669759,
+        "weighted_f1": 0.9874634617669757
+      },
+      "geographic_holdout": {
+        "samples": 4000,
+        "accuracy": 0.97425,
+        "macro_f1": 0.9741335443385105,
+        "weighted_f1": 0.9741335443385105
+      }
+    },
+    "C_current_baseline": {
+      "description": "Challenge text + state + district + language",
+      "validation": {
+        "samples": 10800,
+        "accuracy": 0.9884259259259259,
+        "macro_f1": 0.9884801982214284,
+        "weighted_f1": 0.9884801982214284
+      },
+      "test": {
+        "samples": 10800,
+        "accuracy": 0.9875925925925926,
+        "macro_f1": 0.9876544930289028,
+        "weighted_f1": 0.9876544930289027
+      },
+      "geographic_holdout": {
+        "samples": 4000,
+        "accuracy": 0.97275,
+        "macro_f1": 0.9726184687783661,
+        "weighted_f1": 0.972618468778366
+      }
+    }
+  }
+}

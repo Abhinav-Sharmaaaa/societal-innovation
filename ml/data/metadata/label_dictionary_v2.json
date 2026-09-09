@@ -1,0 +1,69 @@
+{
+  "primary_category": [
+    "WATER",
+    "SANITATION",
+    "WASTE_MANAGEMENT",
+    "HEALTHCARE",
+    "EDUCATION",
+    "AGRICULTURE",
+    "TRANSPORTATION",
+    "ENERGY",
+    "ENVIRONMENT",
+    "PUBLIC_SAFETY",
+    "INFRASTRUCTURE",
+    "DIGITAL_SERVICES",
+    "EMPLOYMENT",
+    "SOCIAL_WELFARE",
+    "DISASTER_MANAGEMENT",
+    "OTHER"
+  ],
+  "severity": [
+    "LOW",
+    "MEDIUM",
+    "HIGH",
+    "CRITICAL"
+  ],
+  "urgency": [
+    "LOW",
+    "MEDIUM",
+    "HIGH",
+    "CRITICAL"
+  ],
+  "innovation_required": [
+    true,
+    false
+  ],
+  "routing_type": [
+    "MUNICIPALITY",
+    "GOVERNMENT",
+    "INNOVATION",
+    "HUMAN_REVIEW"
+  ],
+  "deduplication": [
+    "DUPLICATE",
+    "RELATED",
+    "PARTIALLY_RELATED",
+    "NOT_DUPLICATE"
+  ],
+  "time_horizon": [
+    "IMMEDIATE",
+    "DAYS",
+    "WEEKS",
+    "MONTHS",
+    "YEARS",
+    "LONG_TERM"
+  ],
+  "recurrence": [
+    "ONE_TIME",
+    "OCCASIONAL",
+    "SEASONAL",
+    "RECURRING",
+    "CHRONIC"
+  ],
+  "trend": [
+    "IMPROVING",
+    "STABLE",
+    "WORSENING",
+    "UNKNOWN"
+  ]
+}
