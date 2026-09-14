@@ -23,6 +23,21 @@ from app.models.challenge_evidence import ChallengeEvidence
 from app.schemas.evidence import EvidenceResponse
 from app.services.file_service import save_upload
 
+from app.schemas.assignment import (
+    ChallengeAssignmentCreate,
+    ChallengeAssignmentResponse,
+    ChallengeEscalateRequest,
+    ChallengeReassignRequest,
+)
+
+from app.services.challenge_assignment_service import (
+    assign_challenge,
+    auto_route_challenge,
+    escalate_challenge,
+    get_assignment_history,
+    reassign_challenge,
+)
+
 # ============================================================
 # Router
 # ============================================================
@@ -208,6 +223,7 @@ async def upload_challenge_evidence(
     Only the original challenge submitter can upload evidence
     at this stage.
     """
+    
 
     # --------------------------------------------------------
     # Find challenge
@@ -290,4 +306,128 @@ async def upload_challenge_evidence(
 
     return evidence
 
+# ============================================================
+# Challenge Assignment
+# ============================================================
 
+@router.post(
+    "/{challenge_id}/assign",
+    response_model=ChallengeResponse,
+)
+async def assign_challenge_to_authority(
+    challenge_id: int,
+    payload: ChallengeAssignmentCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Assign a challenge to an authorized organization.
+    """
+
+    return assign_challenge(
+        db=db,
+        challenge_id=challenge_id,
+        authority_id=payload.authority_id,
+        performed_by=current_user,
+        remarks=payload.remarks,
+    )
+
+@router.post(
+    "/{challenge_id}/auto-route",
+    response_model=ChallengeResponse,
+)
+async def automatically_route_challenge(
+    challenge_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Calculate the best authority using the routing engine and
+    automatically assign the challenge when policy permits.
+
+    Automatic routing is only allowed for:
+    - authorized official users
+    - challenges whose AI analysis does not require review
+    - strong authority matches
+    """
+
+    return auto_route_challenge(
+        db=db,
+        challenge_id=challenge_id,
+        performed_by=current_user,
+    )
+
+@router.get(
+    "/{challenge_id}/assignment-history",
+    response_model=list[ChallengeAssignmentResponse],
+)
+async def get_challenge_assignment_history(
+    challenge_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Retrieve the complete authority assignment history.
+    """
+
+    return get_assignment_history(
+        db=db,
+        challenge_id=challenge_id,
+    )
+    
+# ============================================================
+# Reassign Challenge
+# ============================================================
+
+@router.post(
+    "/{challenge_id}/reassign",
+    response_model=ChallengeResponse,
+)
+async def reassign_challenge_to_authority(
+    challenge_id: int,
+    payload: ChallengeReassignRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Reassign a challenge from the current authority to another
+    authorized organization.
+    """
+
+    return reassign_challenge(
+        db=db,
+        challenge_id=challenge_id,
+        authority_id=payload.authority_id,
+        performed_by=current_user,
+        reason=payload.reason,
+        remarks=payload.remarks,
+    )
+
+
+# ============================================================
+# Escalate Challenge
+# ============================================================
+
+@router.post(
+    "/{challenge_id}/escalate",
+    response_model=ChallengeResponse,
+)
+async def escalate_challenge_to_authority(
+    challenge_id: int,
+    payload: ChallengeEscalateRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Escalate a challenge to another authority because the
+    current authority cannot resolve it.
+    """
+
+    return escalate_challenge(
+        db=db,
+        challenge_id=challenge_id,
+        authority_id=payload.authority_id,
+        performed_by=current_user,
+        reason=payload.reason,
+        remarks=payload.remarks,
+    )

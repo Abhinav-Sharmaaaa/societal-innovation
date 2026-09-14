@@ -1,0 +1,18 @@
+{
+  "model_version": "innovation-required-tfidf-logreg-v1",
+  "test_size": 1800,
+  "accuracy": 0.8916666666666667,
+  "macro_f1": 0.8874852504703341,
+  "misclassified_count": 195,
+  "misclassification_rate": 0.10833333333333334,
+  "confusion_matrix": [
+    [
+      629,
+      91
+    ],
+    [
+      104,
+      976
+    ]
+  ]
+}

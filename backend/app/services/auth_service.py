@@ -4,7 +4,10 @@ from sqlalchemy.orm import Session
 
 from app.core.security import hash_password, verify_password
 from app.models.user import User, UserRole
-from app.schemas.auth import UserRegister
+from app.schemas.auth import (
+    SuperAdminSetupRequest,
+    UserRegister,
+)
 
 
 # ============================================================
@@ -46,7 +49,7 @@ def get_user_by_phone(
 
 
 # ============================================================
-# Create User
+# Create Public User
 # ============================================================
 
 def create_user(
@@ -56,8 +59,105 @@ def create_user(
     """
     Create a new citizen account.
 
-    Public registration is restricted to CITIZEN accounts.
+    Public registration always creates a CITIZEN account.
+    Privileged accounts are created through protected
+    administrative workflows.
     """
+
+    email = user_data.email.strip().lower()
+
+    existing_user = get_user_by_email(
+        db=db,
+        email=email,
+    )
+
+    if existing_user is not None:
+        raise ValueError(
+            "A user with this email already exists."
+        )
+
+    if user_data.phone:
+        phone = user_data.phone.strip()
+
+        existing_phone = get_user_by_phone(
+            db=db,
+            phone=phone,
+        )
+
+        if existing_phone is not None:
+            raise ValueError(
+                "A user with this phone number already exists."
+            )
+    else:
+        phone = None
+
+    password_hash = hash_password(
+        user_data.password
+    )
+
+    user = User(
+        full_name=user_data.full_name.strip(),
+        email=email,
+        phone=phone,
+        password_hash=password_hash,
+        role=UserRole.CITIZEN,
+        organization_id=None,
+        is_active=True,
+        is_verified=False,
+    )
+
+    db.add(user)
+
+    try:
+        db.commit()
+
+    except IntegrityError:
+        db.rollback()
+
+        raise ValueError(
+            "A user with the provided email or phone "
+            "already exists."
+        )
+
+    db.refresh(user)
+
+    return user
+
+
+# ============================================================
+# Create One-Time SUPER_ADMIN
+# ============================================================
+
+def create_super_admin(
+    db: Session,
+    user_data: SuperAdminSetupRequest,
+) -> User:
+    """
+    Create the first and only platform SUPER_ADMIN.
+
+    This function is protected by two mechanisms:
+
+    1. Application-level check:
+       No SUPER_ADMIN may already exist.
+
+    2. Database-level unique partial index:
+       The database itself prevents a second SUPER_ADMIN.
+    """
+
+    # --------------------------------------------------------
+    # Check whether a SUPER_ADMIN already exists
+    # --------------------------------------------------------
+
+    existing_admin = db.scalar(
+        select(User).where(
+            User.role == UserRole.SUPER_ADMIN
+        )
+    )
+
+    if existing_admin is not None:
+        raise ValueError(
+            "SUPER_ADMIN setup has already been completed."
+        )
 
     # --------------------------------------------------------
     # Normalize email
@@ -66,7 +166,7 @@ def create_user(
     email = user_data.email.strip().lower()
 
     # --------------------------------------------------------
-    # Check duplicate email
+    # Duplicate email
     # --------------------------------------------------------
 
     existing_user = get_user_by_email(
@@ -74,17 +174,16 @@ def create_user(
         email=email,
     )
 
-    if existing_user:
+    if existing_user is not None:
         raise ValueError(
             "A user with this email already exists."
         )
 
     # --------------------------------------------------------
-    # Check duplicate phone
+    # Normalize/check phone
     # --------------------------------------------------------
 
     if user_data.phone:
-
         phone = user_data.phone.strip()
 
         existing_phone = get_user_by_phone(
@@ -92,23 +191,12 @@ def create_user(
             phone=phone,
         )
 
-        if existing_phone:
+        if existing_phone is not None:
             raise ValueError(
                 "A user with this phone number already exists."
             )
-
     else:
         phone = None
-
-    # --------------------------------------------------------
-    # Security: public registration
-    # --------------------------------------------------------
-
-    if user_data.role != UserRole.CITIZEN:
-        raise ValueError(
-            "Public registration is only available for "
-            "CITIZEN accounts."
-        )
 
     # --------------------------------------------------------
     # Hash password
@@ -119,7 +207,7 @@ def create_user(
     )
 
     # --------------------------------------------------------
-    # Create user
+    # Create SUPER_ADMIN
     # --------------------------------------------------------
 
     user = User(
@@ -127,20 +215,26 @@ def create_user(
         email=email,
         phone=phone,
         password_hash=password_hash,
-        role=UserRole.CITIZEN,
+        role=UserRole.SUPER_ADMIN,
+        organization_id=None,
         is_active=True,
-        is_verified=False,
+        is_verified=True,
     )
 
     db.add(user)
 
     try:
-
         db.commit()
 
-    except IntegrityError:
-
+    except IntegrityError as error:
         db.rollback()
+
+        # Database-level protection against creating more
+        # than one SUPER_ADMIN.
+        if "uq_users_single_super_admin" in str(error):
+            raise ValueError(
+                "SUPER_ADMIN setup has already been completed."
+            )
 
         raise ValueError(
             "A user with the provided email or phone "

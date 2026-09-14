@@ -1,8 +1,14 @@
-import { FormEvent, useState } from "react";
-import { ArrowRight, LockKeyhole, Mail } from "lucide-react";
+import { useState } from "react";
+import type { FormEvent } from "react";
+import {
+  ArrowRight,
+  LockKeyhole,
+  Mail,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../services/authService";
+import { getDashboardPath } from "../../utils/roleRedirect";
 
 
 export default function LoginPage() {
@@ -25,7 +31,7 @@ export default function LoginPage() {
 
     try {
       const result = await loginUser({
-        email,
+        email: email.trim().toLowerCase(),
         password,
       });
 
@@ -57,16 +63,17 @@ export default function LoginPage() {
       |--------------------------------------------------------------------------
       */
 
-      switch (result.user.role) {
-        case "CITIZEN":
-          navigate("/citizen/dashboard");
-          break;
+      const dashboardPath = getDashboardPath(
+        result.user.role
+      );
 
-        default:
-          navigate("/");
-      }
+      navigate(dashboardPath, {
+        replace: true,
+      });
 
     } catch (requestError: any) {
+      console.error(requestError);
+
       setError(
         requestError.response?.data?.detail ||
           "Unable to login. Please check your credentials."
@@ -89,7 +96,9 @@ export default function LoginPage() {
             <LockKeyhole size={22} />
           </div>
 
-          <h1>Welcome back</h1>
+          <h1>
+            Welcome back
+          </h1>
 
           <p>
             Sign in to continue to the
@@ -125,6 +134,7 @@ export default function LoginPage() {
                   setEmail(event.target.value)
                 }
                 required
+                autoComplete="email"
               />
             </div>
           </label>
@@ -144,6 +154,7 @@ export default function LoginPage() {
                   setPassword(event.target.value)
                 }
                 required
+                autoComplete="current-password"
               />
             </div>
           </label>
@@ -154,7 +165,9 @@ export default function LoginPage() {
             type="submit"
             disabled={loading}
           >
-            {loading ? "Signing in..." : "Sign in"}
+            {loading
+              ? "Signing in..."
+              : "Sign in"}
 
             {!loading && (
               <ArrowRight size={18} />
@@ -165,6 +178,7 @@ export default function LoginPage() {
 
 
         <div className="auth-footer">
+
           Don't have an account?
 
           <button
@@ -173,6 +187,7 @@ export default function LoginPage() {
           >
             Create one
           </button>
+
         </div>
 
       </div>

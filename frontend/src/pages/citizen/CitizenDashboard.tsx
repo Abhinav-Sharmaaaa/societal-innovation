@@ -1,9 +1,11 @@
 import {
   AlertCircle,
   ArrowRight,
+  Award,
   CheckCircle2,
   Clock3,
   FileText,
+  Lightbulb,
   LogOut,
   MapPin,
   Plus,
@@ -14,9 +16,14 @@ import { useNavigate } from "react-router-dom";
 
 import { getCurrentUser } from "../../services/authService";
 import { api } from "../../services/api";
+import {
+  dashboardService,
+  type CitizenDashboard as CitizenDashboardData,
+} from "../../services/dashboardService";
 
 import type { User } from "../../types/auth";
 import "./CitizenDashboard.css";
+
 
 interface Challenge {
   id: number;
@@ -64,6 +71,8 @@ export default function CitizenDashboard() {
 
   const [user, setUser] = useState<User | null>(null);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
+  const [dashboard, setDashboard] =
+    useState<CitizenDashboardData | null>(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -81,20 +90,24 @@ export default function CitizenDashboard() {
         setLoading(true);
         setError("");
 
-        const [currentUserResponse, challengesResponse] =
-          await Promise.all([
-            getCurrentUser(),
-            api.get<Challenge[]>("/challenges/my"),
-          ]);
+        const [
+          currentUserResponse,
+          dashboardResponse,
+          challengesResponse,
+        ] = await Promise.all([
+          getCurrentUser(),
+          dashboardService.getCitizenDashboard(),
+          api.get<Challenge[]>("/challenges/my"),
+        ]);
 
         setUser(currentUserResponse);
+        setDashboard(dashboardResponse);
         setChallenges(challengesResponse.data);
 
         localStorage.setItem(
           "user",
           JSON.stringify(currentUserResponse)
         );
-
       } catch (requestError: any) {
         console.error(requestError);
 
@@ -107,7 +120,6 @@ export default function CitizenDashboard() {
           requestError.response?.data?.detail ||
             "Unable to load your dashboard."
         );
-
       } finally {
         setLoading(false);
       }
@@ -134,7 +146,7 @@ export default function CitizenDashboard() {
 
   /*
   |--------------------------------------------------------------------------
-  | Loading State
+  | Loading
   |--------------------------------------------------------------------------
   */
 
@@ -151,7 +163,7 @@ export default function CitizenDashboard() {
 
   /*
   |--------------------------------------------------------------------------
-  | Error State
+  | Error
   |--------------------------------------------------------------------------
   */
 
@@ -162,7 +174,10 @@ export default function CitizenDashboard() {
           <AlertCircle size={22} />
 
           <div>
-            <strong>Unable to load dashboard</strong>
+            <strong>
+              Unable to load dashboard
+            </strong>
+
             <p>{error}</p>
           </div>
         </div>
@@ -173,26 +188,32 @@ export default function CitizenDashboard() {
 
   /*
   |--------------------------------------------------------------------------
-  | Statistics
+  | Backend Statistics
   |--------------------------------------------------------------------------
   */
 
-  const totalChallenges = challenges.length;
+  const stats = dashboard?.challenge_stats;
 
-  const submittedChallenges = challenges.filter(
-    (challenge) =>
-      challenge.status === "SUBMITTED"
-  ).length;
+  const totalChallenges =
+    stats?.total ?? challenges.length;
 
-  const inProgressChallenges = challenges.filter(
-    (challenge) =>
-      challenge.status === "IN_PROGRESS"
-  ).length;
+  const submittedChallenges =
+    stats?.submitted ?? 0;
 
-  const resolvedChallenges = challenges.filter(
-    (challenge) =>
-      challenge.status === "RESOLVED"
-  ).length;
+  const inProgressChallenges =
+    stats?.in_progress ?? 0;
+
+  const resolvedChallenges =
+    stats?.resolved ?? 0;
+
+  const innovationChallenges =
+    stats?.innovation_required ?? 0;
+
+  const reputationPoints =
+    dashboard?.reputation.total_points ?? 0;
+
+  const reputationContributions =
+    dashboard?.reputation.contribution_count ?? 0;
 
 
   return (
@@ -270,15 +291,16 @@ export default function CitizenDashboard() {
             </span>
 
             <h1>
-              Welcome back,
-              {" "}
-              {user?.full_name?.split(" ")[0] || "Citizen"}.
+              Welcome back{" "}
+              {user?.full_name?.split(" ")[0] ||
+                "Citizen"}
+              .
             </h1>
 
             <p>
               Report societal challenges, track their progress,
-              and see how your submissions move toward real-world
-              solutions.
+              and see how your submissions move toward
+              real-world solutions.
             </p>
 
           </div>
@@ -286,7 +308,9 @@ export default function CitizenDashboard() {
           <button
             className="btn btn-primary btn-large"
             onClick={() =>
-              navigate("/citizen/challenges/new")
+              navigate(
+                "/citizen/challenges/new"
+              )
             }
           >
             <Plus size={18} />
@@ -297,7 +321,7 @@ export default function CitizenDashboard() {
 
 
         {/* --------------------------------------------------
-            Stats
+            Main Stats
         -------------------------------------------------- */}
 
         <section className="dashboard-stats">
@@ -330,6 +354,52 @@ export default function CitizenDashboard() {
 
 
         {/* --------------------------------------------------
+            Reputation
+        -------------------------------------------------- */}
+
+        <section className="dashboard-section">
+
+          <div className="dashboard-section-header">
+
+            <div>
+              <h2>
+                Your Contribution
+              </h2>
+
+              <p>
+                Your participation and contribution
+                to the societal innovation ecosystem.
+              </p>
+            </div>
+
+          </div>
+
+          <div className="dashboard-stats">
+
+            <StatCard
+              icon={<Award size={19} />}
+              label="Reputation Points"
+              value={reputationPoints}
+            />
+
+            <StatCard
+              icon={<CheckCircle2 size={19} />}
+              label="Contributions"
+              value={reputationContributions}
+            />
+
+            <StatCard
+              icon={<Lightbulb size={19} />}
+              label="Innovation Challenges"
+              value={innovationChallenges}
+            />
+
+          </div>
+
+        </section>
+
+
+        {/* --------------------------------------------------
             Challenges
         -------------------------------------------------- */}
 
@@ -343,7 +413,8 @@ export default function CitizenDashboard() {
               </h2>
 
               <p>
-                Challenges you have submitted to the platform.
+                Challenges you have submitted to
+                the platform.
               </p>
             </div>
 
@@ -369,14 +440,16 @@ export default function CitizenDashboard() {
               </h3>
 
               <p>
-                Have a societal problem that needs solving?
-                Submit the first challenge.
+                Have a societal problem that needs
+                solving? Submit the first challenge.
               </p>
 
               <button
                 className="btn btn-primary"
                 onClick={() =>
-                  navigate("/citizen/challenges/new")
+                  navigate(
+                    "/citizen/challenges/new"
+                  )
                 }
               >
                 Report a Challenge
@@ -432,6 +505,7 @@ function StatCard({
   label,
   value,
 }: StatCardProps) {
+
   return (
     <div className="stat-card">
 
@@ -482,10 +556,16 @@ function ChallengeCard({
         <div className="challenge-card-top">
 
           <span className="challenge-id">
-            CHL-{String(challenge.id).padStart(5, "0")}
+            CHL-
+            {String(challenge.id).padStart(
+              5,
+              "0"
+            )}
           </span>
 
-          <StatusBadge status={status} />
+          <StatusBadge
+            status={status}
+          />
 
         </div>
 
@@ -497,7 +577,6 @@ function ChallengeCard({
           {challenge.description}
         </p>
 
-
         <div className="challenge-meta">
 
           <span>
@@ -508,7 +587,9 @@ function ChallengeCard({
           {challenge.district && (
             <span>
               <MapPin size={14} />
+
               {challenge.district}
+
               {challenge.state &&
                 `, ${challenge.state}`}
             </span>
@@ -538,11 +619,13 @@ function StatusBadge({
 }: {
   status: string;
 }) {
+
   const label = status
     .replaceAll("_", " ")
     .toLowerCase()
-    .replace(/\b\w/g, (char) =>
-      char.toUpperCase()
+    .replace(
+      /\b\w/g,
+      (char) => char.toUpperCase()
     );
 
   return (

@@ -9,7 +9,6 @@ from app.db.database import get_db
 from app.models.user import User, UserRole
 
 
-
 # ============================================================
 # HTTP Bearer Authentication
 # ============================================================
@@ -143,6 +142,32 @@ def get_current_user(
 
 
 # ============================================================
+# SUPER_ADMIN Access
+# ============================================================
+
+def require_super_admin(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    """
+    Restrict an endpoint to the platform-level SUPER_ADMIN.
+    """
+
+    if current_user.role != UserRole.SUPER_ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="SUPER_ADMIN access required.",
+        )
+
+    if not current_user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User account is inactive.",
+        )
+
+    return current_user
+
+
+# ============================================================
 # Role-Based Access Control
 # ============================================================
 
@@ -157,9 +182,11 @@ def require_roles(
 
         @router.get(
             "/admin",
-            dependencies=[Depends(
-                require_roles(UserRole.SUPER_ADMIN)
-            )]
+            dependencies=[
+                Depends(
+                    require_roles(UserRole.SUPER_ADMIN)
+                )
+            ]
         )
     """
 

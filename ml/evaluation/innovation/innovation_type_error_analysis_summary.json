@@ -1,0 +1,9 @@
+{
+  "model_version": "innovation-type-tfidf-logreg-v1",
+  "test_size": 1080,
+  "accuracy": 0.8481481481481481,
+  "macro_f1": 0.8480546802662596,
+  "mean_confidence": 0.7982441108229092,
+  "median_confidence": 0.8881184535848867,
+  "mean_margin": 0.6789644981032762
+}

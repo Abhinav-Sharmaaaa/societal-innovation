@@ -1,0 +1,65 @@
+{
+  "model_version": "innovation-required-tfidf-logreg-v1",
+  "model_type": "TF-IDF + Logistic Regression",
+  "train_size": 8400,
+  "validation_size": 1800,
+  "test_size": 1800,
+  "validation_accuracy": 0.8983333333333333,
+  "validation_macro_f1": 0.8942668833542884,
+  "test_accuracy": 0.8916666666666667,
+  "test_macro_f1": 0.8874852504703341,
+  "validation_classification_report": {
+    "False": {
+      "precision": 0.8693259972489684,
+      "recall": 0.8777777777777778,
+      "f1-score": 0.8735314443676572,
+      "support": 720.0
+    },
+    "True": {
+      "precision": 0.9179869524697111,
+      "recall": 0.9120370370370371,
+      "f1-score": 0.9150023223409196,
+      "support": 1080.0
+    },
+    "accuracy": 0.8983333333333333,
+    "macro avg": {
+      "precision": 0.8936564748593397,
+      "recall": 0.8949074074074075,
+      "f1-score": 0.8942668833542884,
+      "support": 1800.0
+    },
+    "weighted avg": {
+      "precision": 0.8985225703814141,
+      "recall": 0.8983333333333333,
+      "f1-score": 0.8984139711516146,
+      "support": 1800.0
+    }
+  },
+  "test_classification_report": {
+    "False": {
+      "precision": 0.8581173260572987,
+      "recall": 0.8736111111111111,
+      "f1-score": 0.8657949070887818,
+      "support": 720.0
+    },
+    "True": {
+      "precision": 0.9147141518275539,
+      "recall": 0.9037037037037037,
+      "f1-score": 0.9091755938518864,
+      "support": 1080.0
+    },
+    "accuracy": 0.8916666666666667,
+    "macro avg": {
+      "precision": 0.8864157389424263,
+      "recall": 0.8886574074074074,
+      "f1-score": 0.8874852504703341,
+      "support": 1800.0
+    },
+    "weighted avg": {
+      "precision": 0.8920754215194518,
+      "recall": 0.8916666666666667,
+      "f1-score": 0.8918233191466445,
+      "support": 1800.0
+    }
+  }
+}

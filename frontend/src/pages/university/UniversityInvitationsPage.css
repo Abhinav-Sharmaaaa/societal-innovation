@@ -1,0 +1,289 @@
+.university-invitations-page {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f6f8fb;
+}
+
+.invitations-header {
+  max-width: 1100px;
+  margin: 0 auto 28px;
+}
+
+.invitations-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 20px;
+  color: #5267d8;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.invitations-eyebrow {
+  margin: 0 0 6px;
+  color: #5267d8;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.invitations-header h1 {
+  margin: 0 0 7px;
+  color: #172033;
+  font-size: 32px;
+}
+
+.invitations-header p {
+  margin: 0;
+  color: #697586;
+}
+
+.invitations-alert {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: #fff1f1;
+  color: #b42318;
+}
+
+.invitations-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.invitation-card {
+  background: white;
+  border: 1px solid #e3e8ef;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.invitation-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.invitation-title-area {
+  display: flex;
+  gap: 14px;
+}
+
+.invitation-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef2ff;
+  color: #5267d8;
+  flex-shrink: 0;
+}
+
+.invitation-label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #7a8495;
+}
+
+.invitation-title-area h2 {
+  margin: 0 0 4px;
+  color: #172033;
+  font-size: 19px;
+}
+
+.invitation-title-area p {
+  margin: 0;
+  color: #7a8495;
+}
+
+.invitation-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.invitation-status.invited {
+  background: #fff7e8;
+  color: #b54708;
+}
+
+.invitation-status.interested {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.invitation-status.proposal {
+  background: #eef4ff;
+  color: #175cd3;
+}
+
+.invitation-status.declined,
+.invitation-status.expired {
+  background: #f2f4f7;
+  color: #667085;
+}
+
+.invitation-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.invitation-metrics > div {
+  border: 1px solid #e9edf2;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.invitation-metrics span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #7a8495;
+}
+
+.invitation-metrics strong {
+  color: #172033;
+  font-size: 18px;
+}
+
+.invitation-action-message {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 13px 15px;
+  border-radius: 10px;
+  background: #ecfdf3;
+  color: #027a48;
+  font-size: 14px;
+}
+
+.invitation-action-message.neutral {
+  background: #f8fafc;
+  color: #526071;
+}
+
+.invitation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.invitation-interest-button,
+.invitation-primary-button,
+.invitation-decline-button,
+.invitation-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.invitation-interest-button {
+  border: none;
+  background: #5267d8;
+  color: white;
+}
+
+.invitation-primary-button {
+  border: none;
+  background: #172033;
+  color: white;
+}
+
+.invitation-decline-button {
+  border: 1px solid #f0b8b8;
+  background: white;
+  color: #b42318;
+}
+
+.invitation-secondary-button {
+  border: 1px solid #d7dce5;
+  background: #f8fafc;
+  color: #667085;
+  cursor: default;
+}
+
+.invitation-interest-button:disabled,
+.invitation-decline-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.invitations-state {
+  min-height: 50vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #697586;
+  text-align: center;
+}
+
+.invitations-state h2 {
+  margin: 12px 0 4px;
+  color: #172033;
+}
+
+.invitations-state p {
+  margin: 0;
+}
+
+.invitations-spinner {
+  animation: invitation-spin 1s linear infinite;
+}
+
+@keyframes invitation-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 750px) {
+  .university-invitations-page {
+    padding: 20px;
+  }
+
+  .invitation-card-header {
+    flex-direction: column;
+  }
+
+  .invitation-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .invitation-actions {
+    flex-direction: column;
+  }
+
+  .invitation-interest-button,
+  .invitation-primary-button,
+  .invitation-decline-button,
+  .invitation-secondary-button {
+    width: 100%;
+  }
+}

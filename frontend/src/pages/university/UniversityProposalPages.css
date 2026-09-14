@@ -1,0 +1,278 @@
+.university-proposal-page {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f6f8fb;
+}
+
+.proposal-page-header {
+  max-width: 1100px;
+  margin: 0 auto 28px;
+}
+
+.proposal-page-header h1 {
+  margin: 8px 0;
+  font-size: 32px;
+  color: #172033;
+}
+
+.proposal-page-header p {
+  margin: 0;
+  color: #687386;
+}
+
+.proposal-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #5267d8 !important;
+}
+
+.proposal-back-button {
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #5267d8;
+  font-weight: 600;
+}
+
+.proposal-context-card {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  background: white;
+  border: 1px solid #e3e8ef;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.proposal-context-card span {
+  display: block;
+  font-size: 12px;
+  color: #7a8495;
+  margin-bottom: 5px;
+}
+
+.proposal-alert {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  padding: 14px 18px;
+  border-radius: 10px;
+}
+
+.proposal-alert-error {
+  background: #fff1f1;
+  color: #b42318;
+}
+
+.proposal-alert-success {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.proposal-form {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.proposal-section {
+  background: white;
+  border: 1px solid #e3e8ef;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 22px;
+}
+
+.proposal-section-heading {
+  margin-bottom: 24px;
+}
+
+.proposal-section-heading h2 {
+  margin: 0 0 5px;
+  color: #172033;
+}
+
+.proposal-section-heading p {
+  margin: 0;
+  color: #687386;
+}
+
+.proposal-section label {
+  display: block;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #293246;
+}
+
+.proposal-section input,
+.proposal-section textarea {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 13px 14px;
+  border: 1px solid #d7dce5;
+  border-radius: 9px;
+  font: inherit;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.proposal-section input:focus,
+.proposal-section textarea:focus {
+  outline: none;
+  border-color: #5267d8;
+  box-shadow: 0 0 0 3px rgba(82, 103, 216, 0.1);
+}
+
+.proposal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.proposal-submit-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.proposal-primary-button,
+.proposal-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 9px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.proposal-primary-button {
+  border: none;
+  background: #5267d8;
+  color: white;
+}
+
+.proposal-primary-button:disabled,
+.proposal-secondary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.proposal-secondary-button {
+  border: 1px solid #d6dce5;
+  background: white;
+  color: #344054;
+}
+
+.proposal-status-row {
+  max-width: 1100px;
+  margin: 0 auto 22px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.proposal-status-card {
+  background: white;
+  border: 1px solid #e3e8ef;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.proposal-status-card span {
+  display: block;
+  font-size: 12px;
+  color: #7a8495;
+  margin-bottom: 8px;
+}
+
+.proposal-status-card strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #172033;
+}
+
+.proposal-details-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.proposal-detail-card {
+  background: white;
+  border: 1px solid #e3e8ef;
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.proposal-detail-wide {
+  grid-column: span 2;
+}
+
+.proposal-detail-card h2 {
+  margin: 0 0 12px;
+  color: #172033;
+  font-size: 18px;
+}
+
+.proposal-detail-card p {
+  margin: 0;
+  color: #596579;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.proposal-detail-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.proposal-detail-heading h2 {
+  margin: 0;
+}
+
+.proposal-state {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.proposal-state-error h2 {
+  margin-bottom: 0;
+}
+
+@media (max-width: 800px) {
+  .university-proposal-page {
+    padding: 20px;
+  }
+
+  .proposal-grid,
+  .proposal-status-row,
+  .proposal-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proposal-detail-wide {
+    grid-column: span 1;
+  }
+
+  .proposal-submit-bar {
+    flex-direction: column;
+  }
+}

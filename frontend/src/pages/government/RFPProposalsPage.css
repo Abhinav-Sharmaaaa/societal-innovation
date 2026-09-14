@@ -1,0 +1,265 @@
+.rfp-proposals-page {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f6f8fb;
+}
+
+.rfp-proposals-header {
+  max-width: 1150px;
+  margin: 0 auto 26px;
+}
+
+.proposal-list-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  color: #5267d8;
+  font-weight: 700;
+  padding: 0;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.proposal-list-eyebrow {
+  color: #5267d8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.rfp-proposals-header h1 {
+  margin: 7px 0;
+  color: #172033;
+  font-size: 31px;
+}
+
+.rfp-proposals-header p {
+  margin: 0;
+  color: #697586;
+}
+
+.proposal-summary {
+  max-width: 1150px;
+  margin: 0 auto 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.proposal-summary > div {
+  background: white;
+  border: 1px solid #e3e8ef;
+  border-radius: 12px;
+  padding: 17px;
+}
+
+.proposal-summary span {
+  display: block;
+  color: #7a8495;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.proposal-summary strong {
+  color: #172033;
+  font-size: 18px;
+}
+
+.proposal-search {
+  max-width: 1150px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: white;
+  border: 1px solid #dce2ea;
+  border-radius: 10px;
+}
+
+.proposal-search svg {
+  color: #7a8495;
+  flex-shrink: 0;
+}
+
+.proposal-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font: inherit;
+  background: transparent;
+}
+
+.proposal-list {
+  max-width: 1150px;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+.proposal-list-card {
+  background: white;
+  border: 1px solid #e3e8ef;
+  border-radius: 15px;
+  padding: 22px;
+}
+
+.proposal-list-card-main {
+  display: flex;
+  gap: 14px;
+}
+
+.proposal-list-icon {
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef2ff;
+  color: #5267d8;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.proposal-list-id {
+  display: block;
+  color: #7a8495;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.proposal-list-card h2 {
+  margin: 5px 0 7px;
+  color: #172033;
+  font-size: 19px;
+}
+
+.proposal-list-card-main p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.6;
+}
+
+.proposal-list-meta {
+  margin: 22px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.proposal-list-meta > div {
+  padding: 13px;
+  border: 1px solid #edf0f4;
+  border-radius: 9px;
+}
+
+.proposal-list-meta span {
+  display: block;
+  color: #7a8495;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.proposal-list-meta strong {
+  color: #172033;
+}
+
+.proposal-status {
+  font-size: 12px !important;
+}
+
+.proposal-status-submitted {
+  color: #b54708 !important;
+}
+
+.proposal-status-under_evaluation {
+  color: #175cd3 !important;
+}
+
+.proposal-status-shortlisted {
+  color: #027a48 !important;
+}
+
+.proposal-status-rejected {
+  color: #b42318 !important;
+}
+
+.proposal-list-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.proposal-list-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  background: #5267d8;
+  color: white;
+  padding: 11px 16px;
+  border-radius: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rfp-proposals-state {
+  max-width: 1150px;
+  min-height: 45vh;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 9px;
+  text-align: center;
+  color: #697586;
+}
+
+.rfp-proposals-state h2 {
+  margin: 7px 0 0;
+  color: #172033;
+}
+
+.rfp-proposals-state p {
+  margin: 0;
+}
+
+.rfp-proposals-error h2 {
+  color: #b42318;
+}
+
+.proposal-spinner {
+  animation: proposal-spinner 1s linear infinite;
+}
+
+@keyframes proposal-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 800px) {
+  .rfp-proposals-page {
+    padding: 20px;
+  }
+
+  .proposal-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .proposal-list-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .proposal-list-actions {
+    justify-content: stretch;
+  }
+
+  .proposal-list-primary {
+    width: 100%;
+  }
+}

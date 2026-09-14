@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 
 from app.ai.category_service import predict_category
+from app.ai.innovation_service import predict_innovation
 from app.ai.schemas import (
     TriageRequest,
     TriageResponse,
@@ -16,16 +17,19 @@ from app.ai.schemas import (
 
 MODEL_VERSION = (
     "category-tfidf-logreg-v1"
-    "+rule-triage-v0.3"
+    "+innovation-required-tfidf-logreg-v1"
+    "+innovation-type-tfidf-logreg-v1"
+    "+rule-triage-v0.4"
 )
 
 
 # ============================================================
 # CATEGORY KEYWORDS
+# ============================================================
 #
-# These remain as fallback/secondary signals for the rest of
-# the triage pipeline. Primary category prediction is now
-# performed by the trained ML classifier.
+# These remain available as secondary/fallback signals.
+# Primary category prediction is performed by the trained
+# category ML classifier.
 # ============================================================
 
 CATEGORY_KEYWORDS: dict[str, list[str]] = {
@@ -194,35 +198,6 @@ CATEGORY_KEYWORDS: dict[str, list[str]] = {
         "evacuation",
     ],
 }
-
-
-# ============================================================
-# INNOVATION SIGNALS
-# ============================================================
-
-INNOVATION_KEYWORDS = [
-    "ai",
-    "artificial intelligence",
-    "machine learning",
-    "sensor",
-    "iot",
-    "internet of things",
-    "satellite",
-    "drone",
-    "robot",
-    "robotics",
-    "predictive",
-    "prediction",
-    "early warning system",
-    "smart system",
-    "computer vision",
-    "remote sensing",
-    "digital twin",
-    "automation",
-    "prototype",
-    "research",
-    "real-time monitoring",
-]
 
 
 # ============================================================
@@ -421,51 +396,6 @@ def _calculate_severity(
 
 
 # ============================================================
-# RULE-BASED INNOVATION DETECTION
-# ============================================================
-
-def _detect_innovation(
-    text: str,
-) -> tuple[bool, float, str]:
-
-    matches = _keyword_matches(
-        text,
-        INNOVATION_KEYWORDS,
-    )
-
-    if matches >= 2:
-        return (
-            True,
-            min(0.55 + matches * 0.08, 0.95),
-            (
-                "The description contains multiple indicators "
-                "of technology, research, monitoring, or "
-                "engineering innovation."
-            ),
-        )
-
-    if matches == 1:
-        return (
-            True,
-            0.62,
-            (
-                "The description contains an indicator that "
-                "a technology or research-based intervention "
-                "may be useful."
-            ),
-        )
-
-    return (
-        False,
-        0.25,
-        (
-            "The challenge currently appears solvable through "
-            "conventional service delivery or administrative action."
-        ),
-    )
-
-
-# ============================================================
 # ROUTING
 # ============================================================
 
@@ -475,39 +405,75 @@ def _determine_routing(
     confidence_inputs: tuple[float, float],
     request: TriageRequest,
     category_requires_human_review: bool = False,
+    innovation_requires_human_review: bool = False,
 ) -> tuple[TriageRoutingType, float, str]:
 
     severity_score, urgency_score = confidence_inputs
+
+    # --------------------------------------------------------
+    # CATEGORY REVIEW
+    # --------------------------------------------------------
 
     if category_requires_human_review:
         return (
             TriageRoutingType.HUMAN_REVIEW,
             0.90,
             (
-                "The category prediction is ambiguous or low-confidence. "
-                "Authorized human review is required before automated routing."
+                "The category prediction is ambiguous or "
+                "low-confidence. Authorized human review is "
+                "required before automated routing."
             ),
         )
+
+    # --------------------------------------------------------
+    # INNOVATION REVIEW
+    # --------------------------------------------------------
+
+    if innovation_requires_human_review:
+        return (
+            TriageRoutingType.HUMAN_REVIEW,
+            0.88,
+            (
+                "The innovation analysis is uncertain. "
+                "Authorized human review is required before "
+                "deciding whether and how the challenge should "
+                "enter the innovation pathway."
+            ),
+        )
+
+    # --------------------------------------------------------
+    # HIGH SEVERITY + URGENCY
+    # --------------------------------------------------------
 
     if severity_score >= 0.85 and urgency_score >= 0.80:
         return (
             TriageRoutingType.HUMAN_REVIEW,
             0.86,
             (
-                "The combination of high severity and urgency requires "
-                "authorized human review before automated routing."
+                "The combination of high severity and urgency "
+                "requires authorized human review before "
+                "automated routing."
             ),
         )
+
+    # --------------------------------------------------------
+    # INNOVATION PATHWAY
+    # --------------------------------------------------------
 
     if innovation_required:
         return (
             TriageRoutingType.INNOVATION,
-            0.79,
+            0.84,
             (
-                "The challenge appears to require technology, research, "
-                "engineering, or an innovative intervention."
+                "The innovation analysis indicates that the "
+                "challenge may require a technology, research, "
+                "engineering, or process-innovation pathway."
             ),
         )
+
+    # --------------------------------------------------------
+    # LOCAL BODY / MUNICIPALITY
+    # --------------------------------------------------------
 
     local_categories = {
         "WATER",
@@ -528,12 +494,16 @@ def _determine_routing(
             ),
         )
 
+    # --------------------------------------------------------
+    # GOVERNMENT
+    # --------------------------------------------------------
+
     return (
         TriageRoutingType.GOVERNMENT,
         0.74,
         (
-            "The challenge appears to require government-department-level "
-            "coordination or intervention."
+            "The challenge appears to require government-"
+            "department-level coordination or intervention."
         ),
     )
 
@@ -576,35 +546,115 @@ def triage_challenge(
         category_result["requires_human_review"]
     )
 
-    # If the caller explicitly supplies a category, we still use
-    # the ML model to verify it. The requested category is treated
-    # as user-provided context, not as a replacement for AI inference.
     requested_category = (
         request.category
         if request.category
         else None
     )
 
+    # ML prediction remains authoritative.
     category = predicted_category
 
     # --------------------------------------------------------
-    # URGENCY / SEVERITY / INNOVATION
+    # URGENCY
     # --------------------------------------------------------
 
-    urgency, urgency_score, urgency_reason = _calculate_urgency(
-        combined_text,
-        request,
+    urgency, urgency_score, urgency_reason = (
+        _calculate_urgency(
+            combined_text,
+            request,
+        )
     )
 
-    severity, severity_score, severity_reason = _calculate_severity(
-        request,
-        combined_text,
-        urgency,
+    # --------------------------------------------------------
+    # SEVERITY
+    # --------------------------------------------------------
+
+    severity, severity_score, severity_reason = (
+        _calculate_severity(
+            request,
+            combined_text,
+            urgency,
+        )
     )
 
-    innovation_required, innovation_score, innovation_reason = (
-        _detect_innovation(combined_text)
+    # --------------------------------------------------------
+    # INNOVATION ML
+    # --------------------------------------------------------
+
+    innovation_result = predict_innovation(
+        combined_text
     )
+
+    innovation_required = bool(
+        innovation_result["innovation_required"]
+    )
+
+    innovation_score = float(
+        innovation_result["innovation_score"]
+    )
+
+    innovation_confidence = float(
+        innovation_result["innovation_confidence"]
+    )
+
+    innovation_decision = (
+        innovation_result["innovation_decision"]
+    )
+
+    innovation_requires_human_review = bool(
+        innovation_result[
+            "innovation_requires_human_review"
+        ]
+    )
+
+    innovation_type = innovation_result[
+        "innovation_type"
+    ]
+
+    innovation_type_confidence = (
+        innovation_result[
+            "innovation_type_confidence"
+        ]
+    )
+
+    innovation_type_second = (
+        innovation_result[
+            "innovation_type_second"
+        ]
+    )
+
+    innovation_type_second_confidence = (
+        innovation_result[
+            "innovation_type_second_confidence"
+        ]
+    )
+
+    innovation_type_margin = (
+        innovation_result[
+            "innovation_type_margin"
+        ]
+    )
+
+    innovation_type_decision = (
+        innovation_result[
+            "innovation_type_decision"
+        ]
+    )
+
+    innovation_type_requires_human_review = bool(
+        innovation_result[
+            "innovation_type_requires_human_review"
+        ]
+    )
+
+    innovation_type_top_3 = innovation_result[
+        "innovation_type_top_3"
+    ]
+
+    innovation_reason = innovation_result[
+        "innovation_reason"
+    ]
 
     # --------------------------------------------------------
     # ROUTING
@@ -612,16 +662,24 @@ def triage_challenge(
 
     routing_type, routing_confidence, routing_reason = (
         _determine_routing(
-            category,
-            innovation_required,
-            (severity_score, urgency_score),
-            request,
-            category_requires_human_review,
+            category=category,
+            innovation_required=innovation_required,
+            confidence_inputs=(
+                severity_score,
+                urgency_score,
+            ),
+            request=request,
+            category_requires_human_review=(
+                category_requires_human_review
+            ),
+            innovation_requires_human_review=(
+                innovation_requires_human_review
+            ),
         )
     )
 
     # --------------------------------------------------------
-    # AUGMENT ROUTING REASON WITH ML CATEGORY DETAILS
+    # AUGMENT ROUTING REASON WITH MODEL DETAILS
     # --------------------------------------------------------
 
     routing_reason = (
@@ -629,24 +687,36 @@ def triage_challenge(
         f"Category model confidence: "
         f"{category_result['confidence']:.2f}; "
         f"top-1/top-2 margin: "
-        f"{category_result['margin']:.2f}."
+        f"{category_result['margin']:.2f}. "
+        f"Innovation-required confidence: "
+        f"{innovation_confidence:.2f}."
     )
+
+    if innovation_required:
+        routing_reason += (
+            f" Innovation type prediction: "
+            f"'{innovation_type}' with confidence "
+            f"{(
+                innovation_type_confidence
+                if innovation_type_confidence
+                is not None
+                else 0.0
+            ):.2f}; type margin: "
+            f"{(
+                innovation_type_margin
+                if innovation_type_margin
+                is not None
+                else 0.0
+            ):.2f}."
+        )
 
     if requested_category:
         routing_reason += (
-            f" User-provided category '{requested_category}' "
-            f"was received, while the ML classifier predicted "
+            f" User-provided category "
+            f"'{requested_category}' was received, "
+            f"while the ML classifier predicted "
             f"'{predicted_category}'."
         )
-
-    # --------------------------------------------------------
-    # RESPONSE
-    #
-    # The current TriageResponse schema does not yet expose the
-    # category confidence/top-3 fields. Those are available
-    # internally in category_result and will be added to the
-    # schema in the next API/schema update.
-    # --------------------------------------------------------
 
     # --------------------------------------------------------
     # RESPONSE
@@ -654,32 +724,121 @@ def triage_challenge(
 
     return TriageResponse(
         category=category,
+
         category_confidence=float(
             category_result["confidence"]
         ),
-        second_category=category_result["second_category"],
+
+        second_category=category_result[
+            "second_category"
+        ],
+
         second_category_confidence=float(
             category_result["second_confidence"]
         ),
+
         category_margin=float(
             category_result["margin"]
         ),
-        category_top_3=category_result["top_3"],
-        category_decision=category_result["decision"],
+
+        category_top_3=category_result[
+            "top_3"
+        ],
+
+        category_decision=category_result[
+            "decision"
+        ],
+
         requires_human_review=(
             category_requires_human_review
+            or innovation_requires_human_review
         ),
+
         severity=severity,
         urgency=urgency,
+
+        # ----------------------------------------------------
+        # Innovation required
+        # ----------------------------------------------------
+
         innovation_required=innovation_required,
+
         innovation_score=innovation_score,
+
+        innovation_confidence=(
+            innovation_confidence
+        ),
+
+        innovation_decision=(
+            innovation_decision
+        ),
+
+        innovation_requires_human_review=(
+            innovation_requires_human_review
+        ),
+
+        # ----------------------------------------------------
+        # Innovation type
+        # ----------------------------------------------------
+
+        innovation_type=innovation_type,
+
+        innovation_type_confidence=(
+            float(innovation_type_confidence)
+            if innovation_type_confidence
+            is not None
+            else None
+        ),
+
+        innovation_type_second=(
+            innovation_type_second
+        ),
+
+        innovation_type_second_confidence=(
+            float(
+                innovation_type_second_confidence
+            )
+            if innovation_type_second_confidence
+            is not None
+            else None
+        ),
+
+        innovation_type_margin=(
+            float(innovation_type_margin)
+            if innovation_type_margin
+            is not None
+            else None
+        ),
+
+        innovation_type_decision=(
+            innovation_type_decision
+        ),
+
+        innovation_type_requires_human_review=(
+            innovation_type_requires_human_review
+        ),
+
+        innovation_type_top_3=(
+            innovation_type_top_3
+        ),
+
+        # ----------------------------------------------------
+        # Routing
+        # ----------------------------------------------------
+
         routing_type=routing_type,
-        routing_confidence=routing_confidence,
+
+        routing_confidence=(
+            routing_confidence
+        ),
+
         severity_score=severity_score,
         urgency_score=urgency_score,
+
         routing_reason=routing_reason,
         severity_reason=severity_reason,
         urgency_reason=urgency_reason,
         innovation_reason=innovation_reason,
+
         model_version=MODEL_VERSION,
     )

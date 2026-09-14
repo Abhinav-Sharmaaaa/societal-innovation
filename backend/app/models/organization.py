@@ -1,13 +1,21 @@
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Boolean, Enum as SQLEnum, String, Text
+from sqlalchemy import (
+    Boolean,
+    Enum as SQLEnum,
+    ForeignKey,
+    String,
+    Text,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.database import Base
 
 if TYPE_CHECKING:
     from app.models.user import User
+    from app.models.organization_competency import OrganizationCompetency
+    from app.models.organization_capability import OrganizationCapability
 
 
 # ============================================================
@@ -57,6 +65,41 @@ class Organization(Base):
         Text,
         nullable=True,
     )
+    
+
+    # --------------------------------------------------------
+    # Hierarchy
+    # --------------------------------------------------------
+    # Allows organizations/authorities to be linked in a
+    # parent-child structure.
+    #
+    # Example:
+    #
+    # State Disaster Management Authority
+    #           ↓
+    # District Disaster Management Authority
+    #           ↓
+    # Municipal Authority
+    #
+    # The same hierarchy mechanism also works for delegation
+    # and reassignment.
+
+    parent_organization_id: Mapped[int | None] = mapped_column(
+        ForeignKey("organizations.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+
+    parent_organization: Mapped["Organization | None"] = relationship(
+        "Organization",
+        remote_side="Organization.id",
+        back_populates="child_organizations",
+    )
+
+    child_organizations: Mapped[list["Organization"]] = relationship(
+        "Organization",
+        back_populates="parent_organization",
+    )
 
     # --------------------------------------------------------
     # Location
@@ -66,6 +109,12 @@ class Organization(Base):
         String(100),
         nullable=True,
         index=True,
+    )
+    
+    locality: Mapped[str | None] = mapped_column(
+            String(255),
+            nullable=True,
+            index=True,
     )
 
     state: Mapped[str | None] = mapped_column(
@@ -111,6 +160,26 @@ class Organization(Base):
         "User",
         back_populates="organization",
     )
+    
+        # --------------------------------------------------------
+    # Competencies
+    # --------------------------------------------------------
+
+    competencies: Mapped[list["OrganizationCompetency"]] = relationship(
+        "OrganizationCompetency",
+        back_populates="organization",
+        cascade="all, delete-orphan",
+    )
+    
+    # --------------------------------------------------------
+# Collaboration Capabilities
+# --------------------------------------------------------
+
+    capabilities: Mapped[list["OrganizationCapability"]] = relationship(
+        "OrganizationCapability",
+        back_populates="organization",
+        cascade="all, delete-orphan",
+    )
 
     # --------------------------------------------------------
     # Representation
@@ -121,6 +190,7 @@ class Organization(Base):
             f"<Organization("
             f"id={self.id}, "
             f"name='{self.name}', "
-            f"type='{self.organization_type}'"
+            f"type='{self.organization_type}', "
+            f"parent_id={self.parent_organization_id}"
             f")>"
         )
