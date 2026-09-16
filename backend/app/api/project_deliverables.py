@@ -13,6 +13,7 @@ from app.services.project_deliverable_service import (
     create_deliverable,
     review_deliverable,
     submit_deliverable,
+    list_project_deliverables,
 )
 
 
@@ -71,5 +72,20 @@ def review_project_deliverable(
         db=db,
         deliverable_id=deliverable_id,
         review_data=review_data,
+        current_user=current_user,
+    )
+    
+@router.get(
+    "/project/{project_id}",
+    response_model=list[ProjectDeliverableResponse],
+)
+def get_project_deliverables(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return list_project_deliverables(
+        db=db,
+        project_id=project_id,
         current_user=current_user,
     )

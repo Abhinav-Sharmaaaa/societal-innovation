@@ -548,13 +548,13 @@ def get_review_history(
     """
     Return human-review decisions for a challenge.
 
-    A reviewer must be within the challenge's geographic
-    scope to access its review history.
+    Review history is read-only. A user may access it when they
+    are:
+        - SUPER_ADMIN
+        - REVIEW_OFFICER
+        - the officer responsible for the challenge's current
+          authority
     """
-
-    _require_review_officer(
-        reviewer
-    )
 
     challenge = db.get(
         Challenge,
@@ -567,19 +567,55 @@ def get_review_history(
             detail="Challenge not found.",
         )
 
-    _ensure_reviewer_scope(
-        challenge,
-        reviewer,
-    )
+    # Platform administrators can view all review history.
+    if reviewer.role == UserRole.SUPER_ADMIN:
+        pass
+
+    # Dedicated reviewers can view review history within their
+    # normal geographic review scope.
+    elif reviewer.role == UserRole.REVIEW_OFFICER:
+        _ensure_reviewer_scope(
+            challenge,
+            reviewer,
+        )
+
+    # Authority officers may view the review history of a
+    # challenge currently assigned to their organization.
+    elif reviewer.role in {
+        UserRole.MUNICIPALITY_OFFICER,
+        UserRole.GOVERNMENT_OFFICER,
+    }:
+        if challenge.current_authority_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=(
+                    "You are not authorized to view the review "
+                    "history for this unassigned challenge."
+                ),
+            )
+
+        if reviewer.organization_id != challenge.current_authority_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=(
+                    "You are not authorized to view the review "
+                    "history for this challenge."
+                ),
+            )
+
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not authorized to view review history.",
+        )
 
     statement = (
         select(ChallengeReview)
         .where(
-            ChallengeReview.challenge_id
-            == challenge_id
+            ChallengeReview.challenge_id == challenge_id
         )
         .order_by(
-            ChallengeReview.created_at.desc()
+            ChallengeReview.created_at.asc()
         )
     )
 

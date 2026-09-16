@@ -14,6 +14,7 @@ from app.services.project_funding_service import (
     complete_funding_transaction,
     create_funding_transaction,
     get_project_funding_summary,
+    list_project_funding_transactions,
 )
 
 
@@ -84,6 +85,21 @@ def project_funding_summary(
     current_user: User = Depends(get_current_user),
 ):
     return get_project_funding_summary(
+        db=db,
+        project_id=project_id,
+        current_user=current_user,
+    )
+    
+@router.get(
+    "/project/{project_id}/transactions",
+    response_model=list[ProjectFundingResponse],
+)
+def project_funding_transactions(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return list_project_funding_transactions(
         db=db,
         project_id=project_id,
         current_user=current_user,

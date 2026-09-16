@@ -98,3 +98,14 @@ export async function getRFPProposals(
 
   return response.data;
 }
+
+/**
+ * Get all proposals submitted by the current university user.
+ */
+export async function getMyProposals(): Promise<UniversityProposal[]> {
+  const response = await api.get<UniversityProposal[]>(
+    "/university-proposals/my"
+  );
+
+  return response.data;
+}

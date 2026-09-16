@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from fastapi import HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from sqlalchemy.orm import Session
 
 from app.models.innovation_opportunity import (
@@ -90,6 +90,23 @@ def create_rfp(
     db.refresh(rfp)
 
     return rfp
+
+
+def list_rfps(
+    db: Session,
+    status_filter: RFPStatus | None = None,
+) -> list[RFP]:
+    """
+    Return all RFPs, optionally filtered by status.
+    Ordered newest first.
+    """
+
+    stmt = select(RFP).order_by(desc(RFP.id))
+
+    if status_filter is not None:
+        stmt = stmt.where(RFP.status == status_filter)
+
+    return list(db.scalars(stmt).all())
 
 
 def get_rfp(

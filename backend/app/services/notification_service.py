@@ -186,3 +186,38 @@ def mark_notification_read(
     db.refresh(notification)
 
     return notification
+
+
+def notify_citizen_of_resolution(
+    db: Session,
+    challenge_id: int,
+    submitter_user_id: int,
+    challenge_title: str,
+    resolution_summary: str,
+    resolved_by_name: str,
+) -> Notification:
+    """
+    Send a CHALLENGE_UPDATE notification to the citizen who
+    originally submitted a challenge, informing them it has
+    been resolved.
+    """
+
+    notification = Notification(
+        user_id=submitter_user_id,
+        notification_type=NotificationType.CHALLENGE_RESOLVED,
+        priority=NotificationPriority.HIGH,
+        title=f"Your challenge has been resolved \u2714\ufe0f",
+        message=(
+            f"Great news! The challenge \"{challenge_title}\" "
+            f"(#{ challenge_id}) you reported has been marked "
+            f"as resolved by {resolved_by_name}.\n\n"
+            f"Resolution summary:\n{resolution_summary}"
+        ),
+        is_read=False,
+    )
+
+    db.add(notification)
+    db.commit()
+    db.refresh(notification)
+
+    return notification

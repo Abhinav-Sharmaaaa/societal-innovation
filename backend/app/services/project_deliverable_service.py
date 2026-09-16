@@ -357,3 +357,35 @@ def review_deliverable(
         db.refresh(deliverable)
 
     return deliverable
+
+def list_project_deliverables(
+    db: Session,
+    project_id: int,
+    current_user: User,
+) -> list[ProjectDeliverable]:
+
+    project = (
+        db.query(Project)
+        .filter(Project.id == project_id)
+        .first()
+    )
+
+    if not project:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Project not found.",
+        )
+
+    _check_project_access(project, current_user)
+
+    return (
+        db.query(ProjectDeliverable)
+        .filter(
+            ProjectDeliverable.project_id == project_id
+        )
+        .order_by(
+            ProjectDeliverable.due_date.asc(),
+            ProjectDeliverable.created_at.asc(),
+        )
+        .all()
+    )

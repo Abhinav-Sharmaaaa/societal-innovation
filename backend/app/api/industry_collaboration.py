@@ -21,6 +21,14 @@ from app.schemas.industry_collaboration import (
     IndustryCollaborationResponse,
 )
 
+from sqlalchemy import select
+
+from app.models.industry_collaboration import (
+    IndustryCollaborationProposal,
+    IndustryCollaborationStatus,
+)
+from app.models.university_proposal import UniversityProposal
+
 
 router = APIRouter(
     prefix="/industry-collaboration",
@@ -137,6 +145,48 @@ def list_university_collaborations(
         )
         .order_by(
             IndustryCollaborationProposal.created_at.desc()
+        )
+    )
+
+    return list(
+        db.scalars(statement).all()
+    )
+    
+# ============================================================
+# Government: View Accepted Collaborations
+# ============================================================
+
+@router.get(
+    "/government/accepted",
+    response_model=list[IndustryCollaborationResponse],
+)
+def list_accepted_collaborations_for_government(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if current_user.role not in {
+        UserRole.SUPER_ADMIN,
+        UserRole.GOVERNMENT_OFFICER,
+        UserRole.MUNICIPALITY_OFFICER,
+    }:
+        from fastapi import HTTPException
+
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=(
+                "Only authorized government users can "
+                "view accepted collaborations."
+            ),
+        )
+
+    statement = (
+        select(IndustryCollaborationProposal)
+        .where(
+            IndustryCollaborationProposal.status
+            == IndustryCollaborationStatus.ACCEPTED
+        )
+        .order_by(
+            IndustryCollaborationProposal.updated_at.desc()
         )
     )
 

@@ -1,0 +1,320 @@
+/* ============================================================
+   University My Proposals Page
+   ============================================================ */
+
+.mpp-page {
+  min-height: 100vh;
+  padding: 36px 32px;
+  background: #f6f8fb;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* ---- Loading / Error ---- */
+.mpp-loading,
+.mpp-error {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #64748b;
+  text-align: center;
+}
+
+.mpp-spin {
+  animation: mpp-rotate 1s linear infinite;
+}
+
+@keyframes mpp-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.mpp-error p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.mpp-error button {
+  padding: 8px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+  transition: border-color 0.12s;
+}
+
+.mpp-error button:hover { border-color: #94a3b8; }
+
+
+/* ---- Header ---- */
+.mpp-header {
+  max-width: 900px;
+  margin: 0 auto 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.mpp-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #5267d8;
+  text-transform: uppercase;
+}
+
+.mpp-header h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.mpp-header p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+.mpp-new-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #5267d8, #7c3aed);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+  box-shadow: 0 4px 12px rgba(82, 103, 216, 0.25);
+}
+
+.mpp-new-btn:hover { opacity: 0.88; }
+
+
+/* ---- Empty State ---- */
+.mpp-empty {
+  max-width: 440px;
+  margin: 60px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.mpp-empty h2 {
+  margin: 6px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.mpp-empty p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.mpp-empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #5267d8, #7c3aed);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.mpp-empty-cta:hover { opacity: 0.88; }
+
+
+/* ---- List ---- */
+.mpp-list {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+
+/* ---- Card ---- */
+.mpp-card {
+  background: white;
+  border: 1px solid #e8edf5;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.mpp-card:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 4px 20px rgba(82, 103, 216, 0.08);
+}
+
+.mpp-card--shortlisted {
+  border-left: 4px solid #10b981;
+}
+
+.mpp-card--submitted {
+  border-left: 4px solid #5267d8;
+}
+
+.mpp-card--under_evaluation {
+  border-left: 4px solid #f59e0b;
+}
+
+.mpp-card--rejected,
+.mpp-card--withdrawn {
+  border-left: 4px solid #ef4444;
+  opacity: 0.75;
+}
+
+.mpp-card-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 24px;
+}
+
+.mpp-card-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.mpp-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+/* Status badge */
+.mpp-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.mps-submitted    { background: #ede9fe; color: #5b21b6; }
+.mps-evaluating   { background: #fef3c7; color: #b45309; }
+.mps-shortlisted  { background: #dcfce7; color: #15803d; }
+.mps-rejected     { background: #fee2e2; color: #b91c1c; }
+.mps-withdrawn    { background: #f1f5f9; color: #64748b; }
+.mps-draft        { background: #f1f5f9; color: #475569; }
+
+.mpp-rfp-ref {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #f0f4ff;
+  color: #5267d8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.mpp-card-title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.mpp-card-solution {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.mpp-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mpp-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.mpp-card-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.mpp-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  background: white;
+  color: #374151;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.mpp-view-btn:hover {
+  border-color: #5267d8;
+  background: #f8f7ff;
+  color: #5267d8;
+}
+
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .mpp-page { padding: 20px 16px; }
+
+  .mpp-card-body {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .mpp-card-right {
+    width: 100%;
+  }
+
+  .mpp-view-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -244,7 +244,13 @@ def update_milestone(
 
     # ---------------------------------------------------------
     # 11. Automatically complete project
+    #
+    # IMPORTANT:
+    # Initialize project_was_completed before the condition
+    # so it is always defined when checked later.
     # ---------------------------------------------------------
+    project_was_completed = False
+
     all_completed = (
         bool(milestones)
         and all(
@@ -266,19 +272,19 @@ def update_milestone(
         if project.actual_completion_date is None:
             project.actual_completion_date = now
 
-    # -----------------------------------------------------
-    # Project completion reputation
+    # ---------------------------------------------------------
+    # 12. Project completion reputation
     #
     # Award only when the project transitions into
     # COMPLETED. This prevents repeated +50 awards.
-    # -----------------------------------------------------
+    # ---------------------------------------------------------
     if project_was_completed:
 
         # University +50
         award_reputation_points(
             db=db,
             event_type=(
-                ReputationEventType.    PROJECT_COMPLETED
+                ReputationEventType.PROJECT_COMPLETED
             ),
             description=(
                 f"Project completed: "
@@ -304,7 +310,7 @@ def update_milestone(
             )
 
     # ---------------------------------------------------------
-    # 12. Award university reputation
+    # 13. Award university reputation
     #
     # A university receives +10 when a milestone transitions
     # into COMPLETED.

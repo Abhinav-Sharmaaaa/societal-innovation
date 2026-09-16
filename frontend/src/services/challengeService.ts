@@ -1,6 +1,5 @@
 import { api } from "./api";
 
-
 /* ============================================================
    CHALLENGE EVIDENCE
 ============================================================ */
@@ -20,7 +19,6 @@ export interface ChallengeEvidence {
   created_at: string;
 }
 
-
 /* ============================================================
    CHALLENGE
    Mirrors backend/app/schemas/challenge.py
@@ -38,7 +36,6 @@ export interface Challenge {
 
   submitted_by: number;
 
-
   /* ----------------------------------------------------------
      Location Resolution
   ---------------------------------------------------------- */
@@ -55,7 +52,6 @@ export interface Challenge {
 
   location_resolved_at: string | null;
 
-
   /* ----------------------------------------------------------
      Classification
   ---------------------------------------------------------- */
@@ -65,7 +61,6 @@ export interface Challenge {
   severity: string;
 
   urgency: string;
-
 
   /* ----------------------------------------------------------
      Impact / Location
@@ -85,13 +80,11 @@ export interface Challenge {
 
   longitude: number | null;
 
-
   /* ----------------------------------------------------------
      Innovation
   ---------------------------------------------------------- */
 
   innovation_required: boolean;
-
 
   /* ----------------------------------------------------------
      General AI Information
@@ -100,7 +93,6 @@ export interface Challenge {
   ai_confidence_score: number | null;
 
   ai_model_version: string | null;
-
 
   /* ----------------------------------------------------------
      Category Model
@@ -118,9 +110,7 @@ export interface Challenge {
 
   ai_requires_human_review: boolean | null;
 
-  ai_category_top_3:
-    Array<Record<string, unknown>> | null;
-
+  ai_category_top_3: Array<Record<string, unknown>> | null;
 
   /* ----------------------------------------------------------
      Innovation-required Model
@@ -130,9 +120,7 @@ export interface Challenge {
 
   ai_innovation_decision: string | null;
 
-  ai_innovation_requires_human_review:
-    boolean | null;
-
+  ai_innovation_requires_human_review: boolean | null;
 
   /* ----------------------------------------------------------
      Innovation-type Model
@@ -144,26 +132,21 @@ export interface Challenge {
 
   ai_innovation_type_second: string | null;
 
-  ai_innovation_type_second_confidence:
-    number | null;
+  ai_innovation_type_second_confidence: number | null;
 
   ai_innovation_type_margin: number | null;
 
   ai_innovation_type_decision: string | null;
 
-  ai_innovation_type_requires_human_review:
-    boolean | null;
+  ai_innovation_type_requires_human_review: boolean | null;
 
-  ai_innovation_type_top_3:
-    Array<Record<string, unknown>> | null;
-
+  ai_innovation_type_top_3: Array<Record<string, unknown>> | null;
 
   /* ----------------------------------------------------------
      AI Analysis Timestamp
   ---------------------------------------------------------- */
 
   ai_analysis_at: string | null;
-
 
   /* ----------------------------------------------------------
      Routing
@@ -172,7 +155,6 @@ export interface Challenge {
   routing_type: string;
 
   routing_reason: string | null;
-
 
   /* ----------------------------------------------------------
      Current Authority Assignment
@@ -184,13 +166,11 @@ export interface Challenge {
 
   assigned_by: number | null;
 
-
   /* ----------------------------------------------------------
      Challenge Lifecycle
   ---------------------------------------------------------- */
 
   status: string;
-
 
   /* ----------------------------------------------------------
      Duplicate / Master Challenge
@@ -202,13 +182,11 @@ export interface Challenge {
 
   duplicate_similarity_score: number | null;
 
-
   /* ----------------------------------------------------------
      Evidence
   ---------------------------------------------------------- */
 
   evidence: ChallengeEvidence[];
-
 
   /* ----------------------------------------------------------
      Timestamps
@@ -218,7 +196,6 @@ export interface Challenge {
 
   updated_at: string;
 }
-
 
 /* ============================================================
    AUTHORITY ROUTING
@@ -237,12 +214,10 @@ export interface AuthorityCandidate {
   reason: string;
 }
 
-
 export interface RoutingRecommendation {
   recommended_authority_id: number | null;
 
-  recommended_authority_name:
-    string | null;
+  recommended_authority_name: string | null;
 
   score: number;
 
@@ -251,6 +226,33 @@ export interface RoutingRecommendation {
   candidates: AuthorityCandidate[];
 }
 
+/* ============================================================
+   TRANSFER AUTHORITIES
+   Mirrors:
+   GET /challenges/{challenge_id}/transfer-authorities
+============================================================ */
+
+export interface TransferAuthority {
+  id: number;
+
+  name: string;
+
+  organization_type: string;
+
+  state: string | null;
+
+  district: string | null;
+
+  parent_organization_id: number | null;
+}
+
+export interface TransferAuthoritiesResponse {
+  current_authority_id: number;
+
+  current_authority_name: string;
+
+  authorities: TransferAuthority[];
+}
 
 /* ============================================================
    ASSIGNMENT HISTORY
@@ -281,7 +283,6 @@ export interface AssignmentHistoryItem {
   completed_at: string | null;
 }
 
-
 /* ============================================================
    REVIEW HISTORY
    Mirrors backend/app/schemas/review.py
@@ -305,7 +306,6 @@ export interface ReviewHistoryItem {
   created_at: string;
 }
 
-
 /* ============================================================
    REQUEST TYPES
 ============================================================ */
@@ -316,7 +316,6 @@ export interface ChallengeAssignmentRequest {
   remarks?: string;
 }
 
-
 export interface ChallengeReassignRequest {
   authority_id: number;
 
@@ -324,7 +323,6 @@ export interface ChallengeReassignRequest {
 
   remarks?: string;
 }
-
 
 export interface ChallengeEscalateRequest {
   authority_id: number;
@@ -334,20 +332,17 @@ export interface ChallengeEscalateRequest {
   remarks?: string;
 }
 
-
 export interface ReviewOverrideRequest {
   authority_id: number;
 
   reason: string;
 }
 
-
 /* ============================================================
    CHALLENGE SERVICE
 ============================================================ */
 
 export const challengeService = {
-
   /* ----------------------------------------------------------
      GET CHALLENGES
   ---------------------------------------------------------- */
@@ -356,20 +351,18 @@ export const challengeService = {
     skip = 0,
     limit = 100,
   ): Promise<Challenge[]> {
-    const response =
-      await api.get<Challenge[]>(
-        "/challenges",
-        {
-          params: {
-            skip,
-            limit,
-          },
+    const response = await api.get<Challenge[]>(
+      "/challenges",
+      {
+        params: {
+          skip,
+          limit,
         },
-      );
+      },
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      GET SINGLE CHALLENGE
@@ -378,14 +371,12 @@ export const challengeService = {
   async getChallenge(
     challengeId: number,
   ): Promise<Challenge> {
-    const response =
-      await api.get<Challenge>(
-        `/challenges/${challengeId}`,
-      );
+    const response = await api.get<Challenge>(
+      `/challenges/${challengeId}`,
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      GET MY CHALLENGES
@@ -393,28 +384,24 @@ export const challengeService = {
   ---------------------------------------------------------- */
 
   async getMyChallenges(): Promise<Challenge[]> {
-    const response =
-      await api.get<Challenge[]>(
-        "/challenges/my",
-      );
+    const response = await api.get<Challenge[]>(
+      "/challenges/my",
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      REVIEW QUEUE
   ---------------------------------------------------------- */
 
   async getReviewQueue(): Promise<Challenge[]> {
-    const response =
-      await api.get<Challenge[]>(
-        "/reviews/queue",
-      );
+    const response = await api.get<Challenge[]>(
+      "/reviews/queue",
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      ROUTING RECOMMENDATION
@@ -431,6 +418,21 @@ export const challengeService = {
     return response.data;
   },
 
+  /* ----------------------------------------------------------
+     TRANSFER AUTHORITIES
+     Dynamic destinations for Reassign / Escalate
+  ---------------------------------------------------------- */
+
+  async getTransferAuthorities(
+    challengeId: number,
+  ): Promise<TransferAuthoritiesResponse> {
+    const response =
+      await api.get<TransferAuthoritiesResponse>(
+        `/challenges/${challengeId}/transfer-authorities`,
+      );
+
+    return response.data;
+  },
 
   /* ----------------------------------------------------------
      ASSIGN CHALLENGE
@@ -440,15 +442,13 @@ export const challengeService = {
     challengeId: number,
     payload: ChallengeAssignmentRequest,
   ): Promise<Challenge> {
-    const response =
-      await api.post<Challenge>(
-        `/challenges/${challengeId}/assign`,
-        payload,
-      );
+    const response = await api.post<Challenge>(
+      `/challenges/${challengeId}/assign`,
+      payload,
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      AUTO ROUTE
@@ -457,14 +457,12 @@ export const challengeService = {
   async autoRouteChallenge(
     challengeId: number,
   ): Promise<Challenge> {
-    const response =
-      await api.post<Challenge>(
-        `/challenges/${challengeId}/auto-route`,
-      );
+    const response = await api.post<Challenge>(
+      `/challenges/${challengeId}/auto-route`,
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      REASSIGN CHALLENGE
@@ -474,15 +472,13 @@ export const challengeService = {
     challengeId: number,
     payload: ChallengeReassignRequest,
   ): Promise<Challenge> {
-    const response =
-      await api.post<Challenge>(
-        `/challenges/${challengeId}/reassign`,
-        payload,
-      );
+    const response = await api.post<Challenge>(
+      `/challenges/${challengeId}/reassign`,
+      payload,
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      ESCALATE CHALLENGE
@@ -492,15 +488,13 @@ export const challengeService = {
     challengeId: number,
     payload: ChallengeEscalateRequest,
   ): Promise<Challenge> {
-    const response =
-      await api.post<Challenge>(
-        `/challenges/${challengeId}/escalate`,
-        payload,
-      );
+    const response = await api.post<Challenge>(
+      `/challenges/${challengeId}/escalate`,
+      payload,
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      ACCEPT AI RECOMMENDATION
@@ -509,14 +503,12 @@ export const challengeService = {
   async acceptRecommendation(
     challengeId: number,
   ): Promise<Challenge> {
-    const response =
-      await api.post<Challenge>(
-        `/reviews/${challengeId}/accept`,
-      );
+    const response = await api.post<Challenge>(
+      `/reviews/${challengeId}/accept`,
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      OVERRIDE AI RECOMMENDATION
@@ -526,15 +518,13 @@ export const challengeService = {
     challengeId: number,
     payload: ReviewOverrideRequest,
   ): Promise<Challenge> {
-    const response =
-      await api.post<Challenge>(
-        `/reviews/${challengeId}/override`,
-        payload,
-      );
+    const response = await api.post<Challenge>(
+      `/reviews/${challengeId}/override`,
+      payload,
+    );
 
     return response.data;
   },
-
 
   /* ----------------------------------------------------------
      ASSIGNMENT HISTORY
@@ -551,7 +541,6 @@ export const challengeService = {
     return response.data;
   },
 
-
   /* ----------------------------------------------------------
      REVIEW HISTORY
   ---------------------------------------------------------- */
@@ -563,6 +552,22 @@ export const challengeService = {
       await api.get<ReviewHistoryItem[]>(
         `/reviews/${challengeId}/history`,
       );
+
+    return response.data;
+  },
+
+  /* ----------------------------------------------------------
+     RESOLVE CHALLENGE
+  ---------------------------------------------------------- */
+
+  async resolveChallenge(
+    challengeId: number,
+    resolutionSummary: string,
+  ): Promise<Challenge> {
+    const response = await api.patch<Challenge>(
+      `/challenges/${challengeId}/resolve`,
+      { resolution_summary: resolutionSummary },
+    );
 
     return response.data;
   },

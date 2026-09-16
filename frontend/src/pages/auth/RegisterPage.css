@@ -14,7 +14,7 @@
 }
 
 .register-card {
-  width: min(460px, 100%);
+  width: min(500px, 100%);
 
   padding: 34px;
 
@@ -54,7 +54,7 @@
 .register-header h1 {
   margin: 0;
 
-  font-size: 30px;
+  font-size: 28px;
 
   letter-spacing: -0.04em;
 }
@@ -64,7 +64,7 @@
 
   color: #64748b;
 
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 1.6;
 }
 
@@ -86,17 +86,13 @@
 
 .register-error {
   border: 1px solid #fecaca;
-
   background: #fef2f2;
-
   color: #b91c1c;
 }
 
 .register-success {
   border: 1px solid #bbf7d0;
-
   background: #f0fdf4;
-
   color: #15803d;
 }
 
@@ -183,19 +179,122 @@
 
 
 /* ============================================================
+   Role Badge (inside form)
+   ============================================================ */
+
+.register-role-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 10px 14px;
+
+  border: 1px solid #e0e7ff;
+  border-radius: 10px;
+  background: #eef2ff;
+
+  color: #4338ca;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.register-role-badge strong {
+  color: #3730a3;
+}
+
+
+/* ============================================================
    Submit
    ============================================================ */
 
 .register-submit {
   width: 100%;
 
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
 .register-submit:disabled {
   opacity: 0.65;
-
   cursor: not-allowed;
+}
+
+
+/* ============================================================
+   Other Roles Section
+   ============================================================ */
+
+.register-roles-section {
+  margin-top: 28px;
+
+  border-top: 1px solid #f1f5f9;
+  padding-top: 22px;
+}
+
+.register-roles-label {
+  margin: 0 0 14px;
+
+  text-align: center;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.register-roles-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.register-role-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #f1f5f9;
+  border-radius: 10px;
+
+  background: #fafafa;
+
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.register-role-card--active {
+  border-color: color-mix(in srgb, var(--role-color) 30%, transparent);
+  background: color-mix(in srgb, var(--role-color) 5%, white);
+}
+
+.register-role-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--role-color) 12%, white);
+  color: var(--role-color);
+}
+
+.register-role-card strong {
+  display: block;
+  font-size: 12.5px;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.register-role-card p {
+  margin: 0;
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 
@@ -204,7 +303,7 @@
    ============================================================ */
 
 .register-footer {
-  margin-top: 25px;
+  margin-top: 22px;
 
   color: #64748b;
 
@@ -222,6 +321,8 @@
   color: #4f46e5;
 
   font-weight: 800;
+
+  cursor: pointer;
 }
 
 

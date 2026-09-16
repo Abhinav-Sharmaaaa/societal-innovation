@@ -100,6 +100,62 @@ MILESTONE_DEFINITIONS = [
 ]
 
 
+def _check_project_access(
+    project: Project,
+    current_user: User,
+) -> None:
+    """
+    Verify that the current user is allowed to access the project.
+    """
+
+    if current_user.role == UserRole.SUPER_ADMIN:
+        return
+
+    if current_user.role in {
+        UserRole.GOVERNMENT_OFFICER,
+        UserRole.MUNICIPALITY_OFFICER,
+    }:
+        if current_user.organization_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=(
+                    "Government user is not associated "
+                    "with an organization."
+                ),
+            )
+
+        return
+
+    if current_user.role in {
+        UserRole.UNIVERSITY_ADMIN,
+        UserRole.FACULTY,
+    }:
+        if current_user.organization_id != project.university_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You are not authorized for this project.",
+            )
+
+        return
+
+    if current_user.role in {
+        UserRole.INDUSTRY_ADMIN,
+        UserRole.INDUSTRY_MEMBER,
+    }:
+        if current_user.organization_id != project.industry_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You are not authorized for this project.",
+            )
+
+        return
+
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="You are not authorized for this project.",
+    )
+
+
 def create_project(
     db: Session,
     project_data: ProjectCreate,
@@ -116,7 +172,10 @@ def create_project(
     }:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only authorized government users can create projects.",
+            detail=(
+                "Only authorized government users "
+                "can create projects."
+            ),
         )
 
     # ---------------------------------------------------------
@@ -163,7 +222,9 @@ def create_project(
     if existing_project:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="A project already exists for this collaboration.",
+            detail=(
+                "A project already exists for this collaboration."
+            ),
         )
 
     # ---------------------------------------------------------
@@ -205,7 +266,7 @@ def create_project(
         )
 
     # ---------------------------------------------------------
-    # 7. Determine dates
+    # 7. Determine project dates
     # ---------------------------------------------------------
     now = datetime.now(timezone.utc)
 
@@ -226,9 +287,11 @@ def create_project(
             start_date + timedelta(days=duration_days)
         )
 
-    # Normalize naive datetimes if necessary
+    # Normalize naive datetimes
     if start_date.tzinfo is None:
-        start_date = start_date.replace(tzinfo=timezone.utc)
+        start_date = start_date.replace(
+            tzinfo=timezone.utc
+        )
 
     if target_completion_date.tzinfo is None:
         target_completion_date = (
@@ -240,7 +303,10 @@ def create_project(
     if target_completion_date <= start_date:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Target completion date must be after the start date.",
+            detail=(
+                "Target completion date must be "
+                "after the start date."
+            ),
         )
 
     # ---------------------------------------------------------
@@ -252,21 +318,17 @@ def create_project(
         university_id=university_proposal.university_id,
         industry_id=collaboration.industry_id,
         created_by=current_user.id,
-
         title=project_data.title,
         description=project_data.description,
         objectives=project_data.objectives,
         expected_outcomes=project_data.expected_outcomes,
-
         total_budget=(
             project_data.total_budget
             if project_data.total_budget is not None
             else collaboration.funding_amount
         ),
-
         start_date=start_date,
         target_completion_date=target_completion_date,
-
         status=ProjectStatus.PLANNING,
         health=ProjectHealth.ON_TRACK,
         progress_percentage=0,
@@ -332,3 +394,130 @@ def create_project(
     db.refresh(project)
 
     return project
+
+
+def get_project(
+    db: Session,
+    project_id: int,
+    current_user: User,
+) -> Project:
+
+    project = (
+        db.query(Project)
+        .filter(Project.id == project_id)
+        .first()
+    )
+
+    if not project:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Project not found.",
+        )
+
+    _check_project_access(
+        project,
+        current_user,
+    )
+
+    return project
+
+
+def list_projects(
+    db: Session,
+    current_user: User,
+) -> list[Project]:
+
+    query = db.query(Project)
+
+    # ---------------------------------------------------------
+    # SUPER_ADMIN
+    # ---------------------------------------------------------
+    if current_user.role == UserRole.SUPER_ADMIN:
+        return (
+            query
+            .order_by(Project.created_at.desc())
+            .all()
+        )
+
+    # ---------------------------------------------------------
+    # GOVERNMENT
+    #
+    # Government users can currently view all projects.
+    # Organization-level jurisdiction can be tightened later
+    # when project jurisdiction rules are finalized.
+    # ---------------------------------------------------------
+    if current_user.role in {
+        UserRole.GOVERNMENT_OFFICER,
+        UserRole.MUNICIPALITY_OFFICER,
+    }:
+        if current_user.organization_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=(
+                    "Government user is not associated "
+                    "with an organization."
+                ),
+            )
+
+        return (
+            query
+            .order_by(Project.created_at.desc())
+            .all()
+        )
+
+    # ---------------------------------------------------------
+    # UNIVERSITY
+    # ---------------------------------------------------------
+    if current_user.role in {
+        UserRole.UNIVERSITY_ADMIN,
+        UserRole.FACULTY,
+    }:
+        if current_user.organization_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=(
+                    "University user is not associated "
+                    "with an organization."
+                ),
+            )
+
+        return (
+            query
+            .filter(
+                Project.university_id
+                == current_user.organization_id
+            )
+            .order_by(Project.created_at.desc())
+            .all()
+        )
+
+    # ---------------------------------------------------------
+    # INDUSTRY
+    # ---------------------------------------------------------
+    if current_user.role in {
+        UserRole.INDUSTRY_ADMIN,
+        UserRole.INDUSTRY_MEMBER,
+    }:
+        if current_user.organization_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=(
+                    "Industry user is not associated "
+                    "with an organization."
+                ),
+            )
+
+        return (
+            query
+            .filter(
+                Project.industry_id
+                == current_user.organization_id
+            )
+            .order_by(Project.created_at.desc())
+            .all()
+        )
+
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="You are not authorized to access projects.",
+    )

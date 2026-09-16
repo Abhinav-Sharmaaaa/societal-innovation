@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import require_roles
 from app.db.database import get_db
-from app.models.rfp import RFP
+from app.models.rfp import RFP, RFPStatus
 from app.models.user import User, UserRole
 from app.schemas.rfp import (
     RFPCreate,
@@ -13,6 +13,7 @@ from app.services.rfp_service import (
     close_rfp,
     create_rfp,
     get_rfp,
+    list_rfps,
     publish_rfp,
 )
 
@@ -51,6 +52,32 @@ async def create_new_rfp(
         db=db,
         rfp_data=rfp_data,
         current_user=current_user,
+    )
+
+
+# ============================================================
+# List RFPs
+# ============================================================
+
+@router.get(
+    "",
+    response_model=list[RFPResponse],
+)
+async def list_all_rfps(
+    status: RFPStatus | None = Query(
+        default=None,
+        description="Filter by RFP status",
+    ),
+    db: Session = Depends(get_db),
+):
+    """
+    List all RFPs, optionally filtered by status.
+    Ordered newest first.
+    """
+
+    return list_rfps(
+        db=db,
+        status_filter=status,
     )
 
 

@@ -99,7 +99,43 @@ async def list_rfp_proposals(
         db=db,
         rfp_id=rfp_id,
     )
-    
+
+
+# ============================================================
+# University: My Submitted Proposals
+# ============================================================
+
+@router.get(
+    "/my",
+    response_model=list[UniversityProposalResponse],
+)
+async def list_my_proposals(
+    current_user: User = Depends(
+        require_roles(
+            UserRole.UNIVERSITY_ADMIN,
+            UserRole.FACULTY,
+        )
+    ),
+    db: Session = Depends(get_db),
+):
+    """
+    Return all proposals submitted by the current university user,
+    ordered newest first.
+    """
+
+    statement = (
+        select(UniversityProposal)
+        .where(
+            UniversityProposal.submitted_by == current_user.id
+        )
+        .order_by(
+            UniversityProposal.created_at.desc()
+        )
+    )
+
+    return list(db.scalars(statement).all())
+
+
 # ============================================================
 # Industry: View Shortlisted University Proposals
 # ============================================================

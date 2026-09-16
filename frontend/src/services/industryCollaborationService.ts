@@ -181,3 +181,14 @@ export async function decideIndustryCollaboration(
 
   return response.data;
 }
+
+export async function getAcceptedGovernmentCollaborations(): Promise<
+  IndustryCollaboration[]
+> {
+  const response =
+    await api.get<IndustryCollaboration[]>(
+      "/industry-collaboration/government/accepted"
+    );
+
+  return response.data;
+}

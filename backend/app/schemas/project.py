@@ -54,3 +54,14 @@ class ProjectResponse(BaseModel):
 
     created_at: datetime
     updated_at: datetime
+    
+class ProjectListResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    title: str
+    status: str
+    health: str
+    progress_percentage: float
+    start_date: datetime | None
+    target_completion_date: datetime | None

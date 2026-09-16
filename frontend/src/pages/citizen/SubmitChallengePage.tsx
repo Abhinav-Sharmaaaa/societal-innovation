@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, MapPin, Upload, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, CheckCircle2, MapPin, Upload, X } from "lucide-react";
 
 import { api } from "../../services/api";
 import {
+  checkDuplicates,
   runChallengeTriage,
-  type TriageResult,
+  type DuplicateMatch,
 } from "../../services/aiService.ts";
 import "./SubmitChallengePage.css";
 
@@ -112,12 +113,24 @@ export default function SubmitChallengePage() {
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRunningAI, setIsRunningAI] = useState(false);
+  const [isCheckingDuplicates, setIsCheckingDuplicates] =
+    useState(false);
   const [isResolvingLocation, setIsResolvingLocation] =
     useState(false);
 
   const [error, setError] = useState("");
   const [locationMessage, setLocationMessage] = useState("");
   const [success, setSuccess] = useState(false);
+
+  // Duplicate-check modal state
+  const [duplicateMatches, setDuplicateMatches] = useState<
+    DuplicateMatch[]
+  >([]);
+  const [showDuplicateModal, setShowDuplicateModal] =
+    useState(false);
+  // Stores the submit payload ready to fire after user confirms
+  const [pendingSubmit, setPendingSubmit] =
+    useState<(() => Promise<void>) | null>(null);
 
   function handleChange(
     event: React.ChangeEvent<
@@ -496,206 +509,122 @@ export default function SubmitChallengePage() {
       return;
     }
 
-    try {
-      setIsSubmitting(true);
+    // ----------------------------------------------------------
+    // Build the challenge payload (reused by both the duplicate-
+    // check path and the final-submit path).
+    // ----------------------------------------------------------
 
-      const challengePayload = {
-        title:
-          form.title.trim(),
+    const challengePayload = {
+      title:            form.title.trim(),
+      description:      form.description.trim(),
+      category:         form.category,
+      urgency:          form.urgency,
+      affected_population:
+        form.affected_population ? Number(form.affected_population) : null,
+      estimated_economic_loss:
+        form.estimated_economic_loss ? Number(form.estimated_economic_loss) : null,
+      address:          form.address.trim()   || null,
+      district:         form.district.trim()  || null,
+      state:            form.state.trim()     || null,
+      locality:         form.locality.trim()  || null,
+      latitude:         form.latitude  ? Number(form.latitude)  : null,
+      longitude:        form.longitude ? Number(form.longitude) : null,
+      location_source:  form.location_source,
+      location_verified: form.location_verified,
+      location_accuracy_meters:
+        form.location_accuracy_meters ? Number(form.location_accuracy_meters) : null,
+      location_resolution_reason:
+        form.location_resolution_reason.trim() || null,
+    };
 
-        description:
-          form.description.trim(),
+    // ----------------------------------------------------------
+    // The actual submission logic extracted so we can call it
+    // both directly (no duplicates) and from the modal (confirmed).
+    // ----------------------------------------------------------
 
-        category:
-          form.category,
-
-        urgency:
-          form.urgency,
-
-        affected_population:
-          form.affected_population
-            ? Number(
-                form.affected_population
-              )
-            : null,
-
-        estimated_economic_loss:
-          form.estimated_economic_loss
-            ? Number(
-                form.estimated_economic_loss
-              )
-            : null,
-
-        address:
-          form.address.trim() ||
-          null,
-
-        district:
-          form.district.trim() ||
-          null,
-
-        state:
-          form.state.trim() ||
-          null,
-
-        locality:
-          form.locality.trim() ||
-          null,
-
-        latitude:
-          form.latitude
-            ? Number(
-                form.latitude
-              )
-            : null,
-
-        longitude:
-          form.longitude
-            ? Number(
-                form.longitude
-              )
-            : null,
-
-        location_source:
-          form.location_source,
-
-        location_verified:
-          form.location_verified,
-
-        location_accuracy_meters:
-          form.location_accuracy_meters
-            ? Number(
-                form.location_accuracy_meters
-              )
-            : null,
-
-        location_resolution_reason:
-          form.location_resolution_reason.trim() ||
-          null,
-      };
-
-      // ------------------------------------------------------
-      // 1. Persist the challenge first.
-      // ------------------------------------------------------
-
-      const response =
-        await api.post(
-          "/challenges",
-          challengePayload
-        );
-
-      const challengeId =
-        response.data.id;
-
-      // ------------------------------------------------------
-      // 2. Upload evidence.
-      // ------------------------------------------------------
-
-      for (const file of files) {
-        const formData =
-          new FormData();
-
-        formData.append(
-          "file",
-          file
-        );
-
-        await api.post(
-          `/challenges/${challengeId}/evidence`,
-          formData,
-          {
-            headers: {
-              "Content-Type":
-                "multipart/form-data",
-            },
-          }
-        );
-      }
-
-      // ------------------------------------------------------
-      // 3. Run AI triage.
-      // ------------------------------------------------------
-
-      setIsRunningAI(true);
-
-      let triage:
-        TriageResult | null = null;
-
+    async function doSubmit() {
       try {
-        triage =
+        setIsSubmitting(true);
+
+        // 1. Persist challenge
+        const response = await api.post("/challenges", challengePayload);
+        const challengeId = response.data.id;
+
+        // 2. Upload evidence
+        for (const file of files) {
+          const formData = new FormData();
+          formData.append("file", file);
+          await api.post(
+            `/challenges/${challengeId}/evidence`,
+            formData,
+            { headers: { "Content-Type": "multipart/form-data" } }
+          );
+        }
+
+        // 3. AI triage
+        setIsRunningAI(true);
+        try {
           await runChallengeTriage({
-            challenge_id:
-              challengeId,
-
-            title:
-              challengePayload.title,
-
-            description:
-              challengePayload.description,
-
-            category:
-              challengePayload.category,
-
-            affected_population:
-              challengePayload.affected_population,
-
-            estimated_economic_loss:
-              challengePayload.estimated_economic_loss,
-
-            address:
-              challengePayload.address,
-
-            district:
-              challengePayload.district,
-
-            state:
-              challengePayload.state,
+            challenge_id:             challengeId,
+            title:                    challengePayload.title,
+            description:              challengePayload.description,
+            category:                 challengePayload.category,
+            affected_population:      challengePayload.affected_population,
+            estimated_economic_loss:  challengePayload.estimated_economic_loss,
+            address:                  challengePayload.address,
+            district:                 challengePayload.district,
+            state:                    challengePayload.state,
           });
-      } catch (aiError) {
-        console.error(
-          "AI triage failed:",
-          aiError
-        );
+        } catch (triageErr) {
+          console.warn("AI triage failed (non-fatal):", triageErr);
+        } finally {
+          setIsRunningAI(false);
+        }
 
+        setSuccess(true);
+        setTimeout(() => navigate("/citizen/dashboard"), 2200);
+      } catch (submitError: any) {
         setError(
-          "Challenge was submitted, but AI analysis could not be completed. The challenge itself was saved successfully."
+          submitError.response?.data?.detail ||
+            "Unable to submit your challenge. Please try again."
         );
       } finally {
-        setIsRunningAI(false);
+        setIsSubmitting(false);
       }
-
-      setSuccess(true);
-
-      window.setTimeout(() => {
-        navigate(
-          `/citizen/challenges/${challengeId}`,
-          {
-            state: {
-              aiAnalysis:
-                triage,
-            },
-          }
-        );
-      }, 800);
-    } catch (err: any) {
-      const message =
-        err?.response?.data
-          ?.detail ||
-        "Unable to submit the challenge. Please try again.";
-
-      setError(
-        Array.isArray(message)
-          ? message
-              .map(
-                (item) =>
-                  item.msg
-              )
-              .join(", ")
-          : message
-      );
-    } finally {
-      setIsSubmitting(false);
     }
+
+    // ----------------------------------------------------------
+    // Run duplicate check BEFORE submitting.
+    // ----------------------------------------------------------
+
+    setIsCheckingDuplicates(true);
+
+    try {
+      const dupResult = await checkDuplicates({
+        title:       challengePayload.title,
+        description: challengePayload.description,
+        category:    challengePayload.category,
+        district:    challengePayload.district,
+        state:       challengePayload.state,
+      });
+
+      if (dupResult.has_duplicates) {
+        // Show modal — give user the choice
+        setDuplicateMatches(dupResult.matches);
+        setShowDuplicateModal(true);
+        // Store the submit logic so the modal can trigger it
+        setPendingSubmit(() => doSubmit);
+        return;
+      }
+    } catch (dupErr) {
+      // Duplicate check failure is non-fatal — proceed to submit
+      console.warn("Duplicate check failed (non-fatal):", dupErr);
+    } finally {
+      setIsCheckingDuplicates(false);
+    }
+
+    // No duplicates found — submit immediately
+    await doSubmit();
   }
 
   return (
@@ -1168,22 +1097,140 @@ export default function SubmitChallengePage() {
             <button
               type="submit"
               className="submit-button"
+              id="challenge-submit-btn"
               disabled={
                 isSubmitting ||
+                isCheckingDuplicates ||
                 isResolvingLocation ||
-                form.location_source ===
-                  "CONFLICT"
+                form.location_source === "CONFLICT"
               }
             >
-              {isSubmitting
-                ? isRunningAI
-                  ? "Analyzing..."
-                  : "Submitting..."
-                : "Submit Challenge"}
+              {isCheckingDuplicates
+                ? "Checking for duplicates…"
+                : isSubmitting
+                  ? isRunningAI
+                    ? "Analyzing with AI…"
+                    : "Submitting…"
+                  : "Submit Challenge"}
             </button>
           </div>
         </form>
       </div>
+
+      {/* ====================================================
+          Duplicate Warning Modal
+      ==================================================== */}
+
+      {showDuplicateModal && (
+        <div
+          className="dup-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="dup-modal-title"
+        >
+          <div className="dup-modal">
+
+            {/* Header */}
+            <div className="dup-modal-header">
+              <div className="dup-modal-icon">
+                <AlertTriangle size={22} />
+              </div>
+              <div>
+                <h2 id="dup-modal-title">Possible Duplicate Detected</h2>
+                <p>
+                  We found {duplicateMatches.length} similar challenge
+                  {duplicateMatches.length > 1 ? "s" : ""} already
+                  reported in your area. Please review them before
+                  submitting a new one.
+                </p>
+              </div>
+              <button
+                className="dup-modal-close"
+                aria-label="Close"
+                onClick={() => setShowDuplicateModal(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Match list */}
+            <div className="dup-match-list">
+              {duplicateMatches.map((match) => (
+                <div key={match.id} className="dup-match-card">
+
+                  <div className="dup-match-top">
+                    <div className="dup-match-info">
+                      <span className="dup-match-category">
+                        {(match.category ?? "OTHER").replaceAll("_", " ")}
+                      </span>
+                      <span className={`dup-match-status dup-status--${match.status.toLowerCase()}`}>
+                        {match.status.replaceAll("_", " ")}
+                      </span>
+                    </div>
+
+                    <div className="dup-similarity">
+                      <span className="dup-similarity-label">Similarity</span>
+                      <div className="dup-similarity-bar">
+                        <div
+                          className="dup-similarity-fill"
+                          style={{ width: `${Math.round(match.similarity_score * 100)}%` }}
+                        />
+                      </div>
+                      <span className="dup-similarity-pct">
+                        {Math.round(match.similarity_score * 100)}%
+                      </span>
+                    </div>
+                  </div>
+
+                  <strong className="dup-match-title">{match.title}</strong>
+
+                  <p className="dup-match-desc">
+                    {match.description.length > 120
+                      ? match.description.slice(0, 120) + "…"
+                      : match.description}
+                  </p>
+
+                  {(match.district || match.state) && (
+                    <div className="dup-match-location">
+                      <MapPin size={12} />
+                      {[match.district, match.state]
+                        .filter(Boolean)
+                        .join(", ")}
+                    </div>
+                  )}
+
+                </div>
+              ))}
+            </div>
+
+            {/* Actions */}
+            <div className="dup-modal-actions">
+              <button
+                className="dup-btn dup-btn--cancel"
+                id="dup-go-back-btn"
+                onClick={() => setShowDuplicateModal(false)}
+              >
+                <X size={15} />
+                Go Back &amp; Review
+              </button>
+
+              <button
+                className="dup-btn dup-btn--confirm"
+                id="dup-submit-anyway-btn"
+                onClick={async () => {
+                  setShowDuplicateModal(false);
+                  if (pendingSubmit) await pendingSubmit();
+                }}
+              >
+                <CheckCircle2 size={15} />
+                Submit Anyway — It's Different
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
