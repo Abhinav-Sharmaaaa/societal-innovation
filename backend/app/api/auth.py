@@ -2,12 +2,14 @@ import hmac
 import os
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_current_user
 from app.core.jwt import (
     create_access_token,
     create_refresh_token,
+    decode_token,
 )
 from app.db.database import get_db
 from app.models.user import User
@@ -24,6 +26,10 @@ from app.services.auth_service import (
     create_super_admin,
     create_user,
 )
+
+
+class RefreshRequest(BaseModel):
+    refresh_token: str
 
 
 # ============================================================
@@ -209,3 +215,78 @@ async def get_me(
     """
 
     return current_user
+
+
+# ============================================================
+# Refresh Token
+# ============================================================
+
+@router.post(
+    "/refresh",
+    response_model=TokenResponse,
+)
+async def refresh_tokens(
+    body: RefreshRequest,
+    db: Session = Depends(get_db),
+):
+    """
+    Exchange a valid refresh token for a new access + refresh
+    token pair (token rotation).
+
+    The client should call this automatically when the access
+    token expires (HTTP 401).
+    """
+
+    payload = decode_token(body.refresh_token)
+
+    # --------------------------------------------------------
+    # Validate refresh token
+    # --------------------------------------------------------
+
+    if payload is None or payload.get("type") != "refresh":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired refresh token.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    user_id = payload.get("sub")
+
+    try:
+        user_id = int(user_id)
+    except (TypeError, ValueError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token payload.",
+        )
+
+    # --------------------------------------------------------
+    # Find and validate user
+    # --------------------------------------------------------
+
+    user = db.get(User, user_id)
+
+    if user is None or not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User account not found or inactive.",
+        )
+
+    # --------------------------------------------------------
+    # Issue new token pair (token rotation)
+    # --------------------------------------------------------
+
+    new_access_token = create_access_token(
+        user_id=user.id,
+        role=user.role.value,
+    )
+
+    new_refresh_token = create_refresh_token(
+        user_id=user.id,
+    )
+
+    return TokenResponse(
+        access_token=new_access_token,
+        refresh_token=new_refresh_token,
+        token_type="bearer",
+    )

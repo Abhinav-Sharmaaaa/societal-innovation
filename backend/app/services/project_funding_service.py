@@ -394,3 +394,29 @@ def get_project_funding_summary(
             2,
         ),
     }
+
+def list_project_funding_transactions(
+    db: Session,
+    project_id: int,
+    current_user: User,
+) -> list[ProjectFundingTransaction]:
+    project = _get_project(
+        db,
+        project_id,
+    )
+
+    _check_project_access(
+        project,
+        current_user,
+    )
+
+    return (
+        db.query(ProjectFundingTransaction)
+        .filter(
+            ProjectFundingTransaction.project_id == project_id
+        )
+        .order_by(
+            ProjectFundingTransaction.created_at.desc()
+        )
+        .all()
+    )

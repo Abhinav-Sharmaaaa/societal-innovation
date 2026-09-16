@@ -1,13 +1,37 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    HTTPException,
+    Query,
+    UploadFile,
+    status,
+)
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_current_user
 from app.db.database import get_db
+from app.models.challenge_evidence import ChallengeEvidence
 from app.models.user import User
+from app.schemas.assignment import (
+    ChallengeAssignmentCreate,
+    ChallengeAssignmentResponse,
+    ChallengeEscalateRequest,
+    ChallengeReassignRequest,
+)
 from app.schemas.challenge import (
     ChallengeCreate,
     ChallengeResponse,
     ChallengeUpdate,
+)
+from app.schemas.evidence import EvidenceResponse
+from app.services.challenge_assignment_service import (
+    assign_challenge,
+    auto_route_challenge,
+    escalate_challenge,
+    get_assignment_history,
+    get_transfer_authorities,
+    reassign_challenge,
 )
 from app.services.challenge_service import (
     create_challenge,
@@ -16,27 +40,8 @@ from app.services.challenge_service import (
     get_user_challenges,
     update_challenge,
 )
-
-from fastapi import File, UploadFile
-
-from app.models.challenge_evidence import ChallengeEvidence
-from app.schemas.evidence import EvidenceResponse
 from app.services.file_service import save_upload
 
-from app.schemas.assignment import (
-    ChallengeAssignmentCreate,
-    ChallengeAssignmentResponse,
-    ChallengeEscalateRequest,
-    ChallengeReassignRequest,
-)
-
-from app.services.challenge_assignment_service import (
-    assign_challenge,
-    auto_route_challenge,
-    escalate_challenge,
-    get_assignment_history,
-    reassign_challenge,
-)
 
 # ============================================================
 # Router
@@ -51,6 +56,7 @@ router = APIRouter(
 # ============================================================
 # Create Challenge
 # ============================================================
+
 
 @router.post(
     "",
@@ -79,6 +85,7 @@ async def create_new_challenge(
 # ============================================================
 # List Challenges
 # ============================================================
+
 
 @router.get(
     "",
@@ -111,6 +118,7 @@ async def list_challenges(
 # Get My Challenges
 # ============================================================
 
+
 @router.get(
     "/my",
     response_model=list[ChallengeResponse],
@@ -132,6 +140,7 @@ async def list_my_challenges(
 # ============================================================
 # Get Challenge By ID
 # ============================================================
+
 
 @router.get(
     "/{challenge_id}",
@@ -163,6 +172,7 @@ async def get_challenge(
 # Update Challenge
 # ============================================================
 
+
 @router.patch(
     "/{challenge_id}",
     response_model=ChallengeResponse,
@@ -193,7 +203,9 @@ async def update_existing_challenge(
     if challenge.submitted_by != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="You can only update your own challenges.",
+            detail=(
+                "You can only update your own challenges."
+            ),
         )
 
     return update_challenge(
@@ -201,10 +213,12 @@ async def update_existing_challenge(
         challenge=challenge,
         challenge_data=challenge_data,
     )
-    
+
+
 # ============================================================
 # Upload Challenge Evidence
 # ============================================================
+
 
 @router.post(
     "/{challenge_id}/evidence",
@@ -223,7 +237,6 @@ async def upload_challenge_evidence(
     Only the original challenge submitter can upload evidence
     at this stage.
     """
-    
 
     # --------------------------------------------------------
     # Find challenge
@@ -272,31 +285,24 @@ async def upload_challenge_evidence(
 
     evidence = ChallengeEvidence(
         challenge_id=challenge.id,
-
         evidence_type=file_metadata[
             "evidence_type"
         ],
-
         original_filename=file_metadata[
             "original_filename"
         ],
-
         stored_filename=file_metadata[
             "stored_filename"
         ],
-
         content_type=file_metadata[
             "content_type"
         ],
-
         file_size=file_metadata[
             "file_size"
         ],
-
         file_url=file_metadata[
             "file_url"
         ],
-
         uploaded_by=current_user.id,
     )
 
@@ -306,9 +312,11 @@ async def upload_challenge_evidence(
 
     return evidence
 
+
 # ============================================================
 # Challenge Assignment
 # ============================================================
+
 
 @router.post(
     "/{challenge_id}/assign",
@@ -321,7 +329,10 @@ async def assign_challenge_to_authority(
     current_user: User = Depends(get_current_user),
 ):
     """
-    Assign a challenge to an authorized organization.
+    Assign a challenge to an authorized authority organization.
+
+    This is only valid when the challenge has no current
+    authority.
     """
 
     return assign_challenge(
@@ -331,6 +342,12 @@ async def assign_challenge_to_authority(
         performed_by=current_user,
         remarks=payload.remarks,
     )
+
+
+# ============================================================
+# Automatic Routing
+# ============================================================
+
 
 @router.post(
     "/{challenge_id}/auto-route",
@@ -357,6 +374,40 @@ async def automatically_route_challenge(
         performed_by=current_user,
     )
 
+
+# ============================================================
+# Dynamic Transfer Authorities
+# ============================================================
+
+
+@router.get(
+    "/{challenge_id}/transfer-authorities",
+)
+async def get_challenge_transfer_authorities(
+    challenge_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Return active destination authorities for the current
+    challenge.
+
+    The result is calculated dynamically from the database.
+    The current authority itself is excluded.
+    """
+
+    return get_transfer_authorities(
+        db=db,
+        challenge_id=challenge_id,
+        performed_by=current_user,
+    )
+
+
+# ============================================================
+# Assignment History
+# ============================================================
+
+
 @router.get(
     "/{challenge_id}/assignment-history",
     response_model=list[ChallengeAssignmentResponse],
@@ -374,10 +425,12 @@ async def get_challenge_assignment_history(
         db=db,
         challenge_id=challenge_id,
     )
-    
+
+
 # ============================================================
 # Reassign Challenge
 # ============================================================
+
 
 @router.post(
     "/{challenge_id}/reassign",
@@ -390,8 +443,8 @@ async def reassign_challenge_to_authority(
     current_user: User = Depends(get_current_user),
 ):
     """
-    Reassign a challenge from the current authority to another
-    authorized organization.
+    Reassign a challenge from its current authority to another
+    valid authority.
     """
 
     return reassign_challenge(
@@ -407,6 +460,7 @@ async def reassign_challenge_to_authority(
 # ============================================================
 # Escalate Challenge
 # ============================================================
+
 
 @router.post(
     "/{challenge_id}/escalate",
@@ -431,3 +485,98 @@ async def escalate_challenge_to_authority(
         reason=payload.reason,
         remarks=payload.remarks,
     )
+
+
+# ============================================================
+# Mark Challenge as Resolved
+# ============================================================
+
+from datetime import datetime, timezone
+from pydantic import BaseModel, Field
+from app.models.challenge import Challenge, ChallengeStatus
+from app.services.notification_service import notify_citizen_of_resolution
+from app.models.user import UserRole as _UserRole
+
+
+class ChallengeResolveRequest(BaseModel):
+    resolution_summary: str = Field(
+        ...,
+        min_length=20,
+        description="A clear description of how the issue was resolved.",
+    )
+
+
+RESOLVE_ALLOWED_ROLES = {
+    _UserRole.SUPER_ADMIN,
+    _UserRole.GOVERNMENT_OFFICER,
+    _UserRole.MUNICIPALITY_OFFICER,
+    _UserRole.REVIEW_OFFICER,
+    _UserRole.UNIVERSITY_ADMIN,
+    _UserRole.FACULTY,
+}
+
+
+@router.patch(
+    "/{challenge_id}/resolve",
+    response_model=ChallengeResponse,
+)
+async def resolve_challenge(
+    challenge_id: int,
+    payload: ChallengeResolveRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Mark a challenge as RESOLVED and notify the citizen who
+    submitted it. Allowed for government, municipality, and
+    university officials.
+    """
+
+    if current_user.role not in RESOLVE_ALLOWED_ROLES:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not authorised to resolve challenges.",
+        )
+
+    challenge = db.get(Challenge, challenge_id)
+
+    if challenge is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Challenge not found.",
+        )
+
+    if challenge.status == ChallengeStatus.RESOLVED:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Challenge is already marked as resolved.",
+        )
+
+    # Mark resolved
+    challenge.status    = ChallengeStatus.RESOLVED
+    challenge.updated_at = datetime.now(timezone.utc)
+
+    db.commit()
+    db.refresh(challenge)
+
+    # Notify the citizen
+    resolver_name = (
+        f"{current_user.full_name}"
+        if hasattr(current_user, "full_name") and current_user.full_name
+        else current_user.email
+    )
+
+    try:
+        notify_citizen_of_resolution(
+            db=db,
+            challenge_id=challenge.id,
+            submitter_user_id=challenge.submitted_by,
+            challenge_title=challenge.title,
+            resolution_summary=payload.resolution_summary,
+            resolved_by_name=resolver_name,
+        )
+    except Exception:
+        # Non-fatal — challenge is already resolved
+        pass
+
+    return challenge

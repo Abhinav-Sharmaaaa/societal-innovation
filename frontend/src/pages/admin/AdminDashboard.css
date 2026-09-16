@@ -1,0 +1,392 @@
+/* ============================================================
+   Admin Dashboard — CSS
+   ============================================================ */
+
+.admin-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+
+/* ---- Toast Notifications ---- */
+.admin-toasts {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.12);
+
+  animation: toast-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toast-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+.admin-toast--success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #15803d;
+}
+
+.admin-toast--error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+}
+
+
+/* ---- Page Header ---- */
+.admin-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.admin-header-icon {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: white;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+}
+
+.admin-header p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+
+/* ---- Tabs ---- */
+.admin-tabs {
+  display: flex;
+  gap: 4px;
+
+  padding: 4px;
+
+  border-radius: 12px;
+  background: #f1f5f9;
+
+  margin-bottom: 24px;
+}
+
+.admin-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex: 1;
+
+  padding: 10px 18px;
+
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+
+  justify-content: center;
+}
+
+.admin-tab--active {
+  background: white;
+  color: #4f46e5;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.admin-tab:hover:not(.admin-tab--active) {
+  background: rgba(255,255,255,0.5);
+  color: #0f172a;
+}
+
+
+/* ---- Panel ---- */
+.admin-panel {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: white;
+  overflow: hidden;
+}
+
+.admin-panel-header {
+  padding: 24px 28px 0;
+}
+
+.admin-panel-header h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.admin-panel-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+
+/* ---- Form ---- */
+.admin-form {
+  display: grid;
+  gap: 18px;
+  padding: 24px 28px 28px;
+}
+
+.admin-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .admin-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.admin-form-group label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.admin-optional {
+  font-weight: 500;
+  color: #94a3b8;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.admin-form-group input,
+.admin-form-group select,
+.admin-form-group textarea {
+  padding: 10px 13px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+
+  font-size: 13.5px;
+  color: #0f172a;
+  background: white;
+
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  width: 100%;
+}
+
+.admin-form-group input:focus,
+.admin-form-group select:focus,
+.admin-form-group textarea:focus {
+  outline: none;
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.admin-form-group textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.admin-form-hint {
+  font-size: 11px;
+  color: #6366f1;
+  font-weight: 500;
+}
+
+
+/* ---- Buttons ---- */
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 11px 22px;
+
+  border: none;
+  border-radius: 10px;
+
+  font-size: 13.5px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.admin-btn:active { transform: scale(0.98); }
+
+.admin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-btn--primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.admin-btn--primary:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+
+/* ---- Org List ---- */
+.admin-org-list {
+  border-top: 1px solid #f1f5f9;
+  padding: 24px 28px 28px;
+}
+
+.admin-org-list h3 {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.admin-loading,
+.admin-empty {
+  text-align: center;
+  padding: 24px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.admin-org-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-org-card {
+  padding: 14px 16px;
+
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  background: #fafafa;
+
+  transition: border-color 0.12s;
+}
+
+.admin-org-card:hover {
+  border-color: #e2e8f0;
+  background: white;
+}
+
+.admin-org-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-org-icon {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 8px;
+}
+
+.admin-org-icon--municipality        { background: #e0f2fe; color: #0369a1; }
+.admin-org-icon--government_department { background: #ede9fe; color: #7c3aed; }
+.admin-org-icon--university          { background: #fef3c7; color: #d97706; }
+.admin-org-icon--industry            { background: #e0f7fa; color: #0891b2; }
+
+.admin-org-card-header > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-org-card-header strong {
+  display: block;
+  font-size: 13.5px;
+  color: #0f172a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-org-card-header span {
+  font-size: 11.5px;
+  color: #64748b;
+}
+
+.admin-org-status {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-org-status--active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.admin-org-status--inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.admin-org-location {
+  margin: 6px 0 0 46px;
+  font-size: 11.5px;
+  color: #94a3b8;
+}

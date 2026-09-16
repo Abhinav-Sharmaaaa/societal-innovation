@@ -71,3 +71,49 @@ export async function runChallengeTriage(
 
   return response.data;
 }
+
+
+// ============================================================
+// Duplicate Check
+// ============================================================
+
+export interface DuplicateMatch {
+  id: number;
+  title: string;
+  description: string;
+  category: string | null;
+  status: string;
+  district: string | null;
+  state: string | null;
+  similarity_score: number;
+}
+
+export interface DuplicateCheckResponse {
+  has_duplicates: boolean;
+  matches: DuplicateMatch[];
+}
+
+export interface DuplicateCheckPayload {
+  title: string;
+  description: string;
+  category?: string | null;
+  district?: string | null;
+  state?: string | null;
+}
+
+export async function checkDuplicates(
+  payload: DuplicateCheckPayload
+): Promise<DuplicateCheckResponse> {
+  const response = await api.post<DuplicateCheckResponse>(
+    "/ai/duplicate-check",
+    {
+      title:       payload.title,
+      description: payload.description,
+      category:    payload.category    ?? null,
+      district:    payload.district    ?? null,
+      state:       payload.state       ?? null,
+    }
+  );
+
+  return response.data;
+}

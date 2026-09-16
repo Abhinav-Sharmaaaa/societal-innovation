@@ -672,3 +672,53 @@
     align-items: flex-start;
   }
 }
+
+.university-collaboration-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 17px;
+  border: none;
+  border-radius: 9px;
+  background: #5267d8;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.university-collaboration-button:hover {
+  opacity: 0.92;
+}
+
+.university-collaboration-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.university-collaboration-cta strong {
+  display: block;
+  color: #172033;
+  font-size: 16px;
+}
+
+.university-collaboration-cta p {
+  margin: 6px 0 0;
+  max-width: 720px;
+  color: #697586;
+  line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+  .university-collaboration-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .university-collaboration-button {
+    width: 100%;
+  }
+}

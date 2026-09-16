@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   FileCheck2,
   FileText,
+  Handshake,
   Lightbulb,
   LogOut,
   MessageSquare,
@@ -36,15 +37,20 @@ interface DashboardState {
 export default function UniversityDashboard() {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] =
+    useState<User | null>(null);
 
-  const [data, setData] = useState<DashboardState>({
-    dashboard: null,
-    actionCenter: null,
-  });
+  const [data, setData] =
+    useState<DashboardState>({
+      dashboard: null,
+      actionCenter: null,
+    });
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
 
 
   useEffect(() => {
@@ -77,7 +83,9 @@ export default function UniversityDashboard() {
       } catch (requestError: any) {
         console.error(requestError);
 
-        if (requestError.response?.status === 401) {
+        if (
+          requestError.response?.status === 401
+        ) {
           handleLogout();
           return;
         }
@@ -91,7 +99,7 @@ export default function UniversityDashboard() {
       }
     }
 
-    loadDashboard();
+    void loadDashboard();
   }, []);
 
 
@@ -269,8 +277,9 @@ export default function UniversityDashboard() {
               Ecosystem participation active
             </div>
 
+
             {/* ====================================================
-                NEW: RFP Invitations Button
+                RFP INVITATIONS
             ==================================================== */}
 
             <button
@@ -282,6 +291,22 @@ export default function UniversityDashboard() {
             >
               <FileText size={18} />
               View RFP Invitations
+            </button>
+
+
+            {/* ====================================================
+                INDUSTRY COLLABORATIONS
+            ==================================================== */}
+
+            <button
+              type="button"
+              className="university-collaboration-button"
+              onClick={() =>
+                navigate("/university/collaborations")
+              }
+            >
+              <Handshake size={18} />
+              Industry Collaborations
             </button>
 
           </div>
@@ -312,7 +337,9 @@ export default function UniversityDashboard() {
           <MetricCard
             icon={<MessageSquare size={20} />}
             label="Collaborations"
-            value={dashboard.industry_collaboration.total}
+            value={
+              dashboard.industry_collaboration.total
+            }
             detail={`${dashboard.industry_collaboration.accepted} accepted`}
           />
 
@@ -377,7 +404,9 @@ export default function UniversityDashboard() {
 
             <PipelineRow
               label="Industry Accepted"
-              value={dashboard.industry_collaboration.accepted}
+              value={
+                dashboard.industry_collaboration.accepted
+              }
               tone="success"
             />
 
@@ -566,6 +595,48 @@ export default function UniversityDashboard() {
 
           </DashboardPanel>
 
+
+          {/* --------------------------------------------------
+              Collaboration CTA
+          -------------------------------------------------- */}
+
+          <DashboardPanel
+            title="Industry Collaboration"
+            subtitle="Review industry support for shortlisted research"
+            icon={<Handshake size={18} />}
+            wide
+          >
+
+            <div className="university-collaboration-cta">
+
+              <div>
+                <strong>
+                  Industry support is the next stage
+                </strong>
+
+                <p>
+                  Review funding, technical mentorship,
+                  infrastructure, pilot deployment and
+                  commercialization proposals from industry
+                  partners.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="university-collaboration-button"
+                onClick={() =>
+                  navigate("/university/collaborations")
+                }
+              >
+                <Handshake size={18} />
+                Review Collaborations
+              </button>
+
+            </div>
+
+          </DashboardPanel>
+
         </section>
 
       </div>
@@ -731,7 +802,9 @@ function ResearchStat({
 
       <div>
         <span>{label}</span>
-        <strong>{value.toLocaleString()}</strong>
+        <strong>
+          {value.toLocaleString()}
+        </strong>
       </div>
 
     </div>

@@ -761,3 +761,30 @@ def update_project_risk_status(
     db.refresh(risk)
 
     return risk
+
+def list_project_risks(
+    db: Session,
+    project_id: int,
+    current_user: User,
+) -> list[ProjectRisk]:
+
+    project = _get_project(
+        db,
+        project_id,
+    )
+
+    _check_project_access(
+        project,
+        current_user,
+    )
+
+    return (
+        db.query(ProjectRisk)
+        .filter(
+            ProjectRisk.project_id == project_id
+        )
+        .order_by(
+            ProjectRisk.detected_at.desc()
+        )
+        .all()
+    )

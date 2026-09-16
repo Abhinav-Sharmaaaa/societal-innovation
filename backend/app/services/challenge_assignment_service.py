@@ -70,6 +70,44 @@ def _get_authority(
     return authority
 
 
+def _is_higher_authority(
+    db: Session,
+    current_authority_id: int,
+    target_authority_id: int,
+) -> bool:
+    """Return True only when target is a strict ancestor of current."""
+
+    if current_authority_id == target_authority_id:
+        return False
+
+    current = db.get(
+        Organization,
+        current_authority_id,
+    )
+    visited: set[int] = set()
+
+    while current is not None:
+        if current.id in visited:
+            # Protect against a malformed hierarchy cycle.
+            return False
+
+        visited.add(current.id)
+
+        parent_id = current.parent_organization_id
+        if parent_id is None:
+            return False
+
+        if parent_id == target_authority_id:
+            return True
+
+        current = db.get(
+            Organization,
+            parent_id,
+        )
+
+    return False
+
+
 def _get_active_assignment(
     db: Session,
     challenge_id: int,
@@ -545,6 +583,22 @@ def escalate_challenge(
             ),
         )
 
+    if (
+        challenge.current_authority_id is None
+        or not _is_higher_authority(
+            db=db,
+            current_authority_id=challenge.current_authority_id,
+            target_authority_id=authority.id,
+        )
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=(
+                "Escalation target must be a higher-level authority "
+                "in the current authority hierarchy."
+            ),
+        )
+
     escalation_reason = (
         f"Challenge escalated from authority "
         f"{challenge.current_authority_id} to "
@@ -589,3 +643,92 @@ def get_assignment_history(
     return list(
         db.scalars(statement).all()
     )
+
+# ============================================================
+# Transfer Authority Options
+# ============================================================
+
+def get_transfer_authorities(
+    db: Session,
+    challenge_id: int,
+    performed_by: User,
+) -> dict:
+    """
+    Return valid authority destinations for transferring a
+    currently assigned challenge.
+
+    Destinations are limited to active municipality and
+    government-department authorities in the same state and
+    district as the current authority.
+
+    The current authority itself is excluded.
+    """
+
+    _require_assignment_permission(performed_by)
+
+    challenge = _get_challenge(
+        db,
+        challenge_id,
+    )
+
+    _ensure_authorized_current_authority(
+        challenge,
+        performed_by,
+    )
+
+    if challenge.current_authority_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Challenge has no current authority.",
+        )
+
+    current_authority = _get_authority(
+        db,
+        challenge.current_authority_id,
+    )
+
+    statement = (
+        select(Organization)
+        .where(
+            Organization.is_active.is_(True),
+            Organization.organization_type.in_(
+                {
+                    OrganizationType.MUNICIPALITY,
+                    OrganizationType.GOVERNMENT_DEPARTMENT,
+                }
+            ),
+            Organization.id != current_authority.id,
+            Organization.state == current_authority.state,
+            Organization.district == current_authority.district,
+        )
+        .order_by(Organization.name)
+    )
+
+    authorities = list(
+        db.scalars(statement).all()
+    )
+
+    return {
+        "current_authority_id": current_authority.id,
+        "current_authority_name": current_authority.name,
+        "authorities": [
+            {
+                "id": authority.id,
+                "name": authority.name,
+                "organization_type": (
+                    authority.organization_type.value
+                    if hasattr(
+                        authority.organization_type,
+                        "value",
+                    )
+                    else str(authority.organization_type)
+                ),
+                "state": authority.state,
+                "district": authority.district,
+                "parent_organization_id": (
+                    authority.parent_organization_id
+                ),
+            }
+            for authority in authorities
+        ],
+    }

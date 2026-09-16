@@ -10,6 +10,7 @@ import {
     IndianRupee,
     LogOut,
     MapPin,
+    Rocket,
     ShieldAlert,
     ShieldCheck,
     Target,
@@ -30,6 +31,7 @@ import {
 } from "../../services/dashboardService";
 
 import { getCurrentUser } from "../../services/authService";
+import { listRfps, type RFP } from "../../services/rfpService";
 import type { User } from "../../types/auth";
 
 import "./GovernmentDashboard.css";
@@ -59,8 +61,11 @@ export default function GovernmentDashboard() {
     const navigate = useNavigate();
 
     const [user, setUser] = useState<User | null>(null);
+
     const [data, setData] =
         useState<DashboardState>(initialData);
+
+    const [rfps, setRfps] = useState<RFP[]>([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -80,6 +85,7 @@ export default function GovernmentDashboard() {
                     universities,
                     industries,
                     actionCenter,
+                    rfpList,
                 ] = await Promise.all([
                     getCurrentUser(),
                     dashboardService.getGovernmentDashboard(),
@@ -88,7 +94,10 @@ export default function GovernmentDashboard() {
                     dashboardService.getUniversityLeaderboard(),
                     dashboardService.getIndustryLeaderboard(),
                     dashboardService.getActionCenter(),
+                    listRfps(),
                 ]);
+
+                setRfps(rfpList);
 
                 setUser(currentUser);
 
@@ -108,21 +117,23 @@ export default function GovernmentDashboard() {
             } catch (requestError: any) {
                 console.error(requestError);
 
-                if (requestError.response?.status === 401) {
+                if (
+                    requestError.response?.status === 401
+                ) {
                     handleLogout();
                     return;
                 }
 
                 setError(
                     requestError.response?.data?.detail ||
-                    "Unable to load the government dashboard."
+                        "Unable to load the government dashboard."
                 );
             } finally {
                 setLoading(false);
             }
         }
 
-        loadDashboard();
+        void loadDashboard();
     }, []);
 
 
@@ -162,12 +173,17 @@ export default function GovernmentDashboard() {
     if (loading) {
         return (
             <main className="government-page">
+
                 <div className="government-loading">
+
                     <div className="loading-spinner" />
+
                     <span>
                         Loading government dashboard...
                     </span>
+
                 </div>
+
             </main>
         );
     }
@@ -176,10 +192,13 @@ export default function GovernmentDashboard() {
     if (error || !dashboard) {
         return (
             <main className="government-page">
+
                 <div className="government-error">
+
                     <AlertCircle size={24} />
 
                     <div>
+
                         <strong>
                             Unable to load dashboard
                         </strong>
@@ -188,14 +207,19 @@ export default function GovernmentDashboard() {
                             {error ||
                                 "Government dashboard data is unavailable."}
                         </p>
+
                     </div>
 
                     <button
-                        onClick={() => window.location.reload()}
+                        onClick={() =>
+                            window.location.reload()
+                        }
                     >
                         Retry
                     </button>
+
                 </div>
+
             </main>
         );
     }
@@ -205,8 +229,8 @@ export default function GovernmentDashboard() {
         <main className="government-page">
 
             {/* ====================================================
-          Header
-      ==================================================== */}
+                Header
+            ==================================================== */}
 
             <header className="government-header">
 
@@ -216,11 +240,13 @@ export default function GovernmentDashboard() {
                         className="government-brand"
                         onClick={() => navigate("/")}
                     >
+
                         <div className="government-brand-icon">
                             <BarChart3 size={20} />
                         </div>
 
                         <div>
+
                             <strong>
                                 Societal Innovation Platform
                             </strong>
@@ -228,7 +254,9 @@ export default function GovernmentDashboard() {
                             <span>
                                 Government Command Center
                             </span>
+
                         </div>
+
                     </button>
 
 
@@ -248,31 +276,60 @@ export default function GovernmentDashboard() {
                                 </strong>
 
                                 <span>
-                                    {user?.role?.replaceAll("_", " ") ||
+                                    {user?.role?.replaceAll(
+                                        "_",
+                                        " "
+                                    ) ||
                                         "Government"}
                                 </span>
 
                             </div>
 
                         </div>
+
+
                         <button
                             className="government-primary-action"
                             onClick={() =>
-                                navigate("/government/challenges")
+                                navigate(
+                                    "/government/challenges"
+                                )
                             }
                         >
                             Manage Challenges
                             <ArrowRight size={16} />
                         </button>
+
+
                         <button
                             className="government-primary-action"
                             onClick={() =>
-                                navigate("/government/reviews")
+                                navigate(
+                                    "/government/reviews"
+                                )
                             }
                         >
                             Human Review Queue
                             <ShieldCheck size={16} />
                         </button>
+
+
+                        {/* ====================================================
+                            NEW: ACCEPTED COLLABORATIONS
+                        ==================================================== */}
+
+                        <button
+                            className="government-primary-action"
+                            onClick={() =>
+                                navigate(
+                                    "/government/collaborations"
+                                )
+                            }
+                        >
+                            Accepted Collaborations
+                            <HandshakeIcon />
+                        </button>
+
 
                         <button
                             className="government-logout"
@@ -290,14 +347,14 @@ export default function GovernmentDashboard() {
 
 
             {/* ====================================================
-          Main
-      ==================================================== */}
+                Main
+            ==================================================== */}
 
             <div className="government-container">
 
                 {/* --------------------------------------------------
-            Hero
-        -------------------------------------------------- */}
+                    Hero
+                -------------------------------------------------- */}
 
                 <section className="government-hero">
 
@@ -310,7 +367,9 @@ export default function GovernmentDashboard() {
                         <h1>
                             Societal challenges,
                             {" "}
-                            <span>from issue to impact.</span>
+                            <span>
+                                from issue to impact.
+                            </span>
                         </h1>
 
                         <p>
@@ -336,15 +395,17 @@ export default function GovernmentDashboard() {
 
 
                 {/* --------------------------------------------------
-            KPI Cards
-        -------------------------------------------------- */}
+                    KPI Cards
+                -------------------------------------------------- */}
 
                 <section className="government-kpis">
 
                     <MetricCard
                         icon={<FileText size={20} />}
                         label="Total Challenges"
-                        value={dashboard.challenge_stats.total}
+                        value={
+                            dashboard.challenge_stats.total
+                        }
                         detail={`${dashboard.challenge_stats.high_priority} high priority`}
                     />
 
@@ -352,7 +413,8 @@ export default function GovernmentDashboard() {
                         icon={<LightbulbIcon />}
                         label="Innovation Challenges"
                         value={
-                            dashboard.challenge_stats.innovation_required
+                            dashboard.challenge_stats
+                                .innovation_required
                         }
                         detail="Require ecosystem intervention"
                     />
@@ -360,14 +422,18 @@ export default function GovernmentDashboard() {
                     <MetricCard
                         icon={<CheckCircle2 size={20} />}
                         label="Resolved Challenges"
-                        value={dashboard.challenge_stats.resolved}
+                        value={
+                            dashboard.challenge_stats.resolved
+                        }
                         detail={`${analytics?.challenges.resolution_rate ?? 0}% resolution rate`}
                     />
 
                     <MetricCard
                         icon={<Target size={20} />}
                         label="Active Projects"
-                        value={dashboard.project_stats.active}
+                        value={
+                            dashboard.project_stats.active
+                        }
                         detail={`${dashboard.project_stats.completed} completed`}
                     />
 
@@ -397,14 +463,14 @@ export default function GovernmentDashboard() {
 
 
                 {/* --------------------------------------------------
-            Main Grid
-        -------------------------------------------------- */}
+                    Main Grid
+                -------------------------------------------------- */}
 
                 <section className="government-main-grid">
 
                     {/* ==================================================
-              Challenge Status
-              ================================================== */}
+                        Challenge Status
+                    ================================================== */}
 
                     <DashboardPanel
                         title="Challenge Pipeline"
@@ -451,8 +517,8 @@ export default function GovernmentDashboard() {
 
 
                     {/* ==================================================
-              Project Health
-              ================================================== */}
+                        Project Health
+                    ================================================== */}
 
                     <DashboardPanel
                         title="Project Health"
@@ -489,8 +555,8 @@ export default function GovernmentDashboard() {
 
 
                     {/* ==================================================
-              Funding + Impact
-              ================================================== */}
+                        Funding + Impact
+                    ================================================== */}
 
                     <DashboardPanel
                         title="Funding & Impact"
@@ -502,22 +568,30 @@ export default function GovernmentDashboard() {
 
                             <FundingMetric
                                 label="Allocated"
-                                value={dashboard.funding.allocated}
+                                value={
+                                    dashboard.funding.allocated
+                                }
                             />
 
                             <FundingMetric
                                 label="Disbursed"
-                                value={dashboard.funding.disbursed}
+                                value={
+                                    dashboard.funding.disbursed
+                                }
                             />
 
                             <FundingMetric
                                 label="Utilized"
-                                value={dashboard.funding.utilized}
+                                value={
+                                    dashboard.funding.utilized
+                                }
                             />
 
                             <FundingMetric
                                 label="Remaining"
-                                value={dashboard.funding.remaining}
+                                value={
+                                    dashboard.funding.remaining
+                                }
                             />
 
                         </div>
@@ -526,33 +600,49 @@ export default function GovernmentDashboard() {
                         <div className="impact-strip">
 
                             <div>
+
                                 <span>
                                     Verified Outcomes
                                 </span>
 
                                 <strong>
-                                    {dashboard.impact.verified_outcomes}
+                                    {
+                                        dashboard.impact
+                                            .verified_outcomes
+                                    }
                                 </strong>
+
                             </div>
 
                             <div>
+
                                 <span>
                                     Beneficiaries
                                 </span>
 
                                 <strong>
-                                    {dashboard.impact.total_beneficiaries.toLocaleString()}
+                                    {
+                                        dashboard.impact
+                                            .total_beneficiaries
+                                    .toLocaleString()
+                                    }
                                 </strong>
+
                             </div>
 
                             <div>
+
                                 <span>
                                     Avg. Project Progress
                                 </span>
 
                                 <strong>
-                                    {dashboard.impact.average_project_progress}%
+                                    {
+                                        dashboard.impact
+                                            .average_project_progress
+                                    }%
                                 </strong>
+
                             </div>
 
                         </div>
@@ -561,8 +651,8 @@ export default function GovernmentDashboard() {
 
 
                     {/* ==================================================
-              District Analytics
-              ================================================== */}
+                        District Analytics
+                    ================================================== */}
 
                     <DashboardPanel
                         title="District Challenge Distribution"
@@ -579,58 +669,75 @@ export default function GovernmentDashboard() {
 
                             <div className="district-list">
 
-                                {topDistricts.map((district) => {
+                                {topDistricts.map(
+                                    (district) => {
 
-                                    const maxChallenges =
-                                        topDistricts[0]?.challenge_count ||
-                                        1;
+                                        const maxChallenges =
+                                            topDistricts[0]
+                                                ?.challenge_count ||
+                                            1;
 
-                                    const percentage =
-                                        (district.challenge_count /
-                                            maxChallenges) *
-                                        100;
+                                        const percentage =
+                                            (district.challenge_count /
+                                                maxChallenges) *
+                                            100;
 
-                                    return (
-                                        <div
-                                            className="district-row"
-                                            key={district.district}
-                                        >
+                                        return (
+                                            <div
+                                                className="district-row"
+                                                key={
+                                                    district.district
+                                                }
+                                            >
 
-                                            <div className="district-label">
-                                                <span>
-                                                    {district.district}
-                                                </span>
+                                                <div className="district-label">
 
-                                                <strong>
-                                                    {district.challenge_count}
-                                                </strong>
+                                                    <span>
+                                                        {
+                                                            district.district
+                                                        }
+                                                    </span>
+
+                                                    <strong>
+                                                        {
+                                                            district.challenge_count
+                                                        }
+                                                    </strong>
+
+                                                </div>
+
+                                                <div className="district-bar">
+
+                                                    <div
+                                                        style={{
+                                                            width: `${percentage}%`,
+                                                        }}
+                                                    />
+
+                                                </div>
+
+                                                <div className="district-meta">
+
+                                                    <span>
+                                                        {
+                                                            district.resolved_count
+                                                        }{" "}
+                                                        resolved
+                                                    </span>
+
+                                                    <span>
+                                                        {
+                                                            district.innovation_count
+                                                        }{" "}
+                                                        innovation
+                                                    </span>
+
+                                                </div>
+
                                             </div>
-
-                                            <div className="district-bar">
-                                                <div
-                                                    style={{
-                                                        width: `${percentage}%`,
-                                                    }}
-                                                />
-                                            </div>
-
-                                            <div className="district-meta">
-                                                <span>
-                                                    {district.resolved_count}
-                                                    {" "}
-                                                    resolved
-                                                </span>
-
-                                                <span>
-                                                    {district.innovation_count}
-                                                    {" "}
-                                                    innovation
-                                                </span>
-                                            </div>
-
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    }
+                                )}
 
                             </div>
 
@@ -640,8 +747,8 @@ export default function GovernmentDashboard() {
 
 
                     {/* ==================================================
-              University Leaderboard
-              ================================================== */}
+                        University Leaderboard
+                    ================================================== */}
 
                     <DashboardPanel
                         title="University Performance"
@@ -666,8 +773,8 @@ export default function GovernmentDashboard() {
 
 
                     {/* ==================================================
-              Industry Leaderboard
-              ================================================== */}
+                        Industry Leaderboard
+                    ================================================== */}
 
                     <DashboardPanel
                         title="Industry Contribution"
@@ -692,8 +799,8 @@ export default function GovernmentDashboard() {
 
 
                     {/* ==================================================
-              Action Center
-              ================================================== */}
+                        Action Center
+                    ================================================== */}
 
                     <DashboardPanel
                         title="Action Center"
@@ -703,10 +810,12 @@ export default function GovernmentDashboard() {
                     >
 
                         {!data.actionCenter ||
-                            data.actionCenter.notifications.length === 0 ? (
+                        data.actionCenter.notifications
+                            .length === 0 ? (
 
                             <div className="action-empty">
                                 <CheckCircle2 size={23} />
+
                                 <span>
                                     No pending actions.
                                 </span>
@@ -718,38 +827,245 @@ export default function GovernmentDashboard() {
 
                                 {data.actionCenter.notifications
                                     .slice(0, 8)
-                                    .map((notification) => (
+                                    .map(
+                                        (notification) => (
 
-                                        <div
-                                            className={`action-item action-${notification.priority.toLowerCase()}`}
-                                            key={notification.id}
-                                        >
+                                            <div
+                                                className={`action-item action-${notification.priority.toLowerCase()}`}
+                                                key={
+                                                    notification.id
+                                                }
+                                            >
 
-                                            <div className="action-item-icon">
-                                                <AlertCircle size={17} />
+                                                <div className="action-item-icon">
+                                                    <AlertCircle size={17} />
+                                                </div>
+
+                                                <div className="action-item-content">
+
+                                                    <strong>
+                                                        {
+                                                            notification.title
+                                                        }
+                                                    </strong>
+
+                                                    <p>
+                                                        {
+                                                            notification.message
+                                                        }
+                                                    </p>
+
+                                                </div>
+
+                                                <ChevronRight
+                                                    size={18}
+                                                    className="action-arrow"
+                                                />
+
                                             </div>
 
-                                            <div className="action-item-content">
+                                        )
+                                    )}
 
-                                                <strong>
-                                                    {notification.title}
+                            </div>
+
+                        )}
+
+                    </DashboardPanel>
+
+
+                    {/* ==================================================
+                        Project Initiation CTA
+                    ================================================== */}
+
+                    <DashboardPanel
+                        title="Project Initiation"
+                        subtitle="Convert accepted partnerships into executable projects"
+                        icon={<Rocket size={18} />}
+                        wide
+                    >
+
+                        <div className="government-project-cta">
+
+                            <div>
+
+                                <strong>
+                                    Accepted collaborations are ready
+                                    for project creation
+                                </strong>
+
+                                <p>
+                                    Review university-industry
+                                    partnerships that have been
+                                    accepted and convert them into
+                                    projects with automatic milestone
+                                    planning.
+                                </p>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                className="government-primary-action"
+                                onClick={() =>
+                                    navigate(
+                                        "/government/collaborations"
+                                    )
+                                }
+                            >
+                                <Rocket size={17} />
+                                View Accepted Collaborations
+                                <ArrowRight size={16} />
+                            </button>
+
+                        </div>
+
+                    </DashboardPanel>
+
+
+                    {/* ==================================================
+                        RFP Pipeline
+                    ================================================== */}
+
+                    <DashboardPanel
+                        title="RFP Pipeline"
+                        subtitle="Request for Proposals — live status"
+                        icon={<FileText size={18} />}
+                        wide
+                    >
+
+                        <div className="rfp-header-row">
+                            <span className="rfp-count-badge">
+                                {rfps.length} RFP{rfps.length !== 1 ? "s" : ""}
+                            </span>
+                            <button
+                                className="rfp-create-btn"
+                                onClick={() => navigate("/government/rfps/new")}
+                            >
+                                <ArrowRight size={14} />
+                                Create New RFP
+                            </button>
+                        </div>
+
+                        {rfps.length === 0 ? (
+
+                            <div className="rfp-empty">
+                                <FileText size={28} strokeWidth={1.4} />
+                                <p>No RFPs created yet.</p>
+                                <span>
+                                    Create an RFP from an approved Innovation
+                                    Opportunity to invite university proposals.
+                                </span>
+                                <button
+                                    className="rfp-empty-cta"
+                                    onClick={() =>
+                                        navigate("/government/rfps/new")
+                                    }
+                                >
+                                    Create First RFP
+                                    <ArrowRight size={14} />
+                                </button>
+                            </div>
+
+                        ) : (
+
+                            <div className="rfp-list">
+                                {rfps.map((rfp) => (
+                                    <div
+                                        key={rfp.id}
+                                        className={`rfp-card rfp-card--${rfp.status.toLowerCase()}`}
+                                    >
+                                        <div className="rfp-card-main">
+                                            <div className="rfp-card-left">
+                                                <span className={`rfp-status-badge rfp-status--${rfp.status.toLowerCase()}`}>
+                                                    {rfp.status}
+                                                </span>
+                                                <strong className="rfp-title">
+                                                    {rfp.title}
                                                 </strong>
-
-                                                <p>
-                                                    {notification.message}
+                                                <p className="rfp-desc">
+                                                    {rfp.description.length > 100
+                                                        ? rfp.description.slice(0, 100) + "…"
+                                                        : rfp.description}
                                                 </p>
-
                                             </div>
 
-                                            <ChevronRight
-                                                size={18}
-                                                className="action-arrow"
-                                            />
-
+                                            <div className="rfp-card-meta">
+                                                {rfp.estimated_budget && (
+                                                    <div className="rfp-meta-item">
+                                                        <IndianRupee size={13} />
+                                                        <span>
+                                                            ₹{rfp.estimated_budget.toLocaleString()}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                {rfp.proposal_deadline && (
+                                                    <div className="rfp-meta-item">
+                                                        <Clock3 size={13} />
+                                                        <span>
+                                                            Due{" "}
+                                                            {new Date(
+                                                                rfp.proposal_deadline
+                                                            ).toLocaleDateString("en-IN", {
+                                                                day: "numeric",
+                                                                month: "short",
+                                                                year: "numeric",
+                                                            })}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                {rfp.expected_duration_days && (
+                                                    <div className="rfp-meta-item">
+                                                        <Target size={13} />
+                                                        <span>
+                                                            {rfp.expected_duration_days} days
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
 
-                                    ))}
+                                        <div className="rfp-card-actions">
+                                            <button
+                                                className="rfp-action-btn rfp-action-btn--view"
+                                                onClick={() =>
+                                                    navigate(`/government/rfps/${rfp.id}`)
+                                                }
+                                            >
+                                                View
+                                                <ChevronRight size={14} />
+                                            </button>
 
+                                            {rfp.status === "DRAFT" && (
+                                                <button
+                                                    className="rfp-action-btn rfp-action-btn--match"
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/government/rfps/${rfp.id}/universities`
+                                                        )
+                                                    }
+                                                >
+                                                    Match Universities
+                                                    <ArrowRight size={14} />
+                                                </button>
+                                            )}
+
+                                            {rfp.status === "PUBLISHED" && (
+                                                <button
+                                                    className="rfp-action-btn rfp-action-btn--proposals"
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/government/rfps/${rfp.id}/proposals`
+                                                        )
+                                                    }
+                                                >
+                                                    View Proposals
+                                                    <ArrowRight size={14} />
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
 
                         )}
@@ -776,6 +1092,13 @@ function LightbulbIcon() {
 }
 
 
+function HandshakeIcon() {
+    return (
+        <Users size={17} />
+    );
+}
+
+
 interface MetricCardProps {
     icon: React.ReactNode;
     label: string;
@@ -795,8 +1118,11 @@ function MetricCard({
 
     return (
         <div
-            className={`government-metric-card${alert ? " government-metric-alert" : ""
-                }`}
+            className={`government-metric-card${
+                alert
+                    ? " government-metric-alert"
+                    : ""
+            }`}
         >
 
             <div className="government-metric-icon">
@@ -843,8 +1169,11 @@ function DashboardPanel({
 
     return (
         <section
-            className={`government-panel${wide ? " government-panel-wide" : ""
-                }`}
+            className={`government-panel${
+                wide
+                    ? " government-panel-wide"
+                    : ""
+            }`}
         >
 
             <div className="government-panel-header">
@@ -881,7 +1210,6 @@ type StatusTone =
     | "success"
     | "danger"
     | "critical";
-
 
 
 function StatusRows({
@@ -991,8 +1319,13 @@ function Leaderboard({
                     </div>
 
                     <div className="leaderboard-score">
+
                         {item.score}
-                        <small> pts</small>
+
+                        <small>
+                            {" "}pts
+                        </small>
+
                     </div>
 
                 </div>
@@ -1007,10 +1340,13 @@ function Leaderboard({
 function EmptyChartState() {
     return (
         <div className="dashboard-empty-chart">
+
             <BarChart3 size={28} />
+
             <span>
                 No analytics data available yet.
             </span>
+
         </div>
     );
 }
