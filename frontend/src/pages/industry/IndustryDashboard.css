@@ -676,6 +676,26 @@
   opacity: 0.92;
 }
 
+.industry-my-collabs-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1.5px solid #5267d8;
+  border-radius: 9px;
+  background: transparent;
+  color: #5267d8;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font: inherit;
+}
+
+.industry-my-collabs-button:hover {
+  background: #eef2ff;
+}
+
 .industry-opportunity-cta {
   display: flex;
   align-items: center;

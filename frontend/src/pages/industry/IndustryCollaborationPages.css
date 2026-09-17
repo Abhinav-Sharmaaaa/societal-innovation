@@ -328,3 +328,165 @@
     position: static;
   }
 }
+
+
+/* ============================================================
+   RFP OVERVIEW BANNER (government RFP card on details page)
+============================================================ */
+
+.collaboration-rfp-banner {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  background: linear-gradient(135deg, #1e2d5a 0%, #3a56b8 100%);
+  border-radius: 16px;
+  padding: 28px 32px;
+  color: white;
+}
+
+.collaboration-rfp-banner-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.collaboration-rfp-banner-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.collaboration-rfp-banner-header span {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.collaboration-rfp-banner-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.collaboration-rfp-description {
+  font-size: 15px;
+  line-height: 1.75;
+  opacity: 0.88;
+  margin: 0 0 20px;
+}
+
+.collaboration-rfp-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.collaboration-rfp-section svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+.collaboration-rfp-section strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.75;
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.collaboration-rfp-section p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  opacity: 0.92;
+}
+
+.collaboration-rfp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.collaboration-rfp-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  padding: 10px 14px;
+  min-width: 160px;
+}
+
+.collaboration-rfp-meta-item svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.collaboration-rfp-meta-item span {
+  display: block;
+  font-size: 11px;
+  opacity: 0.7;
+  margin-bottom: 3px;
+}
+
+.collaboration-rfp-meta-item strong {
+  font-size: 14px;
+}
+
+.collaboration-rfp-status {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.collaboration-rfp-status-published {
+  background: rgba(22, 163, 74, 0.2);
+  color: #86efac;
+}
+
+.collaboration-rfp-status-draft {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.collaboration-rfp-status-closed {
+  background: rgba(185, 28, 28, 0.2);
+  color: #fca5a5;
+}
+
+@media (max-width: 900px) {
+  .collaboration-rfp-banner {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .collaboration-rfp-meta {
+    flex-direction: column;
+  }
+
+  .collaboration-rfp-meta-item {
+    min-width: unset;
+  }
+}

@@ -57,30 +57,6 @@ async def submit_proposal(
     )
 
 
-# ============================================================
-# Get Proposal
-# ============================================================
-
-@router.get(
-    "/{proposal_id}",
-    response_model=UniversityProposalResponse,
-)
-async def get_proposal(
-    proposal_id: int,
-    db: Session = Depends(get_db),
-):
-    proposal = get_university_proposal(
-        db=db,
-        proposal_id=proposal_id,
-    )
-
-    if proposal is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="University proposal not found.",
-        )
-
-    return proposal
 
 
 # ============================================================
@@ -172,3 +148,29 @@ async def list_shortlisted_proposals(
     return list(
         db.scalars(statement).all()
     )
+
+
+# ============================================================
+# Get Single Proposal
+# ============================================================
+
+@router.get(
+    "/{proposal_id}",
+    response_model=UniversityProposalResponse,
+)
+async def get_proposal(
+    proposal_id: int,
+    db: Session = Depends(get_db),
+):
+    proposal = get_university_proposal(
+        db=db,
+        proposal_id=proposal_id,
+    )
+
+    if proposal is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="University proposal not found.",
+        )
+
+    return proposal
