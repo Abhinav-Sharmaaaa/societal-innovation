@@ -52,6 +52,20 @@ router = APIRouter(
     tags=["Challenges"],
 )
 
+# Separate router for misc mobile-app utility endpoints
+util_router = APIRouter(tags=["Utilities"])
+
+
+@util_router.get("/categories")
+async def list_categories():
+    """
+    Return the list of challenge categories understood by the platform.
+    This mirrors the ChallengeCategory enum values so the mobile app
+    can populate its picker without hard-coding strings.
+    """
+    from app.models.challenge import ChallengeCategory
+    return {"categories": [c.value for c in ChallengeCategory]}
+
 
 # ============================================================
 # Create Challenge
@@ -92,26 +106,46 @@ async def create_new_challenge(
     response_model=list[ChallengeResponse],
 )
 async def list_challenges(
-    skip: int = Query(
-        default=0,
-        ge=0,
-    ),
-    limit: int = Query(
-        default=20,
-        ge=1,
-        le=100,
-    ),
+    skip: int = Query(default=0, ge=0),
+    limit: int = Query(default=20, ge=1, le=100),
+    lat: float | None = Query(default=None, description="Latitude for geo-filter"),
+    lng: float | None = Query(default=None, description="Longitude for geo-filter"),
+    radius: float | None = Query(default=None, description="Radius in km for geo-filter"),
     db: Session = Depends(get_db),
 ):
     """
-    Retrieve challenges with pagination.
+    Retrieve challenges with optional geo-filter and pagination.
     """
+    from app.models.challenge import Challenge
+    import math
 
-    return get_challenges(
-        db=db,
-        skip=skip,
-        limit=limit,
-    )
+    query = db.query(Challenge)
+
+    # Apply geo-filter if all three params provided
+    if lat is not None and lng is not None and radius is not None:
+        # Simple bounding-box pre-filter, then exact haversine check
+        lat_delta = radius / 111.0
+        lng_delta = radius / (111.0 * math.cos(math.radians(lat)))
+        query = query.filter(
+            Challenge.latitude.between(lat - lat_delta, lat + lat_delta),
+            Challenge.longitude.between(lng - lng_delta, lng + lng_delta),
+        )
+        challenges = query.order_by(Challenge.created_at.desc()).offset(skip).limit(limit).all()
+        # Exact haversine filter
+        def haversine(lat1, lng1, lat2, lng2):
+            R = 6371
+            dlat = math.radians(lat2 - lat1)
+            dlng = math.radians(lng2 - lng1)
+            a = math.sin(dlat/2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlng/2)**2
+            return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+        challenges = [
+            c for c in challenges
+            if c.latitude is not None and c.longitude is not None
+            and haversine(lat, lng, c.latitude, c.longitude) <= radius
+        ]
+        return challenges
+
+    return query.order_by(Challenge.created_at.desc()).offset(skip).limit(limit).all()
 
 
 # ============================================================
