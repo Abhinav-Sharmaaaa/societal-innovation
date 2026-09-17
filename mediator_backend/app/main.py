@@ -22,6 +22,18 @@ app = FastAPI(
     description="Lightweight mediator for civic reports.",
 )
 
+import subprocess
+
+@app.on_event("startup")
+def run_migrations():
+    print("Running database migrations...")
+    try:
+        subprocess.run(["alembic", "upgrade", "head"], check=True)
+        print("Migrations complete.")
+    except Exception as e:
+        print(f"Failed to run migrations: {e}")
+
+
 # ============================================================
 # STATIC FILES
 # ============================================================
