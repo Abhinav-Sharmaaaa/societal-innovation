@@ -15,9 +15,7 @@ final dioClientProvider = Provider<DioClient>((ref) {
 final dioProvider = Provider<Dio>((ref) => ref.watch(dioClientProvider).instance);
 
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
-  final db = AppDatabase();
-  ref.onDispose(db.close);
-  return db;
+  return AppDatabase();
 });
 
 final connectivityProvider = StreamProvider<List<ConnectivityResult>>((ref) {

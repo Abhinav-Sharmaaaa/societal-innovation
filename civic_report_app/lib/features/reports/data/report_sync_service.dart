@@ -11,15 +11,13 @@ const int kMaxUploadAttempts = 5;
 
 class ReportSyncService {
   ReportSyncService({AppDatabase? db, Dio? dio})
-      : _db = db ?? AppDatabase(),
-        _ownsDb = db == null {
+      : _db = db ?? AppDatabase() {
     final tokenStorage = TokenStorage();
     _dio = dio ?? DioClient(tokenStorage: tokenStorage).instance;
     _repo = ReportsRepository(_dio);
   }
 
   final AppDatabase _db;
-  final bool _ownsDb;
   late final Dio _dio;
   late final ReportsRepository _repo;
 
@@ -36,7 +34,6 @@ class ReportSyncService {
       if (!ok) allSettled = false;
     }
 
-    if (_ownsDb) await _db.close();
     return allSettled;
   }
 

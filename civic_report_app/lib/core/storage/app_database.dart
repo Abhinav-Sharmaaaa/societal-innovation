@@ -146,6 +146,7 @@ LazyDatabase _openConnection() {
     final file = File(p.join(dbFolder.path, 'civic_report_queue.sqlite'));
     return NativeDatabase.createInBackground(file, setup: (db) {
       db.execute('PRAGMA journal_mode=WAL;');
+      db.execute('PRAGMA busy_timeout=5000;');
     });
   });
 }
