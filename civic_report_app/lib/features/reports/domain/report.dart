@@ -39,9 +39,9 @@ class Report {
     return Report(
       id: json['id'].toString(),
       description: json['description'] as String? ?? '',
-      categoryId: json['category_id'] as String?,
-      latitude: (json['latitude'] as num).toDouble(),
-      longitude: (json['longitude'] as num).toDouble(),
+      categoryId: json['category'] as String?,
+      latitude: (json['latitude'] as num?)?.toDouble() ?? 0.0,
+      longitude: (json['longitude'] as num?)?.toDouble() ?? 0.0,
       isAnonymous: json['is_anonymous'] as bool? ?? false,
       mediaUrls: (json['media_urls'] as List?)?.map((e) => e.toString()).toList() ?? const [],
       status: json['status'] as String? ?? 'submitted',

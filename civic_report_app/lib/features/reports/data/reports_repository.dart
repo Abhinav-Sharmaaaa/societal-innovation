@@ -47,9 +47,15 @@ class ReportsRepository {
     required bool isAnonymous,
     required List<String> mediaIds,
   }) async {
-    final response = await _dio.post('/reports', data: {
+    // Generate a short title from description for the backend
+    final title = description.length > 50 ? '${description.substring(0, 47)}...' : description;
+    // Map categoryId to backend category enum, fallback to OTHER
+    final category = categoryId != null ? categoryId.toUpperCase() : 'OTHER';
+    
+    final response = await _dio.post('/challenges', data: {
+      'title': title,
       'description': description,
-      'category_id': categoryId,
+      'category': category,
       'latitude': latitude,
       'longitude': longitude,
       'is_anonymous': isAnonymous,
@@ -72,7 +78,7 @@ class ReportsRepository {
     String? category,
     String? status,
   }) async {
-    final response = await _dio.get('/reports', queryParameters: {
+    final response = await _dio.get('/challenges', queryParameters: {
       if (lat != null) 'lat': lat,
       if (lng != null) 'lng': lng,
       if (lat != null && lng != null) 'radius': radiusKm,
@@ -84,17 +90,17 @@ class ReportsRepository {
   }
 
   Future<Report> getReport(String id) async {
-    final response = await _dio.get('/reports/$id');
+    final response = await _dio.get('/challenges/$id');
     return Report.fromJson(response.data as Map<String, dynamic>);
   }
 
   Future<int> upvote(String id) async {
-    final response = await _dio.post('/reports/$id/upvote');
+    final response = await _dio.post('/challenges/$id/upvote');
     return (response.data['upvotes'] as num).toInt();
   }
 
   Future<List<Report>> myReports() async {
-    final response = await _dio.get('/users/me/reports');
+    final response = await _dio.get('/challenges/me');
     final list = (response.data as List).cast<Map<String, dynamic>>();
     return list.map(Report.fromJson).toList();
   }

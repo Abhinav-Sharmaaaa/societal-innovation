@@ -89,6 +89,9 @@ from app.services.project_risk_scheduler import (
 from app.services.deadline_scheduler import (
     scheduled_deadline_scan,
 )
+from app.services.mediator_sync_service import (
+    perform_sync,
+)
 
 #Analytics routers
 from app.api.analytics import (
@@ -364,6 +367,17 @@ def start_scheduler():
         trigger="interval",
         hours=1,
         id="deadline-scan",
+        replace_existing=True,
+    )
+
+    # --------------------------------------------------------
+    # Mediator Sync
+    # --------------------------------------------------------
+    scheduler.add_job(
+        perform_sync,
+        trigger="interval",
+        minutes=1,
+        id="mediator-sync",
         replace_existing=True,
     )
 
