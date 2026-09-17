@@ -23,7 +23,7 @@ app = FastAPI(
 )
 
 from app.db.database import Base, engine
-import app.models  # Import all models so they register with Base.metadata
+from app import models  # Import all models so they register with Base.metadata
 
 @app.on_event("startup")
 def run_migrations():
