@@ -73,6 +73,11 @@ app.include_router(challenges_router, prefix=settings.API_V1_PREFIX)
 app.include_router(challenges_util_router, prefix=settings.API_V1_PREFIX)
 app.include_router(sync_router, prefix="/api/v1")
 
+from app.api.media import router as media_router
+from app.api.rewards import router as rewards_router
+app.include_router(media_router, prefix=settings.API_V1_PREFIX)
+app.include_router(rewards_router, prefix=settings.API_V1_PREFIX)
+
 @app.get("/", tags=["System"])
 async def root():
     return {"message": "Mediator Backend Running", "status": "ok"}
