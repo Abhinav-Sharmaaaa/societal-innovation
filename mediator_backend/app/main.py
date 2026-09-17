@@ -22,16 +22,17 @@ app = FastAPI(
     description="Lightweight mediator for civic reports.",
 )
 
-import subprocess
+from app.db.database import Base, engine
+import app.models  # Import all models so they register with Base.metadata
 
 @app.on_event("startup")
 def run_migrations():
-    print("Running database migrations...")
+    print("Running database setup...")
     try:
-        subprocess.run(["alembic", "upgrade", "head"], check=True)
-        print("Migrations complete.")
+        Base.metadata.create_all(bind=engine)
+        print("Database setup complete.")
     except Exception as e:
-        print(f"Failed to run migrations: {e}")
+        print(f"Failed to setup database: {e}")
 
 
 # ============================================================
