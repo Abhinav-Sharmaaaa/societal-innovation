@@ -28,6 +28,11 @@ import app.models  # Import all models so they register with Base.metadata
 @app.on_event("startup")
 def run_migrations():
     print("Running database setup...")
+    import os
+    if os.path.exists("./mediator.db"):
+        print("Removing old mediator.db to ensure clean schema...")
+        os.remove("./mediator.db")
+    
     try:
         Base.metadata.create_all(bind=engine)
         print("Database setup complete.")
