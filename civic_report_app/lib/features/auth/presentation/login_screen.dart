@@ -72,11 +72,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     try {
       final dio = ref.read(dioProvider);
-      final response = await dio.post('/auth/register', data: {
-        'email': _emailController.text.trim(),
-        'password': _passwordController.text,
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
+      
+      await dio.post('/auth/register', data: {
+        'full_name': email.split('@')[0],
+        'email': email,
+        'password': password,
       });
-      await _saveTokensAndGoHome(response.data);
+      
+      final loginResponse = await dio.post('/auth/login', data: {
+        'email': email,
+        'password': password,
+      });
+      await _saveTokensAndGoHome(loginResponse.data);
     } on DioException catch (e) {
       if (e.response?.statusCode == 409) {
         setState(() => _error = 'An account with this email already exists — try signing in instead.');
@@ -92,9 +101,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _saveTokensAndGoHome(Map<String, dynamic> data) async {
     final tokenStorage = ref.read(tokenStorageProvider);
+    final tokens = data['tokens'] ?? data;
     await tokenStorage.saveTokens(
-      accessToken: data['access_token'] as String,
-      refreshToken: data['refresh_token'] as String,
+      accessToken: tokens['access_token'] as String,
+      refreshToken: tokens['refresh_token'] as String,
       userId: data['user']?['id']?.toString(),
     );
     if (!mounted) return;

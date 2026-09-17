@@ -561,8 +561,11 @@ CATEGORY_DEPARTMENTS = [
 ]
 
 
-def seed():
-    db = SessionLocal()
+def seed(db=None):
+    close_db = False
+    if db is None:
+        db = SessionLocal()
+        close_db = True
     try:
         print("[SEED] Starting seeding of Uttarakhand Organizations...")
         added_count = 0
@@ -605,7 +608,8 @@ def seed():
         db.rollback()
         print(f"[ERROR] Error during seeding: {e}")
     finally:
-        db.close()
+        if close_db:
+            db.close()
 
 
 if __name__ == "__main__":

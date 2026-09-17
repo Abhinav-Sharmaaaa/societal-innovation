@@ -25,10 +25,10 @@ class UserProfile {
   }
 }
 
-/// ASSUMPTION: GET /users/me returns
+/// ASSUMPTION: GET /auth/me returns
 ///   { id, email, points, is_anonymous_default, created_at }
 final userMeProvider = FutureProvider<UserProfile>((ref) async {
   final dio = ref.watch(dioProvider);
-  final response = await dio.get('/users/me');
+  final response = await dio.get('/auth/me');
   return UserProfile.fromJson(response.data as Map<String, dynamic>);
 });

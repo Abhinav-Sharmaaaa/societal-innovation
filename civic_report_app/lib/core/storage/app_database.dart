@@ -51,7 +51,13 @@ class PendingReports extends Table {
 
 @DriftDatabase(tables: [PendingReports, PendingReportMedia])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  static AppDatabase? _instance;
+  
+  AppDatabase._internal() : super(_openConnection());
+  
+  factory AppDatabase() {
+    return _instance ??= AppDatabase._internal();
+  }
 
   @override
   int get schemaVersion => 1;
@@ -138,6 +144,8 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'civic_report_queue.sqlite'));
-    return NativeDatabase.createInBackground(file);
+    return NativeDatabase.createInBackground(file, setup: (db) {
+      db.execute('PRAGMA journal_mode=WAL;');
+    });
   });
 }

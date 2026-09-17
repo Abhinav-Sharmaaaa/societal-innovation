@@ -154,6 +154,7 @@ def run_migrations_online() -> None:
             target_metadata=target_metadata,
             compare_type=True,
             include_object=include_object,
+            render_as_batch=True,
         )
 
         with context.begin_transaction():

@@ -7,7 +7,7 @@ class AppConfig {
 
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://api.dev.civicreport.example.com',
+    defaultValue: 'https://societal-innovation-ieeu.onrender.com/api/v1',
   );
 
   static const String mapsApiKey = String.fromEnvironment('MAPS_API_KEY');

@@ -4,19 +4,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from dotenv import load_dotenv
 
-load_dotenv()
-
 # ============================================================
 # Project Root
 # ============================================================
-# config.py location:
-# E:\societal-innovation-platorm\backend\app\core\config.py
-#
-# Project root:
-# E:\societal-innovation-platorm\
-#
-# parents[3] points to the project root.
-BASE_DIR = Path(__file__).resolve().parents[3]
+# config.py is at: backend/app/core/config.py
+# BASE_DIR resolves to: backend/
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+# Explicitly load backend/.env — avoids picking up app/.env by mistake
+load_dotenv(BASE_DIR / ".env", override=True)
 
 
 class Settings(BaseSettings):
