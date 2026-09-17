@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
-from app.api.deps import get_db
+from app.api.dependencies import get_db
 from app.models.challenge import Challenge
 from app.models.challenge_evidence import ChallengeEvidence
 from app.models.user import User
