@@ -7,6 +7,8 @@ from fastapi import (
     UploadFile,
     status,
 )
+from app.models.challenge import ChallengeLocationSource
+from app.services.location_service import resolve_gps_location
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_current_user
@@ -79,8 +81,8 @@ async def list_categories():
 )
 async def create_new_challenge(
     challenge_data: ChallengeCreate,
-    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     """
     Submit a new societal challenge.
@@ -89,11 +91,47 @@ async def create_new_challenge(
     Later we can apply finer-grained submission policies.
     """
 
-    return create_challenge(
+    # Resolve location if only GPS coordinates provided
+    data = challenge_data.model_dump()
+    needs_resolution = (
+        data.get("address") is None
+        and data.get("district") is None
+        and data.get("state") is None
+        and data.get("latitude") is not None
+        and data.get("longitude") is not None
+    )
+    if needs_resolution:
+        resolved = await resolve_gps_location(
+            latitude=data["latitude"],
+            longitude=data["longitude"],
+        )
+        data["address"] = resolved.display_name
+        data["district"] = resolved.district
+        data["state"] = resolved.state
+        data["locality"] = resolved.locality
+        data["location_source"] = ChallengeLocationSource.GPS
+        data["location_verified"] = resolved.verified
+    # Create the challenge record with possibly enriched data
+    enriched_challenge = ChallengeCreate(**data)
+    challenge = create_challenge(
         db=db,
-        challenge_data=challenge_data,
+        challenge_data=enriched_challenge,
         current_user=current_user,
     )
+
+    # Run AI triage on the newly created challenge
+    from app.ai.triage_service import triage_challenge
+    from app.services.challenge_service import persist_ai_triage_result
+    triage_result = triage_challenge(
+        request=enriched_challenge
+    )
+    # Persist the AI analysis results to the same challenge
+    challenge = persist_ai_triage_result(
+        db=db,
+        challenge=challenge,
+        triage_result=triage_result,
+    )
+    return challenge
 
 
 # ============================================================
