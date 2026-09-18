@@ -10,7 +10,6 @@ from app.core.config import settings
 
 from app.api.auth import router as auth_router
 from app.api.challenges import router as challenges_router, util_router as challenges_util_router
-from app.api.sync import router as sync_router
 
 # ============================================================
 # APPLICATION
@@ -24,20 +23,6 @@ app = FastAPI(
 
 from app.db.database import Base, engine
 from app import models  # Import all models so they register with Base.metadata
-
-@app.on_event("startup")
-def run_migrations():
-    print("Running database setup...")
-    import os
-    if os.path.exists("./mediator.db"):
-        print("Removing old mediator.db to ensure clean schema...")
-        os.remove("./mediator.db")
-    
-    try:
-        Base.metadata.create_all(bind=engine)
-        print("Database setup complete.")
-    except Exception as e:
-        print(f"Failed to setup database: {e}")
 
 
 # ============================================================
@@ -71,7 +56,6 @@ app.add_middleware(
 app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
 app.include_router(challenges_router, prefix=settings.API_V1_PREFIX)
 app.include_router(challenges_util_router, prefix=settings.API_V1_PREFIX)
-app.include_router(sync_router, prefix="/api/v1")
 
 from app.api.media import router as media_router
 from app.api.rewards import router as rewards_router

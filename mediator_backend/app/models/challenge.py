@@ -132,18 +132,6 @@ class Challenge(Base):
         nullable=False,
     )
 
-    is_anonymous: Mapped[bool] = mapped_column(
-        Boolean,
-        default=False,
-        nullable=False,
-    )
-
-    upvotes: Mapped[int] = mapped_column(
-        Integer,
-        default=0,
-        nullable=False,
-    )
-
     # ========================================================
     # Classification
     # ========================================================
