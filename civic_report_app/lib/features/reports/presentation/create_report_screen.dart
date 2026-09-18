@@ -132,8 +132,17 @@ class _CreateReportScreenState extends ConsumerState<CreateReportScreen> {
       setState(() => _error = 'Add at least one photo.');
       return;
     }
-    if (_descriptionController.text.trim().isEmpty) {
+    final description = _descriptionController.text.trim();
+    if (description.isEmpty) {
       setState(() => _error = 'Add a short description.');
+      return;
+    }
+    // Backend requires description >= 20 chars (and derives a title from
+    // it that must be >= 5 chars) -- reject early with a clear message
+    // instead of letting this queue locally and fail silently in sync.
+    if (description.length < 20) {
+      setState(() => _error =
+          'Description must be at least 20 characters (currently ${description.length}).');
       return;
     }
 
@@ -148,7 +157,7 @@ class _CreateReportScreenState extends ConsumerState<CreateReportScreen> {
 
       await db.insertPendingReport(
         uuid: uuid,
-        description: _descriptionController.text.trim(),
+        description: description,
         categoryId: _selectedCategoryId, // optional — never blocks submit
         latitude: lat,
         longitude: lng,
@@ -162,15 +171,18 @@ class _CreateReportScreenState extends ConsumerState<CreateReportScreen> {
       if (!mounted) return;
 
       // Best-effort immediate attempt (fast path when online); the
-      // Workmanager one-off covers backgrounding, app kill, or no
-      // connectivity right now. Neither call blocks navigation below.
+      // Workmanager one-off is a fallback for offline/backgrounded/killed
+      // cases only. Firing both when online raced two syncs against the
+      // same pending report and produced duplicate submissions -- so
+      // these are now mutually exclusive.
       final isOnline = ref.read(isOnlineProvider);
       if (isOnline) {
         // Fire and forget — UI already shows "pending sync" via the
         // My Reports stream regardless of how long this takes.
         ReportSyncService().drainQueue();
+      } else {
+        unawaited(BackgroundSync.scheduleOneOff());
       }
-      unawaited(BackgroundSync.scheduleOneOff());
 
       if (!mounted) return;
       HapticFeedback.mediumImpact();
@@ -272,30 +284,57 @@ class _CreateReportScreenState extends ConsumerState<CreateReportScreen> {
 
   Widget _buildCameraPreview() {
     final controller = _cameraController;
+    if (controller == null || !controller.value.isInitialized) {
+      return AspectRatio(
+        aspectRatio: 4 / 3,
+        child: Container(
+          color: Colors.black12,
+          child: const Center(child: CircularProgressIndicator()),
+        ),
+      );
+    }
+
+    // controller.value.aspectRatio is width/height as reported by the
+    // sensor, which is usually landscape-oriented (e.g. 16/9) even though
+    // we're displaying in portrait -- so the box itself needs the inverse
+    // ratio. The old code hard-coded 4/3 and stretched CameraPreview to
+    // fill it with StackFit.expand, which squished the live feed on any
+    // device whose sensor isn't actually 4:3. FittedBox + BoxFit.cover
+    // below preserves the real aspect ratio and crops instead of
+    // stretching, matching what takePicture() actually captures.
+    final previewAspectRatio = 1 / controller.value.aspectRatio;
+
     return AspectRatio(
-      aspectRatio: 4 / 3,
+      aspectRatio: previewAspectRatio,
       child: Container(
         color: Colors.black12,
-        child: controller == null || !controller.value.isInitialized
-            ? const Center(child: CircularProgressIndicator())
-            : Stack(
-                fit: StackFit.expand,
-                children: [
-                  CameraPreview(controller),
-                  Positioned(
-                    bottom: 12,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: FloatingActionButton(
-                        heroTag: 'capture',
-                        onPressed: _capturePhoto,
-                        child: const Icon(Icons.camera_alt),
-                      ),
-                    ),
-                  ),
-                ],
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            ClipRect(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: controller.value.previewSize?.height ?? 1,
+                  height: controller.value.previewSize?.width ?? 1,
+                  child: CameraPreview(controller),
+                ),
               ),
+            ),
+            Positioned(
+              bottom: 12,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: FloatingActionButton(
+                  heroTag: 'capture',
+                  onPressed: _capturePhoto,
+                  child: const Icon(Icons.camera_alt),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

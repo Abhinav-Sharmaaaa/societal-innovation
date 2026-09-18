@@ -22,22 +22,40 @@ def pull_challenges(db: Session = Depends(get_db)):
     # In a real app we'd mark them as "pulled" or "synced" but for now just return them
     result = []
     for c in challenges:
-        # Get evidence
-        evidences = db.query(ChallengeEvidence).filter(ChallengeEvidence.challenge_id == c.id).all()
-        result.append({
-            "id": c.id,
-            "title": c.title,
-            "description": c.description,
-            "submitted_by": c.submitted_by,
-            "category": c.category,
-            "latitude": c.latitude,
-            "longitude": c.longitude,
-            "is_anonymous": c.is_anonymous,
-            "upvotes": c.upvotes,
-            "status": c.status,
-            "created_at": c.created_at.isoformat(),
-            "evidences": [{"file_path": e.file_path, "type": e.type} for e in evidences]
-        })
+        try:
+            # Get evidence
+            evidences = db.query(ChallengeEvidence).filter(ChallengeEvidence.challenge_id == c.id).all()
+            result.append({
+                "id": c.id,
+                "title": c.title,
+                "description": c.description,
+                "submitted_by": c.submitted_by,
+                "category": c.category,
+                "latitude": c.latitude,
+                "longitude": c.longitude,
+                "is_anonymous": c.is_anonymous,
+                "upvotes": c.upvotes,
+                "status": c.status,
+                "created_at": c.created_at.isoformat(),
+                # NOTE: ChallengeEvidence's real columns are stored_filename,
+                # content_type, file_size, file_url, evidence_type -- there is
+                # no file_path/type. Using the wrong names here used to raise
+                # an AttributeError for any challenge with attached photos,
+                # which crashed this whole endpoint (500) and silently
+                # blocked every challenge in the batch -- not just this one
+                # -- from ever syncing to the local mirror.
+                "evidences": [
+                    {"file_url": e.file_url, "type": e.evidence_type}
+                    for e in evidences
+                ],
+            })
+        except Exception as exc:
+            # Don't let one malformed challenge/evidence row take down the
+            # entire pull -- skip it and keep going so everything else still
+            # syncs. It'll be retried on the next pull once whatever's wrong
+            # with it is fixed.
+            print(f"Skipping challenge {c.id} in pull_challenges: {exc}")
+            continue
     return {"challenges": result}
 
 @router.post("/push/challenges")

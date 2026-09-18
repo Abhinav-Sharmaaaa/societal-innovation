@@ -47,8 +47,14 @@ class ReportsRepository {
     required bool isAnonymous,
     required List<String> mediaIds,
   }) async {
-    // Generate a short title from description for the backend
-    final title = description.length > 50 ? '${description.substring(0, 47)}...' : description;
+    // Generate a short title from description for the backend.
+    // Backend requires title >= 5 chars -- pad defensively so a short
+    // description (even if client-side validation is ever bypassed or
+    // loosened) can't produce a title that fails on its own.
+    var title = description.length > 50 ? '${description.substring(0, 47)}...' : description;
+    if (title.length < 5) {
+      title = title.padRight(5, '.');
+    }
     // Map categoryId to backend category enum, fallback to OTHER
     final category = categoryId != null ? categoryId.toUpperCase() : 'OTHER';
     
