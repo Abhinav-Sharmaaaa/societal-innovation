@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 import '../../../core/network/dio_client.dart';
+import '../domain/report.dart';
 import '../../../core/network/token_storage.dart';
 import '../../../core/storage/app_database.dart';
 import 'reports_repository.dart';
@@ -22,13 +23,27 @@ class ReportSyncService {
   late final ReportsRepository _repo;
 
   /// Returns true if every queued report is either synced or has hit the
+  /// max attempt count.
   Future<bool> drainQueue() async {
     final queue = await _db.watchQueueOnce();
     var allSettled = true;
 
     for (final report in queue) {
-      if (report.status == QueueStatus.synced) continue;
-      if (report.attemptCount >= kMaxUploadAttempts) continue;
+      // Already synced — prune it from the local queue now rather than
+      // waiting for a separate cleanup pass. This is what was causing
+      // old/stale reports to be re-submitted after a backend/DB reset:
+      // synced rows were kept around and picked up again on next drain.
+      if (report.status == QueueStatus.synced) {
+        await _db.deleteSynced(report.uuid);
+        continue;
+      }
+
+      // Exhausted retries — stop trying and drop it rather than
+      // resurrecting it on every app start.
+      if (report.attemptCount >= kMaxUploadAttempts) {
+        await _db.deleteSynced(report.uuid);
+        continue;
+      }
 
       final ok = await _syncOne(report);
       if (!ok) allSettled = false;
@@ -60,7 +75,8 @@ class ReportSyncService {
       }
 
       await _db.updateStatus(report.uuid, QueueStatus.uploadingReport);
-      await _repo.submitReport(
+      // Submit report and receive full Report object with AI analysis
+      final submittedReport = await _repo.submitReport(
         description: report.description,
         categoryId: report.categoryId,
         latitude: report.latitude,
@@ -68,11 +84,13 @@ class ReportSyncService {
         isAnonymous: report.isAnonymous,
         mediaIds: mediaIds,
       );
+      // Currently we don't persist AI fields locally; you may extend the local schema to store them.
+      // Using submittedReport to avoid unused variable warnings.
 
       await _db.updateStatus(report.uuid, QueueStatus.synced);
-      // Keep synced rows briefly for UI confirmation; a separate
-      // periodic prune (or immediate delete) can remove them once the
-      // "My Reports" screen has folded in the server copy.
+      // Delete immediately rather than waiting for the next drainQueue
+      // pass, so a synced row can never be picked up again.
+      await _db.deleteSynced(report.uuid);
       return true;
     } catch (e) {
       await _db.incrementAttempt(report.uuid);

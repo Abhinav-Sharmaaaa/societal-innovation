@@ -2,6 +2,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import TYPE_CHECKING
 
+idempotency_key = Column(String(36), unique=True, nullable=True, index=True)
+
 from sqlalchemy import (
     Boolean,
     DateTime,
@@ -84,6 +86,7 @@ class ChallengeLocationSource(str, Enum):
     GPS = "GPS"
     GPS_VERIFIED_MANUAL = "GPS_VERIFIED_MANUAL"
     CONFLICT = "CONFLICT"
+
 
 
 class Challenge(Base):

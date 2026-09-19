@@ -79,58 +79,75 @@ async def list_categories():
     response_model=ChallengeResponse,
     status_code=status.HTTP_201_CREATED,
 )
+# Replace your existing create_new_challenge() function in
+# mediator_backend/app/api/challenges.py with this version.
+
+@router.post(
+    "",
+    response_model=ChallengeResponse,
+)
 async def create_new_challenge(
-    challenge_data: ChallengeCreate,
-    db: Session = Depends(get_db),
+    data: dict = Body(...),
     current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
 ):
-    """
-    Submit a new societal challenge.
+    from app.services.challenge_service import (
+        create_challenge,
+        get_challenge_by_idempotency_key,
+    )
 
-    Any authenticated user can submit a challenge for now.
-    Later we can apply finer-grained submission policies.
-    """
+    # Pop the idempotency key off the payload before building ChallengeCreate
+    # (it's not a Challenge field the schema needs to validate).
+    idempotency_key = data.pop("idempotency_key", None)
 
-    # Resolve location if only GPS coordinates provided
-    data = challenge_data.model_dump()
+    # Check FIRST, before doing any work — if this exact submission was
+    # already processed (e.g. mobile retried after a slow response), just
+    # return the existing row instead of creating a duplicate.
+    if idempotency_key:
+        existing = get_challenge_by_idempotency_key(
+            db=db,
+            user_id=current_user.id,
+            idempotency_key=idempotency_key,
+        )
+        if existing:
+            return existing
+
     needs_resolution = (
-        data.get("address") is None
-        and data.get("district") is None
-        and data.get("state") is None
-        and data.get("latitude") is not None
+        data.get("latitude") is not None
         and data.get("longitude") is not None
     )
     if needs_resolution:
-        resolved = await resolve_gps_location(
-            latitude=data["latitude"],
-            longitude=data["longitude"],
-        )
-        data["address"] = resolved.display_name
-        data["district"] = resolved.district
-        data["state"] = resolved.state
-        data["locality"] = resolved.locality
-        data["location_source"] = ChallengeLocationSource.GPS
-        data["location_verified"] = resolved.verified
-    # Create the challenge record with possibly enriched data
+        try:
+            resolved = await resolve_gps_location(
+                latitude=data["latitude"],
+                longitude=data["longitude"],
+            )
+            data["address"] = resolved.display_name
+            data["district"] = resolved.district
+            data["state"] = resolved.state
+            data["locality"] = resolved.locality
+            data["location_source"] = ChallengeLocationSource.GPS
+            data["location_verified"] = resolved.verified
+        except Exception:
+            data["location_source"] = ChallengeLocationSource.MANUAL
+            data["location_verified"] = False
+
     enriched_challenge = ChallengeCreate(**data)
+
+    # idempotency_key is set atomically as part of the insert itself —
+    # no window between create and key-assignment where a crash could
+    # leave a row without its key (which is what caused duplicates
+    # last time: the key was set in a second step after commit).
     challenge = create_challenge(
         db=db,
         challenge_data=enriched_challenge,
         current_user=current_user,
+        idempotency_key=idempotency_key,
     )
 
-    # Run AI triage on the newly created challenge
-    from app.ai.triage_service import triage_challenge
-    from app.services.challenge_service import persist_ai_triage_result
-    triage_result = triage_challenge(
-        request=enriched_challenge
-    )
-    # Persist the AI analysis results to the same challenge
-    challenge = persist_ai_triage_result(
-        db=db,
-        challenge=challenge,
-        triage_result=triage_result,
-    )
+    # AI triage intentionally NOT run here — the web app backend handles
+    # AI analysis on its own copy of the data via the shared Neon DB.
+
     return challenge
 
 
@@ -675,4 +692,4 @@ async def resolve_challenge(
         # Non-fatal — challenge is already resolved
         pass
 
-    return challenge
+    return challenge

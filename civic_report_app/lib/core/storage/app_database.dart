@@ -138,6 +138,17 @@ class AppDatabase extends _$AppDatabase {
     await (delete(pendingReportMedia)..where((t) => t.pendingReportUuid.equals(uuid))).go();
     await (delete(pendingReports)..where((t) => t.uuid.equals(uuid))).go();
   }
+
+  /// TEMPORARY one-time cleanup: wipes every row from the local sync
+  /// queue and its media table. Use this once to clear out reports that
+  /// got stuck in the queue before deleteSynced() was being called on
+  /// every successful/exhausted sync (see ReportSyncService.drainQueue).
+  /// Safe to call repeatedly (it's just a delete-all), but you shouldn't
+  /// need it again once the updated drainQueue() has run for a while.
+  Future<void> clearQueue() async {
+    await delete(pendingReportMedia).go();
+    await delete(pendingReports).go();
+  }
 }
 
 LazyDatabase _openConnection() {

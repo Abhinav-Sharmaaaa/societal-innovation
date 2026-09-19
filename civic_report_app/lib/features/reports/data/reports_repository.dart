@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:uuid/uuid.dart';
 
 import '../domain/report.dart';
 
@@ -16,7 +17,8 @@ import '../domain/report.dart';
 ///     "category_id": "..." | null,
 ///     "latitude": 0.0, "longitude": 0.0,
 ///     "is_anonymous": bool,
-///     "media_ids": ["...", "..."]
+///     "media_ids": ["...", "..."],
+///     "idempotency_key": "uuid-string"
 ///   }
 /// and returns the created report, which — per a later addition to the
 /// test backend — also includes a resolved "media_urls" array (absolute
@@ -26,6 +28,7 @@ class ReportsRepository {
   ReportsRepository(this._dio);
 
   final Dio _dio;
+  static const _uuid = Uuid();
 
   Future<String> uploadMedia(File file) async {
     final formData = FormData.fromMap({
@@ -39,7 +42,7 @@ class ReportsRepository {
     return mediaId;
   }
 
-  Future<String> submitReport({
+  Future<Report> submitReport({
     required String description,
     String? categoryId,
     required double latitude,
@@ -48,15 +51,16 @@ class ReportsRepository {
     required List<String> mediaIds,
   }) async {
     // Generate a short title from description for the backend.
-    // Backend requires title >= 5 chars -- pad defensively so a short
-    // description (even if client-side validation is ever bypassed or
-    // loosened) can't produce a title that fails on its own.
     var title = description.length > 50 ? '${description.substring(0, 47)}...' : description;
     if (title.length < 5) {
       title = title.padRight(5, '.');
     }
-    // Map categoryId to backend category enum, fallback to OTHER
+    
     final category = categoryId != null ? categoryId.toUpperCase() : 'OTHER';
+    
+    // Generate a unique idempotency key to prevent duplicate submissions
+    // if the request is retried (network timeout, etc.)
+    final idempotencyKey = _uuid.v4();
     
     final response = await _dio.post('/challenges', data: {
       'title': title,
@@ -66,12 +70,9 @@ class ReportsRepository {
       'longitude': longitude,
       'is_anonymous': isAnonymous,
       'media_ids': mediaIds,
+      'idempotency_key': idempotencyKey,  // Backend uses this to deduplicate
     });
-    final id = response.data['id']?.toString();
-    if (id == null) {
-      throw const FormatException('id missing from /reports response');
-    }
-    return id;
+    return Report.fromJson(response.data as Map<String, dynamic>);
   }
 
   /// ASSUMPTION: GET /reports accepts optional query params
