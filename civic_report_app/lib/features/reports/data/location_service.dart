@@ -35,16 +35,16 @@ class LocationService {
       return await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
           accuracy: LocationAccuracy.high,
-          timeLimit: Duration(seconds: 10),
+          timeLimit: Duration(seconds: 15),
         ),
       );
     } on LocationServiceDisabledException {
       throw StateError('Location services were turned off while waiting for a fix.');
     } catch (e) {
-      // Surface whatever geolocator actually threw instead of a generic
-      // wrapper -- on the emulator this is almost always either a
-      // timeout (no mock location ever set/sent) or a missing
-      // Google Play Services fused-location provider on the AVD image.
+      final lastKnown = await Geolocator.getLastKnownPosition();
+      if (lastKnown != null) {
+        return lastKnown;
+      }
       throw StateError(
         'Could not get a GPS fix ($e). On the emulator, make sure you sent a '
         'location via Extended Controls -> Location -> Send, and that this '

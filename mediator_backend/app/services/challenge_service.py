@@ -11,6 +11,8 @@ from app.models.challenge import (
 )
 from app.models.user import User
 from app.schemas.challenge import ChallengeCreate, ChallengeUpdate
+from app.ai.schemas import TriageRequest
+from app.ai.triage_service import triage_challenge
 
 
 # ============================================================
@@ -97,7 +99,10 @@ def get_challenge_by_id(
     statement = select(Challenge).where(
         Challenge.id == challenge_id
     )
-    return db.scalar(statement)
+    challenge = db.scalar(statement)
+    if challenge:
+        _ensure_ai_analysis(db, [challenge])
+    return challenge
 
 
 # ============================================================
@@ -118,9 +123,11 @@ def get_challenges(
         .limit(limit)
     )
 
-    return list(
+    challenges = list(
         db.scalars(statement).unique().all()
     )
+    _ensure_ai_analysis(db, challenges)
+    return challenges
 
 
 # ============================================================
@@ -147,9 +154,11 @@ def get_user_challenges(
         .limit(limit)
     )
 
-    return list(
+    challenges = list(
         db.scalars(statement).unique().all()
     )
+    _ensure_ai_analysis(db, challenges)
+    return challenges
 
 
 # ============================================================
@@ -202,6 +211,22 @@ def _json_safe(value: Any):
 # ============================================================
 # Persist AI Triage Result
 # ============================================================
+
+def _ensure_ai_analysis(db: Session, challenges: list[Challenge]):
+    for challenge in challenges:
+        if challenge.ai_analysis_at is None:
+            request = TriageRequest(
+                title=challenge.title,
+                description=challenge.description,
+                category=challenge.category,
+                address=challenge.address,
+                district=challenge.district,
+                state=challenge.state,
+                affected_population=challenge.affected_population,
+                estimated_economic_loss=challenge.estimated_economic_loss,
+            )
+            triage_result = triage_challenge(request)
+            persist_ai_triage_result(db, challenge, triage_result)
 
 def persist_ai_triage_result(
     db: Session,
