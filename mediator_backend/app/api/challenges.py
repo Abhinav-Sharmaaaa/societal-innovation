@@ -1,5 +1,8 @@
+from datetime import datetime, timezone
+
 from fastapi import (
     APIRouter,
+    Body,
     Depends,
     File,
     HTTPException,
@@ -7,14 +10,14 @@ from fastapi import (
     UploadFile,
     status,
 )
-from app.models.challenge import ChallengeLocationSource
-from app.services.location_service import resolve_gps_location
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from app.api.dependencies import get_current_user
 from app.db.database import get_db
+from app.models.challenge import Challenge, ChallengeLocationSource, ChallengeStatus
 from app.models.challenge_evidence import ChallengeEvidence
-from app.models.user import User
+from app.models.user import User, UserRole as _UserRole
 from app.schemas.assignment import (
     ChallengeAssignmentCreate,
     ChallengeAssignmentResponse,
@@ -38,11 +41,14 @@ from app.services.challenge_assignment_service import (
 from app.services.challenge_service import (
     create_challenge,
     get_challenge_by_id,
+    get_challenge_by_idempotency_key,
     get_challenges,
     get_user_challenges,
     update_challenge,
 )
 from app.services.file_service import save_upload
+from app.services.location_service import resolve_gps_location
+from app.services.notification_service import notify_citizen_of_resolution
 
 
 # ============================================================
@@ -79,30 +85,26 @@ async def list_categories():
     response_model=ChallengeResponse,
     status_code=status.HTTP_201_CREATED,
 )
-# Replace your existing create_new_challenge() function in
-# mediator_backend/app/api/challenges.py with this version.
-
-@router.post(
-    "",
-    response_model=ChallengeResponse,
-)
 async def create_new_challenge(
     data: dict = Body(...),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    from app.services.challenge_service import (
-        create_challenge,
-        get_challenge_by_idempotency_key,
-    )
+    """
+    Create a new challenge.
 
-    # Pop the idempotency key off the payload before building ChallengeCreate
-    # (it's not a Challenge field the schema needs to validate).
+    Supports an optional "idempotency_key" in the request body: if a
+    challenge with that key was already created by this user (e.g. the
+    client retried after a slow/timed-out response), the existing
+    challenge is returned instead of creating a duplicate. AI triage is
+    intentionally NOT run here — the web app backend handles analysis
+    on its own via the shared database.
+    """
+
+    # Pop the idempotency key off the payload before building
+    # ChallengeCreate (it's not a Challenge schema field).
     idempotency_key = data.pop("idempotency_key", None)
 
-    # Check FIRST, before doing any work — if this exact submission was
-    # already processed (e.g. mobile retried after a slow response), just
-    # return the existing row instead of creating a duplicate.
     if idempotency_key:
         existing = get_challenge_by_idempotency_key(
             db=db,
@@ -136,17 +138,13 @@ async def create_new_challenge(
 
     # idempotency_key is set atomically as part of the insert itself —
     # no window between create and key-assignment where a crash could
-    # leave a row without its key (which is what caused duplicates
-    # last time: the key was set in a second step after commit).
+    # leave a row without its key.
     challenge = create_challenge(
         db=db,
         challenge_data=enriched_challenge,
         current_user=current_user,
         idempotency_key=idempotency_key,
     )
-
-    # AI triage intentionally NOT run here — the web app backend handles
-    # AI analysis on its own copy of the data via the shared Neon DB.
 
     return challenge
 
@@ -171,7 +169,6 @@ async def list_challenges(
     """
     Retrieve challenges with optional geo-filter and pagination.
     """
-    from app.models.challenge import Challenge
     import math
 
     query = db.query(Challenge)
@@ -226,7 +223,6 @@ async def list_my_challenges(
     )
 
 
-
 # ============================================================
 # Upvote Challenge
 # ============================================================
@@ -239,11 +235,10 @@ async def upvote_challenge(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    from app.models.challenge import Challenge
     challenge = db.query(Challenge).filter(Challenge.id == challenge_id).first()
     if not challenge:
         raise HTTPException(status_code=404, detail="Challenge not found")
-    
+
     challenge.upvotes += 1
     db.commit()
     db.refresh(challenge)
@@ -604,12 +599,6 @@ async def escalate_challenge_to_authority(
 # Mark Challenge as Resolved
 # ============================================================
 
-from datetime import datetime, timezone
-from pydantic import BaseModel, Field
-from app.models.challenge import Challenge, ChallengeStatus
-from app.services.notification_service import notify_citizen_of_resolution
-from app.models.user import UserRole as _UserRole
-
 
 class ChallengeResolveRequest(BaseModel):
     resolution_summary: str = Field(
@@ -666,7 +655,7 @@ async def resolve_challenge(
         )
 
     # Mark resolved
-    challenge.status    = ChallengeStatus.RESOLVED
+    challenge.status = ChallengeStatus.RESOLVED
     challenge.updated_at = datetime.now(timezone.utc)
 
     db.commit()
