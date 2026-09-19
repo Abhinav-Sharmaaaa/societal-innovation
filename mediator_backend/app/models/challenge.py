@@ -2,8 +2,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import TYPE_CHECKING
 
-idempotency_key = Column(String(36), unique=True, nullable=True, index=True)
-
 from sqlalchemy import (
     Boolean,
     DateTime,
@@ -133,6 +131,20 @@ class Challenge(Base):
         Integer,
         default=0,
         nullable=False,
+    )
+
+    # ========================================================
+    # Idempotency
+    # ========================================================
+    # Set by the client on submission (a UUID) so a retried request
+    # (e.g. after a slow/timed-out response) can be matched to the
+    # already-created row instead of inserting a duplicate.
+
+    idempotency_key: Mapped[str | None] = mapped_column(
+        String(36),
+        unique=True,
+        nullable=True,
+        index=True,
     )
 
     # ========================================================
