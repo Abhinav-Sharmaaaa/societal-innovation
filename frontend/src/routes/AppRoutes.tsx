@@ -50,6 +50,8 @@ import IndustryDashboard from "../pages/industry/IndustryDashboard";
 import IndustryOpportunitiesPage from "../pages/industry/IndustryOpportunitiesPage";
 import CreateIndustryCollaborationPage from "../pages/industry/CreateIndustryCollaborationPage";
 import IndustryOpportunityDetailsPage from "../pages/industry/IndustryOpportunityDetailsPage";
+import IndustryMyCollaborationsPage from "../pages/industry/IndustryMyCollaborationsPage";
+import IndustryCollaborationDetailsPage from "../pages/industry/IndustryCollaborationDetailsPage";
 
 // Security
 import ProtectedRoute from "./ProtectedRoute";
@@ -345,6 +347,16 @@ export default function AppRoutes() {
           <Route
             path="/industry/collaborations/new"
             element={<CreateIndustryCollaborationPage />}
+          />
+
+          <Route
+            path="/industry/collaborations"
+            element={<IndustryMyCollaborationsPage />}
+          />
+
+          <Route
+            path="/industry/collaborations/:id"
+            element={<IndustryCollaborationDetailsPage />}
           />
         </Route>
 

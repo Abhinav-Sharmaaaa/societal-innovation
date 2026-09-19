@@ -1,4 +1,6 @@
 import { api } from "./api";
+import type { RFP } from "./rfpService";
+import { getRfp } from "./rfpService";
 
 export type IndustryCollaborationStatus =
   | "DRAFT"
@@ -192,3 +194,43 @@ export async function getAcceptedGovernmentCollaborations(): Promise<
 
   return response.data;
 }
+
+
+/* ============================================================
+   INDUSTRY: GET A SINGLE COLLABORATION BY ID
+============================================================ */
+
+export async function getIndustryCollaborationById(
+  collaborationId: number
+): Promise<IndustryCollaboration> {
+  const response = await api.get<IndustryCollaboration>(
+    `/industry-collaboration/${collaborationId}`
+  );
+
+  return response.data;
+}
+
+
+/* ============================================================
+   INDUSTRY: PROPOSAL + RFP DETAIL (combined)
+============================================================ */
+
+export interface ProposalWithRfp {
+  proposal: UniversityProposal;
+  rfp: RFP;
+}
+
+export async function getProposalWithRfp(
+  proposalId: number
+): Promise<ProposalWithRfp> {
+  // Fetch the proposal first, then use its rfp_id to fetch the parent RFP
+  const proposal = await api
+    .get<UniversityProposal>(
+      `/university-proposals/${proposalId}`
+    )
+    .then((r) => r.data);
+
+  const rfp = await getRfp(proposal.rfp_id);
+
+  return { proposal, rfp };
+}

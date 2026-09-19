@@ -345,6 +345,19 @@ export default function IndustryDashboard() {
               Collaboration Opportunities
             </button>
 
+            <button
+              type="button"
+              className="industry-my-collabs-button"
+              onClick={() =>
+                navigate(
+                  "/industry/collaborations"
+                )
+              }
+            >
+              <Handshake size={18} />
+              My Collaborations
+            </button>
+
           </div>
 
         </section>

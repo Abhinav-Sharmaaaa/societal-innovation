@@ -1,23 +1,27 @@
 import {
   ArrowLeft,
+  BookOpen,
   Building2,
+  Calendar,
   CheckCircle2,
   Clock3,
   Coins,
   FileText,
   Loader2,
   Send,
+  Target,
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  getShortlistedProposals,
-  type UniversityProposal,
+  getProposalWithRfp,
+  type ProposalWithRfp,
 } from "../../services/industryCollaborationService";
 
 import "./IndustryCollaborationPages.css";
+
 
 export default function IndustryOpportunityDetailsPage() {
   const { proposalId } = useParams<{
@@ -26,14 +30,15 @@ export default function IndustryOpportunityDetailsPage() {
 
   const navigate = useNavigate();
 
-  const [proposal, setProposal] =
-    useState<UniversityProposal | null>(null);
+  const [data, setData] =
+    useState<ProposalWithRfp | null>(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+
   useEffect(() => {
-    const loadProposal = async () => {
+    const load = async () => {
       if (!proposalId) {
         setError("Invalid proposal ID.");
         setLoading(false);
@@ -44,21 +49,19 @@ export default function IndustryOpportunityDetailsPage() {
         setLoading(true);
         setError("");
 
-        const proposals =
-          await getShortlistedProposals();
-
-        const found = proposals.find(
-          (item) => item.id === Number(proposalId)
+        const result = await getProposalWithRfp(
+          Number(proposalId)
         );
 
-        if (!found) {
+        // Guard: must be shortlisted
+        if (result.proposal.status !== "SHORTLISTED") {
           setError(
-            "This collaboration opportunity could not be found or is no longer shortlisted."
+            "This proposal is not currently shortlisted for industry collaboration."
           );
           return;
         }
 
-        setProposal(found);
+        setData(result);
       } catch (err: any) {
         setError(
           err?.response?.data?.detail ||
@@ -69,8 +72,9 @@ export default function IndustryOpportunityDetailsPage() {
       }
     };
 
-    void loadProposal();
+    void load();
   }, [proposalId]);
+
 
   if (loading) {
     return (
@@ -86,7 +90,8 @@ export default function IndustryOpportunityDetailsPage() {
     );
   }
 
-  if (error || !proposal) {
+
+  if (error || !data) {
     return (
       <main className="industry-collaboration-page">
         <div className="collaboration-state collaboration-state-error">
@@ -111,6 +116,10 @@ export default function IndustryOpportunityDetailsPage() {
       </main>
     );
   }
+
+
+  const { proposal, rfp } = data;
+
 
   return (
     <main className="industry-collaboration-page">
@@ -140,8 +149,122 @@ export default function IndustryOpportunityDetailsPage() {
 
       </header>
 
+
+      {/* =====================================================
+          RFP OVERVIEW CARD  (what the government issued)
+      ===================================================== */}
+
+      <div className="collaboration-rfp-banner">
+        <div className="collaboration-rfp-banner-header">
+          <div className="collaboration-rfp-banner-icon">
+            <BookOpen size={20} />
+          </div>
+
+          <div>
+            <span>GOVERNMENT REQUEST FOR PROPOSAL</span>
+            <h2>{rfp.title}</h2>
+          </div>
+        </div>
+
+        {rfp.description && (
+          <p className="collaboration-rfp-description">
+            {rfp.description}
+          </p>
+        )}
+
+        {rfp.objectives && (
+          <div className="collaboration-rfp-section">
+            <Target size={16} />
+            <div>
+              <strong>Objectives</strong>
+              <p>{rfp.objectives}</p>
+            </div>
+          </div>
+        )}
+
+        {rfp.technical_requirements && (
+          <div className="collaboration-rfp-section">
+            <FileText size={16} />
+            <div>
+              <strong>Technical Requirements</strong>
+              <p>{rfp.technical_requirements}</p>
+            </div>
+          </div>
+        )}
+
+        {rfp.expected_outcomes && (
+          <div className="collaboration-rfp-section">
+            <CheckCircle2 size={16} />
+            <div>
+              <strong>Expected Outcomes</strong>
+              <p>{rfp.expected_outcomes}</p>
+            </div>
+          </div>
+        )}
+
+        <div className="collaboration-rfp-meta">
+
+          <div className="collaboration-rfp-meta-item">
+            <Coins size={16} />
+            <div>
+              <span>Estimated Budget</span>
+              <strong>
+                {rfp.estimated_budget !== null
+                  ? `₹${rfp.estimated_budget.toLocaleString()}`
+                  : "Not specified"}
+              </strong>
+            </div>
+          </div>
+
+          <div className="collaboration-rfp-meta-item">
+            <Clock3 size={16} />
+            <div>
+              <span>Duration</span>
+              <strong>
+                {rfp.expected_duration_days
+                  ? `${rfp.expected_duration_days} days`
+                  : "Not specified"}
+              </strong>
+            </div>
+          </div>
+
+          <div className="collaboration-rfp-meta-item">
+            <Calendar size={16} />
+            <div>
+              <span>Proposal Deadline</span>
+              <strong>
+                {rfp.proposal_deadline
+                  ? new Date(
+                      rfp.proposal_deadline
+                    ).toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : "Not specified"}
+              </strong>
+            </div>
+          </div>
+
+          <div className="collaboration-rfp-meta-item">
+            <span
+              className={`collaboration-rfp-status collaboration-rfp-status-${rfp.status.toLowerCase()}`}
+            >
+              {rfp.status}
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+
+      {/* =====================================================
+          PROPOSAL + SIDEBAR LAYOUT
+      ===================================================== */}
+
       <div className="collaboration-detail-layout">
 
+        {/* === MAIN: University Proposal === */}
         <section className="collaboration-detail-main">
 
           <div className="collaboration-detail-card">
@@ -152,13 +275,14 @@ export default function IndustryOpportunityDetailsPage() {
               </div>
 
               <div>
-                <span>PROPOSAL STATUS</span>
+                <span>UNIVERSITY PROPOSAL</span>
 
                 <h2>
                   {proposal.status.replaceAll("_", " ")}
                 </h2>
               </div>
             </div>
+
 
             <div className="collaboration-detail-section">
               <h3>Proposed Solution</h3>
@@ -214,6 +338,7 @@ export default function IndustryOpportunityDetailsPage() {
         </section>
 
 
+        {/* === SIDEBAR: Snapshot + CTA === */}
         <aside className="collaboration-detail-side">
 
           <div className="collaboration-detail-card">
@@ -233,7 +358,7 @@ export default function IndustryOpportunityDetailsPage() {
               <Coins size={18} />
 
               <div>
-                <span>Estimated University Cost</span>
+                <span>University Cost Estimate</span>
 
                 <strong>
                   {proposal.estimated_cost !== null

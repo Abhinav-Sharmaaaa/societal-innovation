@@ -160,3 +160,31 @@ export const universityMatchingService = {
     return response.data;
   },
 };
+
+
+/* ============================================================
+   UNIVERSITIES LIST (for manual search/invite)
+============================================================ */
+
+export interface UniversityOrganization {
+  id: number;
+  name: string;
+  short_name: string | null;
+  city: string | null;
+  district: string | null;
+  state: string | null;
+  email: string | null;
+}
+
+export async function listAllUniversities(): Promise<
+  UniversityOrganization[]
+> {
+  const response = await api.get<UniversityOrganization[]>(
+    "/organizations",
+    {
+      params: { organization_type: "UNIVERSITY" },
+    }
+  );
+
+  return response.data;
+}

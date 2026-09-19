@@ -729,3 +729,124 @@
     text-align: left;
   }
 }
+
+
+/* ============================================================
+   MANUAL UNIVERSITY SEARCH
+============================================================ */
+
+.manual-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: 1px solid #d7dce5;
+  border-radius: 10px;
+  padding: 11px 15px;
+  margin-bottom: 18px;
+}
+
+.manual-search-bar svg {
+  color: #7a8495;
+  flex-shrink: 0;
+}
+
+.manual-search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font: inherit;
+  font-size: 14px;
+  background: transparent;
+  color: #0f172a;
+}
+
+.manual-university-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.manual-university-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 1.5px solid #e3e8ef;
+  border-radius: 11px;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font: inherit;
+}
+
+.manual-university-card:hover:not(:disabled) {
+  border-color: #5267d8;
+  box-shadow: 0 3px 12px rgba(82, 103, 216, 0.1);
+}
+
+.manual-university-card.manual-selected {
+  border-color: #5267d8;
+  background: #f5f7ff;
+}
+
+.manual-university-card.manual-invited {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #f9fafb;
+}
+
+.manual-card-body {
+  min-width: 0;
+}
+
+.manual-card-body strong {
+  display: block;
+  font-size: 14px;
+  color: #172033;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.manual-card-body span {
+  display: block;
+  font-size: 12px;
+  color: #697586;
+}
+
+.manual-card-status {
+  flex-shrink: 0;
+}
+
+.manual-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.manual-badge-invited {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.manual-badge-selected {
+  background: #eef2ff;
+  color: #5267d8;
+}
+
+.manual-badge-select {
+  background: #f1f4f9;
+  color: #5267d8;
+  border: 1px solid #c7d2fe;
+}

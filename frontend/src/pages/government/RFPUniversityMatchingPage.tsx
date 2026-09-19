@@ -4,6 +4,7 @@ import {
   ChevronRight,
   Loader2,
   RefreshCw,
+  Search,
   Send,
   Sparkles,
 } from "lucide-react";
@@ -27,6 +28,8 @@ import {
   type RFPInvitation,
   type UniversityMatchRecommendation,
   type UniversityMatchingResponse,
+  listAllUniversities,
+  type UniversityOrganization,
 } from "../../services/universityMatchingService";
 
 import "./RFPUniversityMatchingPage.css";
@@ -51,6 +54,21 @@ export default function RFPUniversityMatchingPage() {
 
   const [selectedUniversityIds, setSelectedUniversityIds] =
     useState<number[]>([]);
+
+  // Manual search state
+  const [allUniversities, setAllUniversities] =
+    useState<UniversityOrganization[]>([]);
+
+  const [manualSearch, setManualSearch] = useState("");
+
+  const [manualSelectedIds, setManualSelectedIds] =
+    useState<number[]>([]);
+
+  const [manualInviteLoading, setManualInviteLoading] =
+    useState(false);
+
+  const [universitiesLoading, setUniversitiesLoading] =
+    useState(false);
 
   const [loading, setLoading] =
     useState(true);
@@ -85,6 +103,17 @@ export default function RFPUniversityMatchingPage() {
 
       setRfp(rfpData);
       setInvitations(invitationData);
+
+      // Load all universities for manual search
+      if (allUniversities.length === 0) {
+        setUniversitiesLoading(true);
+        listAllUniversities()
+          .then(setAllUniversities)
+          .catch(() => {})
+          .finally(() =>
+            setUniversitiesLoading(false)
+          );
+      }
 
     } catch (err: any) {
       console.error(err);
@@ -221,6 +250,53 @@ export default function RFPUniversityMatchingPage() {
     } finally {
       setInvitationLoading(false);
     }
+  }
+
+
+  async function handleManualInvitations() {
+    if (manualSelectedIds.length === 0) {
+      setError("Select at least one university from the manual list.");
+      return;
+    }
+
+    try {
+      setManualInviteLoading(true);
+      setError("");
+      setMessage("");
+
+      const results = await Promise.all(
+        manualSelectedIds.map((universityId) =>
+          universityMatchingService.sendInvitation({
+            rfp_id: rfpId,
+            university_id: universityId,
+          })
+        )
+      );
+
+      setInvitations((current) => [...current, ...results]);
+      setManualSelectedIds([]);
+      setMessage(
+        `${results.length} manual university invitation${
+          results.length > 1 ? "s" : ""
+        } sent successfully.`
+      );
+    } catch (err: any) {
+      setError(
+        err.response?.data?.detail ||
+          "Unable to send manual university invitation."
+      );
+    } finally {
+      setManualInviteLoading(false);
+    }
+  }
+
+
+  function toggleManualUniversity(universityId: number) {
+    setManualSelectedIds((current) =>
+      current.includes(universityId)
+        ? current.filter((id) => id !== universityId)
+        : [...current, universityId]
+    );
   }
 
 
@@ -582,6 +658,151 @@ export default function RFPUniversityMatchingPage() {
 
           </section>
         )}
+
+
+        {/* ===================================================
+            MANUAL UNIVERSITY SEARCH
+        =================================================== */}
+
+        <section className="invitation-section">
+
+          <div className="section-heading">
+
+            <div>
+
+              <h2>
+                Manual University Search
+              </h2>
+
+              <span>
+                Search and invite any registered university directly
+              </span>
+
+            </div>
+
+            {manualSelectedIds.length > 0 && (
+              <button
+                className="matching-invite-button"
+                onClick={handleManualInvitations}
+                disabled={manualInviteLoading}
+              >
+                {manualInviteLoading ? (
+                  <Loader2
+                    size={15}
+                    className="matching-spin"
+                  />
+                ) : (
+                  <Send size={15} />
+                )}
+                Invite{" "}
+                {manualSelectedIds.length} University
+                {manualSelectedIds.length > 1 ? "ies" : ""}
+              </button>
+            )}
+
+          </div>
+
+
+          <div className="manual-search-bar">
+            <Search size={16} />
+            <input
+              value={manualSearch}
+              onChange={(e) =>
+                setManualSearch(e.target.value)
+              }
+              placeholder="Search universities by name, city or district..."
+            />
+          </div>
+
+
+          {universitiesLoading ? (
+            <div className="matching-empty">
+              <Loader2
+                size={18}
+                className="matching-spin"
+              />
+              Loading universities...
+            </div>
+          ) : (
+            <div className="manual-university-list">
+              {allUniversities
+                .filter((u) => {
+                  const q = manualSearch.trim().toLowerCase();
+                  if (!q) return true;
+                  return (
+                    u.name.toLowerCase().includes(q) ||
+                    (u.city ?? "").toLowerCase().includes(q) ||
+                    (u.district ?? "").toLowerCase().includes(q)
+                  );
+                })
+                .map((u) => {
+                  const alreadyInvited = invitedUniversityIds.has(u.id);
+                  const selected = manualSelectedIds.includes(u.id);
+
+                  return (
+                    <button
+                      key={u.id}
+                      type="button"
+                      className={`manual-university-card${
+                        alreadyInvited
+                          ? " manual-invited"
+                          : selected
+                          ? " manual-selected"
+                          : ""
+                      }`}
+                      disabled={alreadyInvited}
+                      onClick={() =>
+                        !alreadyInvited &&
+                        toggleManualUniversity(u.id)
+                      }
+                    >
+                      <div className="manual-card-body">
+                        <strong>{u.name}</strong>
+                        <span>
+                          {[u.city, u.district]
+                            .filter(Boolean)
+                            .join(", ") || "Location not set"}
+                        </span>
+                      </div>
+
+                      <div className="manual-card-status">
+                        {alreadyInvited ? (
+                          <span className="manual-badge manual-badge-invited">
+                            <CheckCircle2 size={13} />
+                            Invited
+                          </span>
+                        ) : selected ? (
+                          <span className="manual-badge manual-badge-selected">
+                            <CheckCircle2 size={13} />
+                            Selected
+                          </span>
+                        ) : (
+                          <span className="manual-badge manual-badge-select">
+                            Select
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+
+              {allUniversities.filter((u) => {
+                const q = manualSearch.trim().toLowerCase();
+                if (!q) return true;
+                return (
+                  u.name.toLowerCase().includes(q) ||
+                  (u.city ?? "").toLowerCase().includes(q) ||
+                  (u.district ?? "").toLowerCase().includes(q)
+                );
+              }).length === 0 && (
+                <div className="matching-empty">
+                  No universities match your search.
+                </div>
+              )}
+            </div>
+          )}
+
+        </section>
 
 
         {/* ===================================================

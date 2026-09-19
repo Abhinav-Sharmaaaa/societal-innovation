@@ -70,7 +70,9 @@ def review_industry_collaboration(
         remarks=decision_data.remarks,
         current_user=current_user,
     )
-    
+
+
+
 # ============================================================
 # Industry: View My Collaboration Proposals
 # ============================================================
@@ -193,3 +195,43 @@ def list_accepted_collaborations_for_government(
     return list(
         db.scalars(statement).all()
     )
+
+
+# ============================================================
+# Get Single Collaboration
+# ============================================================
+
+@router.get(
+    "/{collaboration_id}",
+    response_model=IndustryCollaborationResponse,
+)
+def get_collaboration_by_id(
+    collaboration_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    from fastapi import HTTPException
+
+    record = db.get(
+        IndustryCollaborationProposal,
+        collaboration_id,
+    )
+
+    if record is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Collaboration not found.",
+        )
+
+    # Industry users may only view their own org's collaboration
+    if current_user.role in {
+        UserRole.INDUSTRY_ADMIN,
+        UserRole.INDUSTRY_MEMBER,
+    }:
+        if record.industry_id != current_user.organization_id:
+            raise HTTPException(
+                status_code=403,
+                detail="Access denied.",
+            )
+
+    return record
