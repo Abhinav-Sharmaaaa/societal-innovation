@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session, selectinload
 
 from app.models.challenge import (
     Challenge,
@@ -112,11 +112,10 @@ def get_challenges(
 
     statement = (
         select(Challenge)
-        .options(joinedload(Challenge.evidence))
+        .options(selectinload(Challenge.evidence))
         .order_by(Challenge.created_at.desc())
         .offset(skip)
         .limit(limit)
-        .distinct()
     )
 
     return list(
@@ -140,13 +139,12 @@ def get_user_challenges(
         .where(
             Challenge.submitted_by == user_id
         )
-        .options(joinedload(Challenge.evidence))
+        .options(selectinload(Challenge.evidence))
         .order_by(
             Challenge.created_at.desc()
         )
         .offset(skip)
         .limit(limit)
-        .distinct()
     )
 
     return list(

@@ -204,6 +204,7 @@ class ChallengeResponse(BaseModel):
     description: str
     submitted_by: int
     is_anonymous: bool
+    upvotes: int
 
     # --------------------------------------------------------
     # Location Resolution
