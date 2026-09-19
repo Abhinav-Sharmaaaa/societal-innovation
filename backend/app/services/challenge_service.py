@@ -105,7 +105,12 @@ def get_challenge_by_id(
         Challenge.id == challenge_id
     )
 
-    return db.scalar(statement)
+    challenge = db.scalar(statement)
+    
+    if challenge:
+        _ensure_ai_analysis(db, [challenge])
+        
+    return challenge
 
 
 # ============================================================
