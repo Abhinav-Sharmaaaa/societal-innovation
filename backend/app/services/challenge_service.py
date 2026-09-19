@@ -11,6 +11,8 @@ from app.models.challenge import (
 )
 from app.models.user import User
 from app.schemas.challenge import ChallengeCreate, ChallengeUpdate
+from app.ai.schemas import TriageRequest
+from app.ai.triage_service import triage_challenge
 
 
 # ============================================================
@@ -107,6 +109,30 @@ def get_challenge_by_id(
 
 
 # ============================================================
+# Dynamic AI Analysis Helper
+# ============================================================
+
+def _ensure_ai_analysis(db: Session, challenges: list[Challenge]):
+    for challenge in challenges:
+        if challenge.ai_analysis_at is None:
+            # Construct a request for the local AI models
+            request = TriageRequest(
+                title=challenge.title,
+                description=challenge.description,
+                category=challenge.category,
+                address=challenge.address,
+                district=challenge.district,
+                state=challenge.state,
+                affected_population=challenge.affected_population,
+                estimated_economic_loss=challenge.estimated_economic_loss,
+            )
+            # Run triage locally
+            triage_result = triage_challenge(request)
+            # Persist it
+            persist_ai_triage_result(db, challenge, triage_result)
+
+
+# ============================================================
 # Get Challenges
 # ============================================================
 
@@ -123,9 +149,9 @@ def get_challenges(
         .limit(limit)
     )
 
-    return list(
-        db.scalars(statement).all()
-    )
+    challenges = list(db.scalars(statement).all())
+    _ensure_ai_analysis(db, challenges)
+    return challenges
 
 
 # ============================================================
@@ -151,9 +177,9 @@ def get_user_challenges(
         .limit(limit)
     )
 
-    return list(
-        db.scalars(statement).all()
-    )
+    challenges = list(db.scalars(statement).all())
+    _ensure_ai_analysis(db, challenges)
+    return challenges
 
 
 # ============================================================
