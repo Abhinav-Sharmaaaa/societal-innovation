@@ -1085,28 +1085,37 @@ export default function GovernmentChallengeDetailsPage() {
               challenge.evidence.length > 0 ? (
               <div className="evidence-list">
                 {challenge.evidence.map((item) => (
-                  <a
-                    className="evidence-item"
-                    key={item.id}
-                    href={item.file_url || "#"}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FileText size={18} />
+                  <div key={item.id} style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "12px" }}>
+                    {item.evidence_type === "IMAGE" && item.file_url && (
+                      <img 
+                        src={item.file_url} 
+                        alt={item.original_filename} 
+                        style={{ width: "100%", maxHeight: "350px", objectFit: "cover", borderRadius: "8px" }} 
+                      />
+                    )}
+                    <a
+                      className="evidence-item"
+                      href={item.file_url || "#"}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ marginBottom: 0 }}
+                    >
+                      <FileText size={18} />
 
-                    <div>
-                      <strong>
-                        {item.original_filename}
-                      </strong>
+                      <div>
+                        <strong>
+                          {item.original_filename}
+                        </strong>
 
-                      <span>
-                        {item.content_type ||
-                          item.evidence_type}
-                        {" • "}
-                        {formatFileSize(item.file_size)}
-                      </span>
-                    </div>
-                  </a>
+                        <span>
+                          {item.content_type ||
+                            item.evidence_type}
+                          {" • "}
+                          {formatFileSize(item.file_size)}
+                        </span>
+                      </div>
+                    </a>
+                  </div>
                 ))}
               </div>
             ) : (

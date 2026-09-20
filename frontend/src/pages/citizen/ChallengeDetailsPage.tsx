@@ -519,44 +519,31 @@ export default function ChallengeDetailsPage() {
               ) : (
                 <div className="evidence-list">
                   {challenge.evidence.map((item) => (
-                    <div
-                      className="evidence-item"
-                      key={item.id}
-                    >
-                      <div className="evidence-icon">
-                        <FileText size={18} />
-                      </div>
-
-                      <div className="evidence-info">
-                        <strong>
-                          {item.original_filename}
-                        </strong>
-
-                        <span>
-                          {formatLabel(
-                            item.evidence_type
-                          )}
-
-                          {item.file_size
-                            ? ` • ${(
-                                item.file_size /
-                                1024 /
-                                1024
-                              ).toFixed(2)} MB`
-                            : ""}
-                        </span>
-                      </div>
-
-                      {item.file_url && (
-                        <a
-                          href={item.file_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="evidence-link"
-                        >
-                          View
-                        </a>
+                    <div key={item.id} style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "12px" }}>
+                      {item.evidence_type === "IMAGE" && item.file_url && (
+                        <img 
+                          src={item.file_url} 
+                          alt={item.original_filename} 
+                          style={{ width: "100%", maxHeight: "350px", objectFit: "cover", borderRadius: "8px" }} 
+                        />
                       )}
+                      <div className="evidence-item" style={{ marginBottom: 0 }}>
+                        <div className="evidence-icon">
+                          <FileText size={18} />
+                        </div>
+                        <div className="evidence-info">
+                          <strong>{item.original_filename}</strong>
+                          <span>
+                            {formatLabel(item.evidence_type)}
+                            {item.file_size ? ` • ${(item.file_size / 1024 / 1024).toFixed(2)} MB` : ""}
+                          </span>
+                        </div>
+                        {item.file_url && (
+                          <a href={item.file_url} target="_blank" rel="noreferrer" className="evidence-link">
+                            View
+                          </a>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

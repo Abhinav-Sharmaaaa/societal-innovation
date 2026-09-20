@@ -99,6 +99,13 @@ export default function ProjectEvidence({
                             key={item.id}
                             className="project-list-item stacked"
                         >
+                            {item.evidence_type === "IMAGE" && (item.external_url || item.file_url) && (
+                                <img
+                                    src={item.external_url || item.file_url || undefined}
+                                    alt={item.title}
+                                    style={{ width: "100%", maxHeight: "350px", objectFit: "cover", borderRadius: "8px", marginBottom: "12px" }}
+                                />
+                            )}
                             <div className="project-list-item-main">
                                 <div>
                                     <strong>{item.title}</strong>

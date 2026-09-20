@@ -3,6 +3,16 @@ from uuid import uuid4
 
 from fastapi import UploadFile
 
+import os
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
+)
+
 
 # ============================================================
 # Storage Configuration
@@ -105,35 +115,32 @@ async def save_upload(file: UploadFile) -> dict:
         )
 
     # --------------------------------------------------------
-    # Create upload directory
-    # --------------------------------------------------------
-
-    UPLOAD_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    # --------------------------------------------------------
     # Generate secure storage filename
     # --------------------------------------------------------
 
     original_filename = Path(file.filename).name
+    extension = Path(original_filename).suffix.lower()
+    stored_filename = f"{uuid4().hex}{extension}"
 
-    extension = Path(
-        original_filename
-    ).suffix.lower()
+    evidence_type = get_evidence_type(file.content_type)
 
-    stored_filename = (
-        f"{uuid4().hex}{extension}"
-    )
-
-    file_path = UPLOAD_DIR / stored_filename
-
-    # --------------------------------------------------------
-    # Save file
-    # --------------------------------------------------------
-
-    file_path.write_bytes(file_content)
+    if evidence_type.name == "IMAGE" or evidence_type.value == "IMAGE":
+        # Image upload using Cloudinary
+        result = cloudinary.uploader.upload(
+            file.file,
+            resource_type="image",
+            folder="societal_innovation/uploads",
+            public_id=stored_filename.split('.')[0]
+        )
+        file_url = result.get("secure_url")
+        file_size = result.get("bytes", len(file_content))
+    else:
+        # Local upload for other types
+        UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        file_path = UPLOAD_DIR / stored_filename
+        file_path.write_bytes(file_content)
+        file_url = f"/uploads/{stored_filename}"
+        file_size = len(file_content)
 
     # --------------------------------------------------------
     # Return metadata
@@ -143,9 +150,7 @@ async def save_upload(file: UploadFile) -> dict:
         "original_filename": original_filename,
         "stored_filename": stored_filename,
         "content_type": file.content_type,
-        "file_size": len(file_content),
-        "file_url": f"/uploads/{stored_filename}",
-        "evidence_type": get_evidence_type(
-            file.content_type
-        ),
+        "file_size": file_size,
+        "file_url": file_url,
+        "evidence_type": evidence_type,
     }
