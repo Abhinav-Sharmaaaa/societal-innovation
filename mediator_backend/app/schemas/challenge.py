@@ -108,6 +108,11 @@ class ChallengeCreate(BaseModel):
         le=180,
     )
 
+    media_ids: list[str] = Field(
+        default_factory=list,
+        description="List of pre-uploaded media identifiers or URLs.",
+    )
+
     location_source: ChallengeLocationSource = Field(
         default=ChallengeLocationSource.MANUAL,
         description="How the challenge location was provided.",

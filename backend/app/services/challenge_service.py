@@ -13,6 +13,8 @@ from app.models.user import User
 from app.schemas.challenge import ChallengeCreate, ChallengeUpdate
 from app.ai.schemas import TriageRequest
 from app.ai.triage_service import triage_challenge
+from app.models.challenge_evidence import ChallengeEvidence, EvidenceType
+import json
 
 
 # ============================================================
@@ -89,6 +91,26 @@ def create_challenge(
     db.add(challenge)
     db.commit()
     db.refresh(challenge)
+
+    if challenge_data.media_ids:
+        for media_id_str in challenge_data.media_ids:
+            try:
+                metadata = json.loads(media_id_str)
+                evidence = ChallengeEvidence(
+                    challenge_id=challenge.id,
+                    evidence_type=EvidenceType(metadata["evidence_type"]),
+                    original_filename=metadata["original_filename"],
+                    stored_filename=metadata["stored_filename"],
+                    content_type=metadata["content_type"],
+                    file_size=metadata["file_size"],
+                    file_url=metadata["file_url"],
+                    uploaded_by=current_user.id
+                )
+                db.add(evidence)
+            except Exception as e:
+                # Log error or continue
+                print(f"Failed to process media_id {media_id_str}: {e}")
+        db.commit()
 
     return challenge
 
