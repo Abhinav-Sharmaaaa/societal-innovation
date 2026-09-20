@@ -1732,6 +1732,33 @@ export default function ProjectDetailsPage() {
               <div className="project-form-info">
                 <strong>{reviewingReport.title}</strong>
                 <p>{reviewingReport.summary}</p>
+                
+                {evidence.filter(e => e.report_id === reviewingReport.id).length > 0 && (
+                  <div style={{ marginTop: "16px" }}>
+                    <strong>Attached Evidence:</strong>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "8px" }}>
+                      {evidence.filter(e => e.report_id === reviewingReport.id).map(item => (
+                        <div key={item.id} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                          {item.evidence_type === "IMAGE" && (item.external_url || item.file_url) && (
+                            <img
+                              src={item.external_url || item.file_url || undefined}
+                              alt={item.title}
+                              style={{ width: "100%", maxHeight: "300px", objectFit: "cover", borderRadius: "8px" }}
+                            />
+                          )}
+                          <a 
+                            href={item.external_url || item.file_url || "#"} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            style={{ fontSize: "0.875rem", color: "#3b82f6", textDecoration: "underline" }}
+                          >
+                            View {item.title}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="project-form-field">
