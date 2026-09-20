@@ -126,6 +126,7 @@ async def save_upload(file: UploadFile) -> dict:
 
     if evidence_type.name == "IMAGE" or evidence_type.value == "IMAGE":
         # Image upload using Cloudinary
+        await file.seek(0)
         result = cloudinary.uploader.upload(
             file.file,
             resource_type="image",
